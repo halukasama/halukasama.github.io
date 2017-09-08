@@ -1,0 +1,2 @@
+#每次jekyll build 生成，不需要管控
+_site/*
