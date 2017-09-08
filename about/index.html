@@ -1,0 +1,101 @@
+---
+layout: page
+title: "关于"
+description: "谁还没有个脑洞小剧场啥的．．．．．．"
+header-img: "img/about.jpg"
+---
+<!-- Language Selector -->
+<select class="sel-lang" onchange= "onLanChange(this.options[this.options.selectedIndex].value)">
+    <option value="0" selected> Introduction</option>
+    <option value="1"> Braintheater</option>
+    <option value="2"> Vennnnnnnt</option>
+</select>
+
+<div class="introduction post-container">
+    {% capture about_introduction %}{% include about/introduction.md %}{% endcapture %}
+    {{ about_introduction | markdownify }}
+</div>
+
+<div class="theatre post-container">
+    {% capture about_theatre %}{% include about/theatre.md %}{% endcapture %}
+    {{ about_theatre | markdownify }}
+</div>
+
+<div class="vent post-container">
+    {% capture about_vent %}{% include about/vent.md %}{% endcapture %}
+    {{ about_vent | markdownify }}
+</div>
+
+<!-- Handle Language Change -->
+<script type="text/javascript">
+    // get nodes
+    var $introduction = document.querySelector(".introduction");
+    var $theatre = document.querySelector(".theatre");
+    var $vent = document.querySelector(".vent");
+    var $select = document.querySelector("select");
+
+    // bind hashchange event
+    window.addEventListener('hashchange', _render);
+
+    // handle render
+    function _render(){
+        var _hash = window.location.hash;
+        // en
+        if(_hash == "#theatre"){
+            $select.selectedIndex = 1;
+            $theatre.style.display = "block";
+            $introduction.style.display = "none";
+            $vent.style.display = "none";
+        } else if(_hash == "#vent") {
+            $select.selectedIndex = 2;
+            $vent.style.display = "block";
+            $introduction.style.display = "none";
+            $theatre.style.display = "none";
+        }else{
+            // not trigger onChange, otherwise cause a loop call.
+            $select.selectedIndex = 0;
+            $introduction.style.display = "block";
+            $theatre.style.display = "none";
+            $vent.style.display = "none";
+        }
+    }
+
+    // handle select change
+    function onLanChange(index){
+        if(index == 0){
+            window.location.hash = "#introduction"
+        }else if (index == 1){
+            window.location.hash = "#theatre"
+        }else{
+            window.location.hash = "#vent"
+        }
+    }
+    // init
+    _render();
+</script>
+
+
+{% if site.disqus_username %}
+<!-- disqus 评论框 start -->
+<div class="comment">
+    <div id="disqus_thread" class="disqus-thread">
+
+    </div>
+</div>
+<!-- disqus 评论框 end -->
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "{{site.disqus_username}}";
+    var disqus_identifier = "{{site.disqus_username}}/{{page.url}}";
+    var disqus_url = "{{site.url}}{{page.url}}";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+{% endif %}
