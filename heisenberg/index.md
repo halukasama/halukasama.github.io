@@ -17,6 +17,4 @@ header-img: "img/berg1.jpg"
 > 求而不得未必是遗憾  
 >                 <<自渡>>
 
-![14](https://github.com/halukasama/imghosting/blob/master/berg/2017/9/14.JPG?raw=true)
-![12](https://github.com/halukasama/imghosting/blob/master/berg/2017/9/12.JPG?raw=true)
 ![7](https://github.com/halukasama/imghosting/blob/master/berg/2017/9/7.jpg?raw=true)
