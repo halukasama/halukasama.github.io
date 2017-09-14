@@ -2,7 +2,7 @@
 layout:     post
 title:      "Test Markdown"
 subtitle:   ""
-date:       2017-09-7 12:00:00
+date:       2017-09-8 12:00:00
 author:     "Wjl"
 header-img: "img/post_test.jpg"
 catalog: true

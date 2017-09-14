@@ -1,0 +1,19 @@
+{
+  "name": "Wル's m-b theatre ",
+  "short_name": "wル's",
+  "description": "emmmmmmmmm",
+  "icons": [{
+    "src": "icons/128.png",
+    "sizes": "128x128",
+    "type": "image/png"
+  }, {
+    "src": "icons/512.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }],
+  "background_color": "#000",
+  "theme_color": "#fff",
+  "start_url": "/",
+  "display": "standalone",
+  "orientation": "portrait"
+}
