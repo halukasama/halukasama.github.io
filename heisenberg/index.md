@@ -1,0 +1,22 @@
+---
+title: 海森堡
+layout: page
+description: 人哪，为了消磨时间，硬是鼓唇摇舌，笑那些并不可笑、乐那些并不可乐的事，此外便一无所长。
+header-img: "img/berg1.jpg"
+---
+
+> 手机坏了,could忘记备份，直接换了翻新机，
+　海爷从３个月到１０个月的所有照片全部消失!!!
+　吃一堑长一智，从现在开始坚持每月大事记+配图，记录成长过程...
+
+* Sep 14 Thu 午休　　
+
+七夕下班,拣到一只白流浪，第一次碰到让抱的流浪开心的爆,拿回家喂罐，去医院打疫苗和狂犬，用海爷的福来恩一顿喷，和室友抓出几只虱子，觉得有缘想养，考虑到现状，跪舔室友给找个铲屎，室友也是有求必应，三天就找到了，据说是一个可爱妹子，周日来取，遂备好猫厕猫砂，粮食玩具零食若干，
+满心欢喜等待周末，周六室内消毒，带海森堡，泰戈尔，小流浪出去躲，泰戈尔上前流浪突然暴走，挣脱肩带，钻入公园不见，寻一日无果，妄想也许明早开门就会喵声入耳，连三日砖掩单元防盗门，不见踪影，只是夜跑时偶尔看到地上有恍惚的白色光影还是会一颤
+
+> 求而不得未必是遗憾  
+>                 <<自渡>>
+
+![14](https://github.com/halukasama/imghosting/blob/master/berg/2017/9/14.JPG?raw=true)
+![12](https://github.com/halukasama/imghosting/blob/master/berg/2017/9/12.JPG?raw=true)
+![7](https://github.com/halukasama/imghosting/blob/master/berg/2017/9/7.jpg?raw=true)
