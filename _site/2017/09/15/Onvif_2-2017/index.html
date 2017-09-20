@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords"  content="Ｗル, Ｗル's, wjl, WJL, @wjl">
+    <meta name="theme-color" content="#000000">
+
+    <title>ONVIF填坑-2 - Ｗル's brain theatre</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2017/09/15/Onvif_2-2017/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ｗル's</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">关于</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/portfolio/">代码</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/heisenberg/">海森堡</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">标签</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from
+     * $toggle/$collapse will break global delegation.
+     *
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post_onvif2.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ONVIF" title="ONVIF">ONVIF</a>
+                        
+                        <a class="tag" href="/tags/#C/C++" title="C/C++">C/C++</a>
+                        
+                        <a class="tag" href="/tags/#LINUX" title="LINUX">LINUX</a>
+                        
+                    </div>
+                    <h1>ONVIF填坑-2</h1>
+                    
+                    
+                    <h2 class="subheading">gsoap</h2>
+                    
+                    <span class="meta">Posted by Wjl on September 15, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<blockquote>
+  <p>节选一些gsoap的README(包括INSTALL,NOTES),希望以后自己的README也写成这样儿婶儿….</p>
+</blockquote>
+
+<p>README节选</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>Thanks for using gSOAP!
+The gSOAP toolkit provides a cross-platform software development toolkit for C
+and C++ server and client Web service applications, and simplifies the overall
+use of XML in any type of application. The toolkit supports SOAP 1.1/1.2 RPC
+encoding and document/literal styles, WSDL 1.1, MTOM/MIME/DIME attachments
+(streaming), SOAP-over-UDP, request-response and one-way messaging. The toolkit
+also supports WS-Addressing and WS-Security, with several other WS-* available
+or under development. See the official open-source gSOAP website
+http://gsoap2.sourceforge.net for project status and latest news.
+</code></pre>
+</div>
+
+<h2 id="安装-gsoap">安装 gsoap</h2>
+
+<h3 id="yum">yum</h3>
+<p>centos7.2的el7带2.8.16版本<br />
+执行</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>sudo yum install gsoap
+</code></pre>
+</div>
+
+<h3 id="编译源码">编译源码</h3>
+<p><a href="https://sourceforge.net/projects/gsoap2/files/gSOAP/">源码链接</a></p>
+
+<p><strong>素质编译三连…</strong></p>
+<div class="highlighter-rouge"><pre class="highlight"><code>./configure
+make
+make install
+</code></pre>
+</div>
+<p>configure -h 查看帮助选项,比如install相关如prefix,<br />
+features相关比如-enable-debug之类,建议配置之前仔细查阅一下</p>
+
+<p>INSTALL节选(如果不想用autoconf,也写有手动make的方法)</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>Using Autoconf/Automake
+-----------------------
+Requirements to configure and build the package with autoconf/automake:
+1. Automake tools (make and GNU m4) to configure and build
+2. Bison http://www.gnu.org/software/bison or the alternative Yacc
+3. Flex http://flex.sourceforge.net
+4a. either OpenSSL (for optional HTTPS) http://www.openssl.org
+4b. or GNUTLS (for optional HTTPS) http://www.gnu.org/software/gnutls/
+5. Zlib (for optional compression) http://www.zlib.net
+6. Pthreads or win32 threads (optional)
+See Installation Instructions below.
+</code></pre>
+</div>
+
+<h2 id="数据绑定wsdl2h">数据绑定(wsdl2h)</h2>
+
+<h3 id="在线绑定">在线绑定</h3>
+<ul>
+  <li>控制台执行</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>wsdl2h -o onvif.h -c -s -t /<span class="o">{</span>安装路径<span class="o">}</span>/share/gsoap/WS/typemap.dat
+https://www.onvif.org/onvif/ver10/network/wsdl/remotediscovery.wsdl
+https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl
+https://www.onvif.org/ver10/events/wsdl/event.wsdl
+https://www.onvif.org/ver10/pacs/accesscontrol.wsdl
+https://www.onvif.org/ver10/pacs/accessrules.wsdl
+https://www.onvif.org/ver10/actionengine.wsdl
+https://www.onvif.org/ver10/advancedsecurity/wsdl/advancedsecurity.wsdl
+https://www.onvif.org/ver20/analytics/wsdl/analytics.wsdl
+https://www.onvif.org/ver10/credential/wsdl/credential.wsdl
+https://www.onvif.org/ver10/deviceio.wsdl
+https://www.onvif.org/ver10/display.wsdl
+https://www.onvif.org/ver10/pacs/doorcontrol.wsdl
+https://www.onvif.org/ver20/imaging/wsdl/imaging.wsdl
+https://www.onvif.org/ver10/media/wsdl/media.wsdl
+https://www.onvif.org/ver20/media/wsdl/media.wsdl
+https://www.onvif.org/ver10/provisioning/wsdl/provisioning.wsdl
+https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl
+https://www.onvif.org/ver10/receiver.wsdl
+https://www.onvif.org/ver10/recording.wsdl
+https://www.onvif.org/ver10/search.wsdl
+https://www.onvif.org/ver10/replay.wsdl
+https://www.onvif.org/ver10/schedule/wsdl/schedule.wsdl
+https://www.onvif.org/ver10/thermal/wsdl/thermal.wsdl
+https://www.onvif.org/ver10/analyticsdevice.wsdl
+</code></pre>
+</div>
+
+<p>其中-o 输出文件到, -c 生成代码为C语言,默认C++ ,-s 关stl ,-t 使用类型映射文件
+详细帮助 -h</p>
+
+<p><code class="highlighter-rouge">Tips</code>上面制作的声明文件需要的wsdl是囊括了onvif协议支持的所有服务
+网上大部分示例是这样的,可能是为了照顾不同需求人士.
+用这个声明文件生产代码,如果电脑内存低点,解析符号要很久,IDE很累.
+在你不确定自己需要什么时,可以先这样用,发布时在优化.</p>
+
+<h3 id="我们也可以尝试离线绑定">我们也可以尝试离线绑定</h3>
+<ul>
+  <li>命令同在线，将链接换成本地文件路径即可
+<a href="https://www.onvif.org/profiles/specifications/">离线文件下载链接</a></li>
+</ul>
+
+<p>这次尝试只绑定部分wsdl(假设所有wsdl文件都在./目录下)
+控制台执行</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>wsdl2h -o onvif.h -c -s -t /{安装路径}/share/gsoap/WS/typemap.dat
+remotediscovery.wsdl
+devicemgmt.wsdl
+event.wsdl
+recording.wsdl
+imaging.wsdl
+media.wsdl
+media2.wsdl
+ptz.wsdl
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">Tips</code>随着onvif标准的发展,规范的更新,onvif除了提供的新规范版本
+也依旧保留老规范保证兼容性.<code class="highlighter-rouge">media.wsdl</code>和<code class="highlighter-rouge">media2.wsdl</code>就是这样的产物
+根据设备的支持,利用device接口查看capability,option,services
+或者使用device test tool box 确定你的IPC究竟支持哪种规范(大部分两种都支持),如果都支持,你可以随意使用,上文提到过的管理方便就体现在这里,根据接口的命名就可以知道你使用的是哪种规范<br />
+获取流地址为例:
+media.wsdl = trt</p>
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="n">SOAP_FMAC5</span> <span class="kt">int</span> <span class="n">SOAP_FMAC6</span> <span class="n">soap_call___trt__GetStreamUri</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">soap_endpoint</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">soap_action</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetStreamUri</span> <span class="o">*</span><span class="n">trt__GetStreamUri</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetStreamUriResponse</span> <span class="o">*</span><span class="n">trt__GetStreamUriResponse</span><span class="p">)</span>
+</code></pre>
+</div>
+<p>media2.wsdl = ns8</p>
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="n">SOAP_FMAC5</span> <span class="kt">int</span> <span class="n">SOAP_FMAC6</span> <span class="n">soap_call___ns8__GetStreamUri</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">soap_endpoint</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">soap_action</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_ns8__GetStreamUri</span> <span class="o">*</span><span class="n">ns8__GetStreamUri</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_ns8__GetStreamUriResponse</span> <span class="o">*</span><span class="n">ns8__GetStreamUriResponse</span><span class="p">)</span>
+
+</code></pre>
+</div>
+<p>如果你喜欢,可以使用trt系列的接口去设置编码参数;
+然后使用ns8的接口去设置OSD;</p>
+
+<p>依据是soapcpp2 生成的namespace文件:</p>
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="n">SOAP_NMAC</span> <span class="k">struct</span> <span class="n">Namespace</span> <span class="n">namespaces</span><span class="p">[]</span> <span class="o">=</span>
+<span class="p">{</span>
+    <span class="p">{</span><span class="s">"SOAP-ENV"</span><span class="p">,</span> <span class="s">"http://www.w3.org/2003/05/soap-envelope"</span><span class="p">,</span> <span class="s">"http://schemas.xmlsoap.org/soap/envelope/"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"SOAP-ENC"</span><span class="p">,</span> <span class="s">"http://www.w3.org/2003/05/soap-encoding"</span><span class="p">,</span> <span class="s">"http://schemas.xmlsoap.org/soap/encoding/"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"tt"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/schema"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"tds"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/device/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"trt"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/media/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"timg"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver20/imaging/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"tptz"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"wsu"</span><span class="p">,</span> <span class="s">"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"wsse"</span><span class="p">,</span> <span class="s">"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-secext-1.0.xsd"</span><span class="p">,</span> <span class="s">"http://docs.oasis-open.org/wss/oasis-wss-wssecurity-secext-1.1.xsd"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"wsdd"</span><span class="p">,</span> <span class="s">"http://schemas.xmlsoap.org/ws/2005/04/discovery"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"ns9"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/provisioning/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"xenc"</span><span class="p">,</span> <span class="s">"http://www.w3.org/2001/04/xmlenc#"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"wsc"</span><span class="p">,</span> <span class="s">"http://schemas.xmlsoap.org/ws/2005/02/sc"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"ds"</span><span class="p">,</span> <span class="s">"http://www.w3.org/2000/09/xmldsig#"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"xmime"</span><span class="p">,</span> <span class="s">"http://tempuri.org/xmime.xsd"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"xop"</span><span class="p">,</span> <span class="s">"http://www.w3.org/2004/08/xop/include"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"wsrfbf"</span><span class="p">,</span> <span class="s">"http://docs.oasis-open.org/wsrf/bf-2"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"wstop"</span><span class="p">,</span> <span class="s">"http://docs.oasis-open.org/wsn/t-1"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"wsnt"</span><span class="p">,</span> <span class="s">"http://docs.oasis-open.org/wsn/b-2"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"tev"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/events/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"xsi"</span><span class="p">,</span> <span class="s">"http://www.w3.org/2001/XMLSchema-instance"</span><span class="p">,</span> <span class="s">"http://www.w3.org/*/XMLSchema-instance"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"xsd"</span><span class="p">,</span> <span class="s">"http://www.w3.org/2001/XMLSchema"</span><span class="p">,</span> <span class="s">"http://www.w3.org/*/XMLSchema"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"wsa"</span><span class="p">,</span> <span class="s">"http://schemas.xmlsoap.org/ws/2004/08/addressing"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="s">"wsrfr"</span><span class="p">,</span> <span class="s">"http://docs.oasis-open.org/wsrf/r-2"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"chan"</span><span class="p">,</span> <span class="s">"http://schemas.microsoft.com/ws/2005/02/duplex"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"wsa5"</span><span class="p">,</span> <span class="s">"http://www.w3.org/2005/08/addressing"</span><span class="p">,</span> <span class="s">"http://schemas.xmlsoap.org/ws/2004/08/addressing"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"c14n"</span><span class="p">,</span> <span class="s">"http://www.w3.org/2001/10/xml-exc-c14n#"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"ns2"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/pacs"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"ns1"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/accesscontrol/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"ns10"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/schedule/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"ns11"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/thermal/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"ns3"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/accessrules/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"ns4"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/actionengine/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"ns5"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/advancedsecurity/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"ns6"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/credential/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"ns7"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/doorcontrol/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"ns8"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver20/media/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"tad"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/analyticsdevice/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"tan"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver20/analytics/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"tdn"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/network/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"tls"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/display/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"tmd"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/deviceIO/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"trc"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/recording/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"trp"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/replay/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"trv"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/receiver/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+	<span class="p">{</span><span class="s">"tse"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/search/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
+    <span class="p">{</span><span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">}</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p>话题有点扯远了,毕竟现在我们连框架代码都没有呢…
+回到正题吧</p>
+
+<h2 id="生成实现soapcpp2">生成实现(soapcpp2)</h2>
+
+<h3 id="生成onvifh文件成功后">生成onvif.h文件成功后</h3>
+<p>方便编译,我们可以把gsoap中的import以及plugin文件夹,dom.c,duration.h&amp;c
+和stdgsoap.h,stdgsoap.cpp或stdgsoap.c(取决于你生产的是c还是c++)
+并复制到当前目录文件下<br />
+执行命令：</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>soapcpp2 -2 -C -c -L -I./ -I./import `onvif.h` 
+</code></pre>
+</div>
+<p>-L 不生成 soapClientLib.c和soapServerLib.c文件<br />
+-2 生成ONVIF1.2标准  <br />
+-C 生成客户端代码<br />
+-c 生成C代码<br />
+-h 详细帮助<br />
+-x (不生成数据结构说明，最好生成）<br />
+将.nsmp文件保留一份.h(.nsmp)文件，需要用时包含即可</p>
+
+<p>如类似这样的问题大家上网上搜一下把,很多解决办法我就不一一列举了</p>
+
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="n">wsa5</span><span class="p">.</span><span class="n">h</span><span class="p">(</span><span class="mi">288</span><span class="p">)</span><span class="o">:</span> <span class="o">**</span><span class="n">ERROR</span><span class="o">**:</span> <span class="n">service</span> <span class="n">operation</span> <span class="n">name</span> <span class="n">clash</span><span class="o">:</span> <span class="k">struct</span><span class="o">/</span><span class="k">class</span> <span class="err">'</span><span class="nc">SOAP_ENV__Fault</span><span class="err">'</span> <span class="n">already</span> <span class="n">declared</span> <span class="n">at</span> <span class="n">wsa</span><span class="p">.</span><span class="n">h</span><span class="o">:</span><span class="mi">273</span>
+</code></pre>
+</div>
+
+<p>import/was5.h +277的SOAP_ENV__Fault函数改名如下</p>
+
+<div class="language-diff highlighter-rouge"><pre class="highlight"><code><span class="gd">- int SOAP_ENV__Fault
+</span><span class="gi">+ int SOAP_ENV__Fault_Unused
+</span></code></pre>
+</div>
+
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="n">SOAP_ENV__Fault_Unused</span>
+<span class="p">(</span>       <span class="n">_QName</span> <span class="n">faultcode</span><span class="p">,</span><span class="c1">// SOAP 1.1
+</span>        <span class="kt">char</span> <span class="o">*</span><span class="n">faultstring</span><span class="p">,</span><span class="c1">// SOAP 1.1
+</span>        <span class="p">......</span>
+<span class="p">)</span>
+</code></pre>
+</div>
+
+<p>到这里就写业务逻辑了,但是考虑后期每次编译那几个几十万行的代码,脑袋都嗡嗡的.
+不想浪费生命的还是把上述框架编译成共享库,后面链接用把&gt;.&lt;</p>
+
+<p>我们写个Makefile</p>
+
+<pre><code class="language-Bash">CFLAGS =-DWITH_OPENSSL -DWITH_NONAMESPACES -DWITH_DOM -I./ -I./import -g -fPIC
+# -DDEBUG -g -O2
+# -I{prefix}/{gsoap-version}/gsoap 
+CC:=$(CROSS)gcc
+
+NVC_LIB = libsoap.so
+
+BUILD_SRC = dom.c duration.c soapC.c stdsoap2.c \
+                plugin/wsseapi.c \
+                plugin/smdevp.c \
+                plugin/mecevp.c \
+                plugin/threads.c \
+                plugin/wsaapi.c \
+
+NVC_LIB_OBJS = soapC.o stdsoap2.o duration.o dom.o soapClient.o \
+plugin/wsseapi.o plugin/smdevp.o plugin/mecevp.o plugin/threads.o plugin/wsaapi.o
+
+all:$(NVC_LIB)
+
+#build libraray
+$(NVC_LIB):$(NVC_LIB_OBJS)
+        @echo Creating $(NVC_LIB) library... 
+        @gcc -fPIC -shared -o $(NVC_LIB) $(NVC_LIB_OBJS) 
+clean:
+        rm -f *.o *.a *.log plugin/*.o $(NVC_LIB)
+</code></pre>
+<p>makefile写完后,执行</p>
+<div class="highlighter-rouge"><pre class="highlight"><code>make
+</code></pre>
+</div>
+<p>结束后,使用当前文件夹中的libsoap.so开始onvif之旅吧!</p>
+
+<h2 id="疑问">疑问</h2>
+<p>我的早期项目(c框架,功能实现c++,只调用c接口)
+存在soap中字段无法以运算符方式赋值(未重载operator=,且编译正常)
+某些提供set接口的可以正确赋值;
+extern C 无法解决
+调查无果,怀疑是链接时哪里有问题或者soap指针偏移,
+c和c++在struct的内存分布上是有区别的,
+属于无证据臆测,但是第二次生成的框架无此问题.
+如果有解决这个问题的同学,可以教教我,不胜感激…</p>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/09/14/Onvif_1-2017/" data-toggle="tooltip" data-placement="top" title="ONVIF填坑-1">
+                        Previous<br>
+                        <span>ONVIF填坑-1</span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+            <div class="
+                col-lg-2 col-lg-offset-0
+                visible-lg-block
+                sidebar-container
+                catalog-container">
+                <div class="side-catalog">
+                    <hr class="hidden-sm hidden-xs">
+                    <h5>
+                        <a class="catalog-toggle" href="#">CATALOG</a>
+                    </h5>
+                    <ul class="catalog-body"></ul>
+                </div>
+            </div>
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+                				<a href="/tags/#Test" title="Test" rel="2">
+                                    Test
+                                </a>
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#ONVIF" title="ONVIF" rel="2">
+                                    ONVIF
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#C/C++" title="C/C++" rel="2">
+                                    C/C++
+                                </a>
+                            
+        				
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "halukasama";
+    var disqus_identifier = "/2017/09/15/Onvif_2-2017";
+    var disqus_url = "http://localhost:4000/2017/09/15/Onvif_2-2017/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/halukasama">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ｗル's 2017
+                    <br>
+                    Theme by <a href="https://github.com/halukasama/halukasama.github.io">halukasama</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=halukasama&repo=halukasama.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-105979346-1';
+    var _gaDomain = 'syndrome.wang';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+<script type="text/javascript">
+    function generateCatalog (selector) {
+        var P = $('div.post-container'),a,n,t,l,i,c;
+        a = P.find('h1,h2,h3,h4,h5,h6');
+        a.each(function () {
+            n = $(this).prop('tagName').toLowerCase();
+            i = "#"+$(this).prop('id');
+            t = $(this).text();
+            c = $('<a href="'+i+'" rel="nofollow">'+t+'</a>');
+            l = $('<li class="'+n+'_nav"></li>').append(c);
+            $(selector).append(l);
+        });
+        return true;
+    }
+
+    generateCatalog(".catalog-body");
+
+    // toggle side catalog
+    $(".catalog-toggle").click((function(e){
+        e.preventDefault();
+        $('.side-catalog').toggleClass("fold")
+    }))
+
+    /*
+     * Doc: https://github.com/davist11/jQuery-One-Page-Nav
+     * Fork by Hux to support padding
+     */
+    async("/js/jquery.nav.js", function () {
+        $('.catalog-body').onePageNav({
+            currentClass: "active",
+            changeHash: !1,
+            easing: "swing",
+            filter: "",
+            scrollSpeed: 700,
+            scrollOffset: 0,
+            scrollThreshold: .2,
+            begin: null,
+            end: null,
+            scrollChange: null,
+            padding: 80
+        });
+    });
+</script>
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="img/breg.jpg" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
