@@ -1,15 +1,13 @@
 ---
 layout:     post
-title:      "BQ Manual1"
-subtitle:   "开发环境搭建及未完成docs"
+title:      "Manual"
+subtitle:   "开发环境搭建"
 date:       2017-09-13 12:00:00
 author:     "Wjl"
 header-img: "img/post_bqmanual.jpg"
 catalog: true
 tags:
-    - BQ
     - DOC
-    - TODO
 ---
 
 > "我刚来的时候,连grep都不会用,如何关防火墙都要搜......感谢峰神不杀之恩"
