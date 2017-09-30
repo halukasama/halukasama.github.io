@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords"  content="Ｗル, Ｗル's, wjl, WJL, @wjl">
+    <meta name="theme-color" content="#000000">
+
+    <title>ONVIF补全计划-5 - Ｗル's brain theatre</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2017/09/18/Onvif_5/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ｗル's</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">关于</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/heisenberg/">海森堡</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/indices/">专题</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">标签</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from
+     * $toggle/$collapse will break global delegation.
+     *
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post_onvif5.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ONVIF" title="ONVIF">ONVIF</a>
+                        
+                        <a class="tag" href="/tags/#C/C++" title="C/C++">C/C++</a>
+                        
+                        <a class="tag" href="/tags/#LINUX" title="LINUX">LINUX</a>
+                        
+                    </div>
+                    <h1>ONVIF补全计划-5</h1>
+                    
+                    
+                    <h2 class="subheading">Media(上)-GetStreamURI和VideoEncode</h2>
+                    
+                    <span class="meta">Posted by Wjl on September 18, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<blockquote>
+  <p>9.18…幻听到防空警报了…</p>
+</blockquote>
+
+<p><big><big><big><big><strong>Media-Service-Spec媒体服务的功能介绍</strong></big></big></big></big></p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>These include the selection of Video and Audio inputs as well as PTZ and Analytics modes 
+and the configuration of Video and Audio encoders. 
+</code></pre>
+</div>
+<p><big><big><strong><code class="highlighter-rouge">我用的是MediaVer10 调用的是trt字段的接口</code></strong></big></big> <br />
+Analytics单元我没用到,简单读了一下,并没有什么心得体会;<br />
+因为PTZ功能还包含了另一个wsdl文件,我们后面说.</p>
+
+<p>主要来看<code class="highlighter-rouge">MediaEncoder</code>视频编码配置<br />
+因为这里主要包括了分辨率,帧率,比特率等等常用的参数设置</p>
+
+<p><big><big><big><big><strong>MediaProfile</strong></big></big></big></big></p>
+<blockquote>
+  <p>很重要的定义</p>
+</blockquote>
+
+<p><code class="highlighter-rouge">MediaProfile</code>: Maps a video or an audio source or an audio output to a video or an audio encoder<br />
+　　　　　　　 , a audio decoder configuration and PTZ and analytics configurations.</p>
+
+<p>一个<code class="highlighter-rouge">MediaProfile</code>都包含下图中至少一个单元
+<img src="https://github.com/halukasama/imghosting/blob/master/onvif/4/onvif_4profile.png?raw=true" alt="profile_def" /></p>
+
+<p>获取/设置,都需要通过<code class="highlighter-rouge">ProfileToken</code>字段才知道你要读/写的<code class="highlighter-rouge">MediaProfile</code>.</p>
+
+<p>获取Profiles代码</p>
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">UserGetProfiles</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span><span class="k">struct</span> <span class="n">_trt__GetProfiles</span> <span class="o">*</span><span class="n">trt__GetProfiles</span><span class="p">,</span>
+                     <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">trt__GetProfilesResponse</span> <span class="p">,</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">endpoint</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">soap_wsse_add_UsernameTokenDigest</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span><span class="s">"user"</span><span class="p">,</span> <span class="n">ONVIF_USER</span><span class="p">,</span> <span class="n">ONVIF_PASSWORD</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">soap_call___trt__GetProfiles</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">trt__GetProfiles</span><span class="p">,</span> <span class="n">trt__GetProfilesResponse</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s&lt;%s!&gt;]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">,</span> <span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="n">SOAP_EOF</span><span class="p">)</span> <span class="o">?</span> <span class="s">"失败"</span><span class="o">:</span><span class="s">"成功"</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="n">SOAP_EOF</span><span class="p">)</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s][Error Number:%d] [Falut Code:%s] [Falut Reason:%s]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">,</span> <span class="n">soap</span><span class="o">-&gt;</span><span class="n">error</span><span class="p">,</span> <span class="o">*</span><span class="n">soap_faultcode</span><span class="p">(</span><span class="n">soap</span><span class="p">),</span> <span class="o">*</span><span class="n">soap_faultstring</span><span class="p">(</span><span class="n">soap</span><span class="p">));</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>参数如何填充,看源码..看文档..大多这种很<code class="highlighter-rouge">泛</code>的请求,开辟内存就好
+这里的endpoint 就是上文中获取的MediaService服务地址:<code class="highlighter-rouge">http://192.168.0.236/onvif/Media</code>
+如果返回成功,我们可以看到</p>
+
+<p><big><big><big><strong>请求</strong></big></big></big></p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code>POST /onvif/Media HTTP/1.1
+Host: 192.168.0.236
+User-Agent: gSOAP/2.8
+Content-Type: application/soap+xml; charset=utf-8; action="http://www.onvif.org/ver10/media/wsdl/GetProfiles"
+Content-Length: 3104
+Connection: close
+SOAPAction: "http://www.onvif.org/ver10/media/wsdl/GetProfiles"
+
+<span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;SOAP-ENV:Envelope</span> <span class="nt">&gt;</span>
+ <span class="nt">&lt;SOAP-ENV:Header&gt;</span>
+  <span class="nt">&lt;wsse:Security</span> <span class="na">SOAP-ENV:mustUnderstand=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;wsse:UsernameToken</span> <span class="na">wsu:Id=</span><span class="s">"user"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;wsse:Username&gt;</span>admin<span class="nt">&lt;/wsse:Username&gt;</span>
+    <span class="nt">&lt;wsse:Password</span> <span class="na">Type=</span><span class="s">"http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest"</span><span class="nt">&gt;</span>NM55JR+tj3sRxCS0FP8keREjEq0=<span class="nt">&lt;/wsse:Password&gt;</span>
+    <span class="nt">&lt;wsse:Nonce&gt;</span>ZKHIWbvAthZlZZ0REN6xzqfWtNE=<span class="nt">&lt;/wsse:Nonce&gt;</span>
+    <span class="nt">&lt;wsu:Created&gt;</span>2017-09-17T06:25:40Z<span class="nt">&lt;/wsu:Created&gt;</span>
+   <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+  <span class="nt">&lt;/wsse:Security&gt;</span>
+ <span class="nt">&lt;/SOAP-ENV:Header&gt;</span>
+ <span class="nt">&lt;SOAP-ENV:Body&gt;</span>
+  <span class="nt">&lt;trt:GetProfiles&gt;&lt;/trt:GetProfiles&gt;</span>
+ <span class="nt">&lt;/SOAP-ENV:Body&gt;</span>
+<span class="nt">&lt;/SOAP-ENV:Envelope&gt;</span>
+</code></pre>
+</div>
+<p><big><big><big><strong>回复</strong></big></big></big></p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code>HTTP/1.1 200 OK
+Date: Mon, 25 Sep 2017 14:25:56 GMT
+Server: App-webs/
+Connection: close
+Content-Length: 31449
+Content-Type: application/soap+xml; charset=utf-8
+
+<span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;env:Envelope&gt;</span>
+ <span class="nt">&lt;env:Body&gt;</span>
+  <span class="nt">&lt;trt:GetProfilesResponse&gt;</span>
+   <span class="nt">&lt;trt:Profiles</span> <span class="na">token=</span><span class="s">"Profile_1"</span> <span class="na">fixed=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;tt:Name&gt;</span>mainStream<span class="nt">&lt;/tt:Name&gt;</span>
+    <span class="nt">&lt;tt:VideoSourceConfiguration</span> <span class="na">token=</span><span class="s">"VideoSourceToken"</span><span class="nt">&gt;</span>
+     <span class="nt">&lt;tt:Name&gt;</span>VideoSourceConfig<span class="nt">&lt;/tt:Name&gt;</span>
+     <span class="nt">&lt;tt:UseCount&gt;</span>3<span class="nt">&lt;/tt:UseCount&gt;</span>
+     <span class="nt">&lt;tt:SourceToken&gt;</span>VideoSource_1<span class="nt">&lt;/tt:SourceToken&gt;</span>
+     <span class="nt">&lt;tt:Bounds</span> <span class="na">x=</span><span class="s">"0"</span> <span class="na">y=</span><span class="s">"0"</span> <span class="na">width=</span><span class="s">"1920"</span> <span class="na">height=</span><span class="s">"1080"</span><span class="nt">&gt;&lt;/tt:Bounds&gt;</span>
+     <span class="nt">&lt;tt:Extension&gt;</span>
+      <span class="nt">&lt;tt:Rotate&gt;</span>
+       <span class="nt">&lt;tt:Mode&gt;</span>OFF<span class="nt">&lt;/tt:Mode&gt;</span>
+      <span class="nt">&lt;/tt:Rotate&gt;</span>
+     <span class="nt">&lt;/tt:Extension&gt;</span>
+    <span class="nt">&lt;/tt:VideoSourceConfiguration&gt;</span>
+    <span class="nt">&lt;tt:AudioSourceConfiguration</span> <span class="na">token=</span><span class="s">"AudioSourceConfigToken"</span><span class="nt">&gt;</span>
+     <span class="nt">&lt;tt:Name&gt;</span>AudioSourceConfig<span class="nt">&lt;/tt:Name&gt;</span>
+     <span class="nt">&lt;tt:UseCount&gt;</span>3<span class="nt">&lt;/tt:UseCount&gt;</span>
+     <span class="nt">&lt;tt:SourceToken&gt;</span>AudioSourceChannel<span class="nt">&lt;/tt:SourceToken&gt;</span>
+    <span class="nt">&lt;/tt:AudioSourceConfiguration&gt;</span>
+    <span class="nt">&lt;tt:AudioEncoderConfiguration</span> <span class="na">token=</span><span class="s">"MainAudioEncoderToken"</span><span class="nt">&gt;&lt;tt:Name&gt;</span>AudioEncoderConfig<span class="nt">&lt;/tt:Name&gt;</span>
+     <span class="nt">&lt;tt:UseCount&gt;</span>3<span class="nt">&lt;/tt:UseCount&gt;</span>
+     <span class="nt">&lt;tt:Encoding&gt;</span>G711<span class="nt">&lt;/tt:Encoding&gt;</span>
+     <span class="nt">&lt;tt:Bitrate&gt;</span>32<span class="nt">&lt;/tt:Bitrate&gt;</span>
+     <span class="nt">&lt;tt:SampleRate&gt;</span>16<span class="nt">&lt;/tt:SampleRate&gt;</span>
+     <span class="nt">&lt;tt:Multicast&gt;</span>
+      <span class="nt">&lt;tt:Address&gt;</span>
+       <span class="nt">&lt;tt:Type&gt;</span>IPv4<span class="nt">&lt;/tt:Type&gt;</span>
+       <span class="nt">&lt;tt:IPv4Address&gt;</span>232.0.0.47<span class="nt">&lt;/tt:IPv4Address&gt;</span>
+      <span class="nt">&lt;/tt:Address&gt;</span>
+      <span class="nt">&lt;tt:Port&gt;</span>8862<span class="nt">&lt;/tt:Port&gt;</span>
+      <span class="nt">&lt;tt:TTL&gt;</span>128<span class="nt">&lt;/tt:TTL&gt;</span>
+      <span class="nt">&lt;tt:AutoStart&gt;</span>false<span class="nt">&lt;/tt:AutoStart&gt;</span>
+     <span class="nt">&lt;/tt:Multicast&gt;</span>
+    <span class="nt">&lt;tt:SessionTimeout&gt;</span>PT5S<span class="nt">&lt;/tt:SessionTimeout&gt;</span>
+    <span class="nt">&lt;/tt:AudioEncoderConfiguration&gt;</span>
+<span class="c">&lt;!-- 到这里我实在懒的排版了,大家对付看把 --&gt;</span>
+<span class="nt">&lt;tt:VideoAnalyticsConfiguration</span> <span class="na">token=</span><span class="s">"VideoAnalyticsToken"</span><span class="nt">&gt;&lt;tt:Name&gt;</span>VideoAnalyticsName<span class="nt">&lt;/tt:Name&gt;</span>
+<span class="nt">&lt;tt:UseCount&gt;</span>3<span class="nt">&lt;/tt:UseCount&gt;</span>
+<span class="nt">&lt;tt:AnalyticsEngineConfiguration&gt;&lt;tt:AnalyticsModule</span> <span class="na">Name=</span><span class="s">"MyCellMotionModule"</span> <span class="na">Type=</span><span class="s">"tt:CellMotionEngine"</span><span class="nt">&gt;&lt;tt:Parameters&gt;&lt;tt:SimpleItem</span> <span class="na">Name=</span><span class="s">"Sensitivity"</span> <span class="na">Value=</span><span class="s">"0"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Layout"</span><span class="nt">&gt;&lt;tt:CellLayout</span> <span class="na">Columns=</span><span class="s">"22"</span> <span class="na">Rows=</span><span class="s">"18"</span><span class="nt">&gt;&lt;tt:Transformation&gt;&lt;tt:Translate</span> <span class="na">x=</span><span class="s">"-1.000000"</span> <span class="na">y=</span><span class="s">"-1.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Scale</span> <span class="na">x=</span><span class="s">"0.090909"</span> <span class="na">y=</span><span class="s">"0.111111"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Transformation&gt;</span>
+<span class="nt">&lt;/tt:CellLayout&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;/tt:Parameters&gt;</span>
+<span class="nt">&lt;/tt:AnalyticsModule&gt;</span>
+<span class="nt">&lt;tt:AnalyticsModule</span> <span class="na">Name=</span><span class="s">"MyLineDetectorModule"</span> <span class="na">Type=</span><span class="s">"tt:LineDetectorEngine"</span><span class="nt">&gt;&lt;tt:Parameters&gt;&lt;tt:SimpleItem</span> <span class="na">Name=</span><span class="s">"Sensitivity"</span> <span class="na">Value=</span><span class="s">"50"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Layout"</span><span class="nt">&gt;&lt;tt:Transformation&gt;&lt;tt:Translate</span> <span class="na">x=</span><span class="s">"-1.000000"</span> <span class="na">y=</span><span class="s">"-1.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Scale</span> <span class="na">x=</span><span class="s">"0.002000"</span> <span class="na">y=</span><span class="s">"0.002000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Transformation&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Field"</span><span class="nt">&gt;&lt;tt:PolygonConfiguration&gt;&lt;tt:Polygon&gt;&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0"</span> <span class="na">y=</span><span class="s">"0"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0"</span> <span class="na">y=</span><span class="s">"1000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"1000"</span> <span class="na">y=</span><span class="s">"1000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"1000"</span> <span class="na">y=</span><span class="s">"0"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Polygon&gt;</span>
+<span class="nt">&lt;/tt:PolygonConfiguration&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;/tt:Parameters&gt;</span>
+<span class="nt">&lt;/tt:AnalyticsModule&gt;</span>
+<span class="nt">&lt;tt:AnalyticsModule</span> <span class="na">Name=</span><span class="s">"MyFieldDetectorModule"</span> <span class="na">Type=</span><span class="s">"tt:FieldDetectorEngine"</span><span class="nt">&gt;&lt;tt:Parameters&gt;&lt;tt:SimpleItem</span> <span class="na">Name=</span><span class="s">"Sensitivity"</span> <span class="na">Value=</span><span class="s">"50"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Layout"</span><span class="nt">&gt;&lt;tt:Transformation&gt;&lt;tt:Translate</span> <span class="na">x=</span><span class="s">"-1.000000"</span> <span class="na">y=</span><span class="s">"-1.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Scale</span> <span class="na">x=</span><span class="s">"0.002000"</span> <span class="na">y=</span><span class="s">"0.002000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Transformation&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Field"</span><span class="nt">&gt;&lt;tt:PolygonConfiguration&gt;&lt;tt:Polygon&gt;&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0"</span> <span class="na">y=</span><span class="s">"0"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0"</span> <span class="na">y=</span><span class="s">"1000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"1000"</span> <span class="na">y=</span><span class="s">"1000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"1000"</span> <span class="na">y=</span><span class="s">"0"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Polygon&gt;</span>
+<span class="nt">&lt;/tt:PolygonConfiguration&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;/tt:Parameters&gt;</span>
+<span class="nt">&lt;/tt:AnalyticsModule&gt;</span>
+<span class="nt">&lt;tt:AnalyticsModule</span> <span class="na">Name=</span><span class="s">"MyTamperDetecModule"</span> <span class="na">Type=</span><span class="s">"extxsd:TamperEngine"</span><span class="nt">&gt;&lt;tt:Parameters&gt;&lt;tt:SimpleItem</span> <span class="na">Name=</span><span class="s">"Sensitivity"</span> <span class="na">Value=</span><span class="s">"0"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Transformation"</span><span class="nt">&gt;&lt;tt:Transformation&gt;&lt;tt:Translate</span> <span class="na">x=</span><span class="s">"-1.000000"</span> <span class="na">y=</span><span class="s">"-1.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Scale</span> <span class="na">x=</span><span class="s">"0.002841"</span> <span class="na">y=</span><span class="s">"0.003472"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Transformation&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Field"</span><span class="nt">&gt;&lt;tt:PolygonConfiguration&gt;&lt;tt:Polygon&gt;&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0"</span> <span class="na">y=</span><span class="s">"0"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0"</span> <span class="na">y=</span><span class="s">"576"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"704"</span> <span class="na">y=</span><span class="s">"576"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"704"</span> <span class="na">y=</span><span class="s">"0"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Polygon&gt;</span>
+<span class="nt">&lt;/tt:PolygonConfiguration&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;/tt:Parameters&gt;</span>
+<span class="nt">&lt;/tt:AnalyticsModule&gt;</span>
+<span class="nt">&lt;/tt:AnalyticsEngineConfiguration&gt;</span>
+<span class="nt">&lt;tt:RuleEngineConfiguration&gt;&lt;tt:Rule</span> <span class="na">Name=</span><span class="s">"MyMotionDetectorRule"</span> <span class="na">Type=</span><span class="s">"tt:CellMotionDetector"</span><span class="nt">&gt;&lt;tt:Parameters&gt;&lt;tt:SimpleItem</span> <span class="na">Name=</span><span class="s">"MinCount"</span> <span class="na">Value=</span><span class="s">"5"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:SimpleItem</span> <span class="na">Name=</span><span class="s">"AlarmOnDelay"</span> <span class="na">Value=</span><span class="s">"1000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:SimpleItem</span> <span class="na">Name=</span><span class="s">"AlarmOffDelay"</span> <span class="na">Value=</span><span class="s">"1000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:SimpleItem</span> <span class="na">Name=</span><span class="s">"ActiveCells"</span> <span class="na">Value=</span><span class="s">"zwA="</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Parameters&gt;</span>
+<span class="nt">&lt;/tt:Rule&gt;</span>
+<span class="nt">&lt;tt:Rule</span> <span class="na">Name=</span><span class="s">"MyLineDetector1"</span> <span class="na">Type=</span><span class="s">"tt:LineDetector"</span><span class="nt">&gt;&lt;tt:Parameters&gt;&lt;tt:SimpleItem</span> <span class="na">Name=</span><span class="s">"Direction"</span> <span class="na">Value=</span><span class="s">"Any"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Segments"</span><span class="nt">&gt;&lt;tt:Polyline&gt;&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Polyline&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;/tt:Parameters&gt;</span>
+<span class="nt">&lt;/tt:Rule&gt;</span>
+<span class="nt">&lt;tt:Rule</span> <span class="na">Name=</span><span class="s">"MyLineDetector2"</span> <span class="na">Type=</span><span class="s">"tt:LineDetector"</span><span class="nt">&gt;&lt;tt:Parameters&gt;&lt;tt:SimpleItem</span> <span class="na">Name=</span><span class="s">"Direction"</span> <span class="na">Value=</span><span class="s">"Any"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Segments"</span><span class="nt">&gt;&lt;tt:Polyline&gt;&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Polyline&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;/tt:Parameters&gt;</span>
+<span class="nt">&lt;/tt:Rule&gt;</span>
+<span class="nt">&lt;tt:Rule</span> <span class="na">Name=</span><span class="s">"MyLineDetector3"</span> <span class="na">Type=</span><span class="s">"tt:LineDetector"</span><span class="nt">&gt;&lt;tt:Parameters&gt;&lt;tt:SimpleItem</span> <span class="na">Name=</span><span class="s">"Direction"</span> <span class="na">Value=</span><span class="s">"Any"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Segments"</span><span class="nt">&gt;&lt;tt:Polyline&gt;&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Polyline&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;/tt:Parameters&gt;</span>
+<span class="nt">&lt;/tt:Rule&gt;</span>
+<span class="nt">&lt;tt:Rule</span> <span class="na">Name=</span><span class="s">"MyLineDetector4"</span> <span class="na">Type=</span><span class="s">"tt:LineDetector"</span><span class="nt">&gt;&lt;tt:Parameters&gt;&lt;tt:SimpleItem</span> <span class="na">Name=</span><span class="s">"Direction"</span> <span class="na">Value=</span><span class="s">"Any"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Segments"</span><span class="nt">&gt;&lt;tt:Polyline&gt;&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Polyline&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;/tt:Parameters&gt;</span>
+<span class="nt">&lt;/tt:Rule&gt;</span>
+<span class="nt">&lt;tt:Rule</span> <span class="na">Name=</span><span class="s">"MyFieldDetector1"</span> <span class="na">Type=</span><span class="s">"tt:FieldDetector"</span><span class="nt">&gt;&lt;tt:Parameters&gt;&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Field"</span><span class="nt">&gt;&lt;tt:Polygon&gt;&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Polygon&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;/tt:Parameters&gt;</span>
+<span class="nt">&lt;/tt:Rule&gt;</span>
+<span class="nt">&lt;tt:Rule</span> <span class="na">Name=</span><span class="s">"MyFieldDetector2"</span> <span class="na">Type=</span><span class="s">"tt:FieldDetector"</span><span class="nt">&gt;&lt;tt:Parameters&gt;&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Field"</span><span class="nt">&gt;&lt;tt:Polygon&gt;&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Polygon&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;/tt:Parameters&gt;</span>
+<span class="nt">&lt;/tt:Rule&gt;</span>
+<span class="nt">&lt;tt:Rule</span> <span class="na">Name=</span><span class="s">"MyFieldDetector3"</span> <span class="na">Type=</span><span class="s">"tt:FieldDetector"</span><span class="nt">&gt;&lt;tt:Parameters&gt;&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Field"</span><span class="nt">&gt;&lt;tt:Polygon&gt;&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Polygon&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;/tt:Parameters&gt;</span>
+<span class="nt">&lt;/tt:Rule&gt;</span>
+<span class="nt">&lt;tt:Rule</span> <span class="na">Name=</span><span class="s">"MyFieldDetector4"</span> <span class="na">Type=</span><span class="s">"tt:FieldDetector"</span><span class="nt">&gt;&lt;tt:Parameters&gt;&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Field"</span><span class="nt">&gt;&lt;tt:Polygon&gt;&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0.000000"</span> <span class="na">y=</span><span class="s">"0.000000"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Polygon&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;/tt:Parameters&gt;</span>
+<span class="nt">&lt;/tt:Rule&gt;</span>
+<span class="nt">&lt;tt:Rule</span> <span class="na">Name=</span><span class="s">"MyTamperDetectorRule"</span> <span class="na">Type=</span><span class="s">"extxsd:TamperDetector"</span><span class="nt">&gt;&lt;tt:Parameters&gt;&lt;tt:ElementItem</span> <span class="na">Name=</span><span class="s">"Field"</span><span class="nt">&gt;&lt;tt:PolygonConfiguration&gt;&lt;tt:Polygon&gt;&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0"</span> <span class="na">y=</span><span class="s">"0"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0"</span> <span class="na">y=</span><span class="s">"0"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0"</span> <span class="na">y=</span><span class="s">"0"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Point</span> <span class="na">x=</span><span class="s">"0"</span> <span class="na">y=</span><span class="s">"0"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:Polygon&gt;</span>
+<span class="nt">&lt;/tt:PolygonConfiguration&gt;</span>
+<span class="nt">&lt;/tt:ElementItem&gt;</span>
+<span class="nt">&lt;/tt:Parameters&gt;</span>
+<span class="nt">&lt;/tt:Rule&gt;</span>
+<span class="nt">&lt;/tt:RuleEngineConfiguration&gt;</span>
+<span class="nt">&lt;/tt:VideoAnalyticsConfiguration&gt;</span>
+<span class="nt">&lt;tt:PTZConfiguration</span> <span class="na">token=</span><span class="s">"PTZToken"</span><span class="nt">&gt;&lt;tt:Name&gt;</span>PTZ<span class="nt">&lt;/tt:Name&gt;</span>
+<span class="nt">&lt;tt:UseCount&gt;</span>3<span class="nt">&lt;/tt:UseCount&gt;</span>
+<span class="nt">&lt;tt:NodeToken&gt;</span>PTZNODETOKEN<span class="nt">&lt;/tt:NodeToken&gt;</span>
+<span class="nt">&lt;tt:DefaultAbsolutePantTiltPositionSpace&gt;</span>http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace<span class="nt">&lt;/tt:DefaultAbsolutePantTiltPositionSpace&gt;</span>
+<span class="nt">&lt;tt:DefaultAbsoluteZoomPositionSpace&gt;</span>http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace<span class="nt">&lt;/tt:DefaultAbsoluteZoomPositionSpace&gt;</span>
+<span class="nt">&lt;tt:DefaultRelativePanTiltTranslationSpace&gt;</span>http://www.onvif.org/ver10/tptz/PanTiltSpaces/TranslationGenericSpace<span class="nt">&lt;/tt:DefaultRelativePanTiltTranslationSpace&gt;</span>
+<span class="nt">&lt;tt:DefaultRelativeZoomTranslationSpace&gt;</span>http://www.onvif.org/ver10/tptz/ZoomSpaces/TranslationGenericSpace<span class="nt">&lt;/tt:DefaultRelativeZoomTranslationSpace&gt;</span>
+<span class="nt">&lt;tt:DefaultContinuousPanTiltVelocitySpace&gt;</span>http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace<span class="nt">&lt;/tt:DefaultContinuousPanTiltVelocitySpace&gt;</span>
+<span class="nt">&lt;tt:DefaultContinuousZoomVelocitySpace&gt;</span>http://www.onvif.org/ver10/tptz/ZoomSpaces/VelocityGenericSpace<span class="nt">&lt;/tt:DefaultContinuousZoomVelocitySpace&gt;</span>
+<span class="nt">&lt;tt:DefaultPTZSpeed&gt;&lt;tt:PanTilt</span> <span class="na">x=</span><span class="s">"0.100000"</span> <span class="na">y=</span><span class="s">"0.100000"</span> <span class="na">space=</span><span class="s">"http://www.onvif.org/ver10/tptz/PanTiltSpaces/GenericSpeedSpace"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;tt:Zoom</span> <span class="na">x=</span><span class="s">"1.000000"</span> <span class="na">space=</span><span class="s">"http://www.onvif.org/ver10/tptz/ZoomSpaces/ZoomGenericSpeedSpace"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/tt:DefaultPTZSpeed&gt;</span>
+<span class="nt">&lt;tt:DefaultPTZTimeout&gt;</span>PT300S<span class="nt">&lt;/tt:DefaultPTZTimeout&gt;</span>
+<span class="nt">&lt;tt:PanTiltLimits&gt;&lt;tt:Range&gt;&lt;tt:URI&gt;</span>http://www.onvif.org/ver10/tptz/PanTiltSpaces/PositionGenericSpace<span class="nt">&lt;/tt:URI&gt;</span>
+<span class="nt">&lt;tt:XRange&gt;&lt;tt:Min&gt;</span>-1.000000<span class="nt">&lt;/tt:Min&gt;</span>
+<span class="nt">&lt;tt:Max&gt;</span>1.000000<span class="nt">&lt;/tt:Max&gt;</span>
+<span class="nt">&lt;/tt:XRange&gt;</span>
+<span class="nt">&lt;tt:YRange&gt;&lt;tt:Min&gt;</span>-1.000000<span class="nt">&lt;/tt:Min&gt;</span>
+<span class="nt">&lt;tt:Max&gt;</span>1.000000<span class="nt">&lt;/tt:Max&gt;</span>
+<span class="nt">&lt;/tt:YRange&gt;</span>
+<span class="nt">&lt;/tt:Range&gt;</span>
+<span class="nt">&lt;/tt:PanTiltLimits&gt;</span>
+<span class="nt">&lt;tt:ZoomLimits&gt;&lt;tt:Range&gt;&lt;tt:URI&gt;</span>http://www.onvif.org/ver10/tptz/ZoomSpaces/PositionGenericSpace<span class="nt">&lt;/tt:URI&gt;</span>
+<span class="nt">&lt;tt:XRange&gt;&lt;tt:Min&gt;</span>0.000000<span class="nt">&lt;/tt:Min&gt;</span>
+<span class="nt">&lt;tt:Max&gt;</span>1.000000<span class="nt">&lt;/tt:Max&gt;</span>
+<span class="nt">&lt;/tt:XRange&gt;</span>
+<span class="nt">&lt;/tt:Range&gt;</span>
+<span class="nt">&lt;/tt:ZoomLimits&gt;</span>
+<span class="nt">&lt;/tt:PTZConfiguration&gt;</span>
+<span class="nt">&lt;tt:Extension&gt;&lt;tt:AudioOutputConfiguration</span> <span class="na">token=</span><span class="s">"AudioOutputConfigToken"</span><span class="nt">&gt;&lt;tt:Name&gt;</span>AudioOutputConfigName<span class="nt">&lt;/tt:Name&gt;</span>
+<span class="nt">&lt;tt:UseCount&gt;</span>3<span class="nt">&lt;/tt:UseCount&gt;</span>
+<span class="nt">&lt;tt:OutputToken&gt;</span>AudioOutputToken<span class="nt">&lt;/tt:OutputToken&gt;</span>
+<span class="nt">&lt;tt:SendPrimacy&gt;</span>www.onvif.org/ver20/HalfDuplex/Server<span class="nt">&lt;/tt:SendPrimacy&gt;</span>
+<span class="nt">&lt;tt:OutputLevel&gt;</span>10<span class="nt">&lt;/tt:OutputLevel&gt;</span>
+<span class="nt">&lt;/tt:AudioOutputConfiguration&gt;</span>
+<span class="nt">&lt;tt:AudioDecoderConfiguration</span> <span class="na">token=</span><span class="s">"AudioDecoderConfigToken"</span><span class="nt">&gt;&lt;tt:Name&gt;</span>AudioDecoderConfig<span class="nt">&lt;/tt:Name&gt;</span>
+<span class="nt">&lt;tt:UseCount&gt;</span>3<span class="nt">&lt;/tt:UseCount&gt;</span>
+<span class="nt">&lt;/tt:AudioDecoderConfiguration&gt;</span>
+<span class="nt">&lt;/tt:Extension&gt;</span>
+<span class="nt">&lt;/trt:Profiles&gt;</span>
+<span class="nt">&lt;trt:Profiles</span> <span class="na">token=</span><span class="s">"Profile_2"</span> <span class="na">fixed=</span><span class="s">"true"</span><span class="nt">&gt;&lt;tt:Name&gt;</span>subStream<span class="nt">&lt;/tt:Name&gt;</span>
+<span class="nt">&lt;tt:VideoSourceConfiguration</span> <span class="na">token=</span><span class="s">"VideoSourceToken"</span><span class="nt">&gt;&lt;tt:Name&gt;</span>VideoSourceConfig<span class="nt">&lt;/tt:Name&gt;</span>
+......
+......
+......
+</code></pre>
+</div>
+<p>我这台IPC有主码流(mainstream),子码流(subStream),第三码流(thirdStream),测试流(testStream)<br />
+它们对应的配置文件(Profile_1,Profile_2…..)<br />
+设备参数都在他们对应的profile里,客户端是根据<code class="highlighter-rouge">ProfileToken</code>来决定获取/设置谁的参数<br />
+换言之,如果你想将主码流的分辨率调整为1080P,那么请求中<code class="highlighter-rouge">ProfileToken</code>必须为<code class="highlighter-rouge">Profile_1</code>(它存储在你的回复消息中)<br />
+熟悉之后你可以创建多个profile来满足特定功能模块<br />
+本例:</p>
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">__sizeProfiles</span><span class="p">;</span>	<span class="cm">/* SOAP 1.2 RPC return element (when namespace qualified) */</span>	<span class="cm">/* sequence of elements &lt;Profiles&gt; */</span>
+	<span class="k">struct</span> <span class="n">tt__Profile</span> <span class="o">*</span><span class="n">Profiles</span><span class="p">;</span>	<span class="cm">/* optional element of type tt:Profile */</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">tt__Profile</span>
+<span class="p">{</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">Name</span><span class="p">;</span>	<span class="cm">/* required element of type tt:Name */</span>
+	<span class="k">struct</span> <span class="n">tt__VideoSourceConfiguration</span> <span class="o">*</span><span class="n">VideoSourceConfiguration</span><span class="p">;</span>	<span class="cm">/* optional element of type tt:VideoSourceConfiguration */</span>
+	<span class="k">struct</span> <span class="n">tt__AudioSourceConfiguration</span> <span class="o">*</span><span class="n">AudioSourceConfiguration</span><span class="p">;</span>	<span class="cm">/* optional element of type tt:AudioSourceConfiguration */</span>
+	<span class="k">struct</span> <span class="n">tt__VideoEncoderConfiguration</span> <span class="o">*</span><span class="n">VideoEncoderConfiguration</span><span class="p">;</span>	<span class="cm">/* optional element of type tt:VideoEncoderConfiguration */</span>
+	<span class="k">struct</span> <span class="n">tt__AudioEncoderConfiguration</span> <span class="o">*</span><span class="n">AudioEncoderConfiguration</span><span class="p">;</span>	<span class="cm">/* optional element of type tt:AudioEncoderConfiguration */</span>
+	<span class="k">struct</span> <span class="n">tt__VideoAnalyticsConfiguration</span> <span class="o">*</span><span class="n">VideoAnalyticsConfiguration</span><span class="p">;</span>	<span class="cm">/* optional element of type tt:VideoAnalyticsConfiguration */</span>
+	<span class="k">struct</span> <span class="n">tt__PTZConfiguration</span> <span class="o">*</span><span class="n">PTZConfiguration</span><span class="p">;</span>	<span class="cm">/* optional element of type tt:PTZConfiguration */</span>
+	<span class="k">struct</span> <span class="n">tt__MetadataConfiguration</span> <span class="o">*</span><span class="n">MetadataConfiguration</span><span class="p">;</span>	<span class="cm">/* optional element of type tt:MetadataConfiguration */</span>
+	<span class="k">struct</span> <span class="n">tt__ProfileExtension</span> <span class="o">*</span><span class="n">Extension</span><span class="p">;</span>	<span class="cm">/* optional element of type tt:ProfileExtension */</span>
+<span class="n">here</span>    <span class="kt">char</span> <span class="o">*</span><span class="n">token</span><span class="p">;</span>	<span class="cm">/* required attribute of type tt:ReferenceToken */</span> 
+	<span class="k">enum</span> <span class="n">xsd__boolean</span> <span class="o">*</span><span class="n">fixed</span><span class="p">;</span>	<span class="cm">/* optional attribute of type xsd:boolean */</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">__anyAttribute</span><span class="p">;</span>	<span class="cm">/* optional attribute of type xsd:anyType */</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+
+<p>获取特定的Profile
+只需要soap_call___trt__GetProfile(没有s)
+并在请求中填入属于<code class="highlighter-rouge">MediaProfile</code>的<code class="highlighter-rouge">token</code>回复中即可获得特定的<code class="highlighter-rouge">MediaProfiles</code>.<br />
+其他获取<code class="highlighter-rouge">multi/uni</code>基本类似.</p>
+
+<blockquote>
+  <p><code class="highlighter-rouge">tips</code>  : 后面会陆续出现<code class="highlighter-rouge">ConfigurationToken</code>,<code class="highlighter-rouge">SourceToken</code>,<code class="highlighter-rouge">ReferenceToken</code>等等,注意区分不要混淆</p>
+</blockquote>
+
+<p><big><big><big><big><strong>GetStreamURI</strong></big></big></big></big></p>
+
+<blockquote>
+  <p>获取用于播放的URI</p>
+</blockquote>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">UserGetUri</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span><span class="k">struct</span> <span class="n">_trt__GetStreamUri</span> <span class="o">*</span><span class="n">trt__GetStreamUri</span><span class="p">,</span><span class="k">struct</span> <span class="n">_trt__GetStreamUriResponse</span> <span class="o">*</span><span class="n">trt__GetStreamUriResponse</span><span class="p">,</span>
+                <span class="kt">char</span><span class="o">*</span> <span class="n">token</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">endpoint</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">result</span><span class="o">=</span><span class="mi">0</span> <span class="p">;</span>
+    <span class="c1">//Fill Request
+</span>    <span class="n">trt__GetStreamUri</span><span class="o">-&gt;</span><span class="n">StreamSetup</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">tt__StreamSetup</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">tt__StreamSetup</span><span class="p">));</span><span class="c1">//init StreamSETUP
+</span>    <span class="n">trt__GetStreamUri</span><span class="o">-&gt;</span><span class="n">StreamSetup</span><span class="o">-&gt;</span><span class="n">Stream</span> <span class="o">=</span> <span class="n">tt__StreamType__RTP_Unicast</span><span class="p">;</span> <span class="c1">// stream protocol type
+</span>
+    <span class="n">trt__GetStreamUri</span><span class="o">-&gt;</span><span class="n">StreamSetup</span><span class="o">-&gt;</span><span class="n">Transport</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">tt__Transport</span> <span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">tt__Transport</span><span class="p">));</span><span class="c1">//init TRANSPORT
+</span>    <span class="n">trt__GetStreamUri</span><span class="o">-&gt;</span><span class="n">StreamSetup</span><span class="o">-&gt;</span><span class="n">Transport</span><span class="o">-&gt;</span><span class="n">Protocol</span> <span class="o">=</span> <span class="n">tt__TransportProtocol__RTSP</span><span class="p">;</span> <span class="c1">// trans protocol type
+</span>    <span class="n">trt__GetStreamUri</span><span class="o">-&gt;</span><span class="n">StreamSetup</span><span class="o">-&gt;</span><span class="n">Transport</span><span class="o">-&gt;</span><span class="n">Tunnel</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">trt__GetStreamUri</span><span class="o">-&gt;</span><span class="n">StreamSetup</span><span class="o">-&gt;</span><span class="n">__size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">trt__GetStreamUri</span><span class="o">-&gt;</span><span class="n">StreamSetup</span><span class="o">-&gt;</span><span class="n">__any</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    <span class="n">trt__GetStreamUri</span><span class="o">-&gt;</span><span class="n">StreamSetup</span><span class="o">-&gt;</span><span class="n">__anyAttribute</span> <span class="o">=</span><span class="nb">NULL</span><span class="p">;</span>
+
+    <span class="n">trt__GetStreamUri</span><span class="o">-&gt;</span><span class="n">ProfileToken</span> <span class="o">=</span> <span class="n">token</span> <span class="p">;</span> <span class="c1">//ProfileToken
+</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s][---- Getting Onvif Devices StreamUri ----]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">);</span>
+    <span class="n">soap_wsse_add_UsernameTokenDigest</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span><span class="s">"user"</span><span class="p">,</span> <span class="n">ONVIF_USER</span><span class="p">,</span> <span class="n">ONVIF_PASSWORD</span><span class="p">);</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">soap_call___trt__GetStreamUri</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">capa_resp</span><span class="o">-&gt;</span><span class="n">Capabilities</span><span class="o">-&gt;</span><span class="n">Media</span><span class="o">-&gt;</span><span class="n">XAddr</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">trt__GetStreamUri</span><span class="p">,</span> <span class="n">trt__GetStreamUriResponse</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">!=</span> <span class="n">SOAP_OK</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s][Error Number:%d] [Falut Code:%s] [Falut Reason:%s]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">,</span> <span class="n">soap</span><span class="o">-&gt;</span><span class="n">error</span><span class="p">,</span> <span class="o">*</span><span class="n">soap_faultcode</span><span class="p">(</span><span class="n">soap</span><span class="p">),</span> <span class="o">*</span><span class="n">soap_faultstring</span><span class="p">(</span><span class="n">soap</span><span class="p">));</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s][RTSP StreamURI: %s]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">,</span> <span class="n">trt__GetStreamUriResponse</span><span class="o">-&gt;</span><span class="n">MediaUri</span><span class="o">-&gt;</span><span class="n">Uri</span><span class="p">);</span>
+
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre>
+</div>
+<p>回复节选:</p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;env:Body&gt;</span>
+ <span class="nt">&lt;trt:GetStreamUriResponse&gt;</span>
+  <span class="nt">&lt;trt:MediaUri&gt;</span>
+   <span class="nt">&lt;tt:Uri&gt;</span>rtsp://192.168.0.236:554/Streaming/Channels/101?transportmode=unicast<span class="ni">&amp;amp;</span>profile=Profile_1<span class="nt">&lt;/tt:Uri&gt;</span>
+   <span class="nt">&lt;tt:InvalidAfterConnect&gt;</span>false<span class="nt">&lt;/tt:InvalidAfterConnect&gt;</span>
+   <span class="nt">&lt;tt:InvalidAfterReboot&gt;</span>false<span class="nt">&lt;/tt:InvalidAfterReboot&gt;</span>
+   <span class="nt">&lt;tt:Timeout&gt;</span>PT60S<span class="nt">&lt;/tt:Timeout&gt;</span>
+  <span class="nt">&lt;/trt:MediaUri&gt;</span>
+ <span class="nt">&lt;/trt:GetStreamUriResponse&gt;</span>
+<span class="nt">&lt;/env:Body&gt;</span>
+</code></pre>
+</div>
+<p>回复成功后
+用vlc打开得到的URI看看效果吧.</p>
+
+<p><big><big><big><big><strong>SetVideoEncoderConfiguration</strong></big></big></big></big><br />
+每一次设置请求前,应该获取一次<code class="highlighter-rouge">Options</code>
+目的是确认一下你的参数是不是超出设备能力.类似<code class="highlighter-rouge">capability</code>
+一个是有什么功能,另一个是支持该功能的选项(范围)</p>
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">GetOpetions</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span><span class="o">*</span> <span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">profiles</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">media_ep</span><span class="p">)</span>
+<span class="p">{</span>
+
+    <span class="k">struct</span> <span class="n">_trt__GetVideoEncoderConfigurationOptions</span> <span class="o">*</span><span class="n">getConfigReq</span>
+            <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">_trt__GetVideoEncoderConfigurationOptions</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">_trt__GetVideoEncoderConfigurationOptions</span><span class="p">));</span>
+    <span class="n">soap_default__trt__GetVideoEncoderConfigurationOptions</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">getConfigReq</span><span class="p">);</span>
+
+    <span class="n">getConfigReq</span><span class="o">-&gt;</span><span class="n">ProfileToken</span> <span class="o">=</span> <span class="n">profiles</span><span class="o">-&gt;</span><span class="n">Profiles</span><span class="o">-&gt;</span><span class="n">token</span><span class="p">;</span>
+    <span class="n">getConfigReq</span><span class="o">-&gt;</span><span class="n">ConfigurationToken</span> <span class="o">=</span> <span class="n">profiles</span><span class="o">-&gt;</span><span class="n">Profiles</span><span class="o">-&gt;</span><span class="n">VideoEncoderConfiguration</span><span class="o">-&gt;</span><span class="n">token</span><span class="p">;</span>
+
+    <span class="k">struct</span> <span class="n">_trt__GetVideoEncoderConfigurationOptionsResponse</span> <span class="o">*</span><span class="n">getOptionsResponse</span>
+            <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">_trt__GetVideoEncoderConfigurationOptionsResponse</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">_trt__GetVideoEncoderConfigurationOptionsResponse</span><span class="p">));</span>
+
+    <span class="n">soap_wsse_add_UsernameTokenDigest</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span><span class="s">"user"</span><span class="p">,</span> <span class="n">ONVIF_USER</span><span class="p">,</span> <span class="n">ONVIF_PASSWORD</span><span class="p">);</span>
+
+    <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s][---- Getting VideoEncoderConfigurationOptions ----]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">soap_call___trt__GetVideoEncoderConfigurationOptions</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">media_ep</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">getConfigReq</span><span class="p">,</span> <span class="n">getOptionsResponse</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s&lt;%s!&gt;][result = %d][soap_error = %d]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">,</span> <span class="n">result</span> <span class="o">?</span> <span class="s">"失败"</span><span class="o">:</span><span class="s">"成功"</span><span class="p">,</span> <span class="n">result</span><span class="p">,</span> <span class="n">soap</span><span class="o">-&gt;</span><span class="n">error</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">!=</span> <span class="n">SOAP_OK</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s][Error Number:%d] [Falut Code:%s] [Falut Reason:%s]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">,</span> <span class="n">soap</span><span class="o">-&gt;</span><span class="n">error</span><span class="p">,</span> <span class="o">*</span><span class="n">soap_faultcode</span><span class="p">(</span><span class="n">soap</span><span class="p">),</span> <span class="o">*</span><span class="n">soap_faultstring</span><span class="p">(</span><span class="n">soap</span><span class="p">));</span>
+        <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">getOptionsResponse</span><span class="o">-&gt;</span><span class="n">Options</span><span class="o">-&gt;</span><span class="n">H264</span><span class="o">-&gt;</span><span class="n">FrameRateRange</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s][FrameRateRange:%d-%d]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span><span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span>
+               <span class="p">,</span> <span class="n">getOptionsResponse</span><span class="o">-&gt;</span><span class="n">Options</span><span class="o">-&gt;</span><span class="n">H264</span><span class="o">-&gt;</span><span class="n">FrameRateRange</span><span class="o">-&gt;</span><span class="n">Min</span>
+               <span class="p">,</span> <span class="n">getOptionsResponse</span><span class="o">-&gt;</span><span class="n">Options</span><span class="o">-&gt;</span><span class="n">H264</span><span class="o">-&gt;</span><span class="n">FrameRateRange</span><span class="o">-&gt;</span><span class="n">Max</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+<p>当确定设备支持我想要设置的参数时..就可以设置参数了</p>
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">SetConfig</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span><span class="o">*</span> <span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">profiles</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">media_ep</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="n">_trt__SetVideoEncoderConfiguration</span> <span class="o">*</span><span class="n">setConfigReq</span>
+            <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">_trt__SetVideoEncoderConfiguration</span> <span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">_trt__SetVideoEncoderConfiguration</span><span class="p">));</span>
+    <span class="n">soap_default__trt__SetVideoEncoderConfiguration</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">setConfigReq</span><span class="p">);</span>
+
+    <span class="k">struct</span> <span class="n">_trt__SetVideoEncoderConfigurationResponse</span> <span class="o">*</span><span class="n">setConfigResponse</span>
+            <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">_trt__SetVideoEncoderConfigurationResponse</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">_trt__SetVideoEncoderConfigurationResponse</span><span class="p">));</span>
+
+    <span class="k">struct</span> <span class="n">tt__VideoEncoderConfiguration</span> <span class="o">*</span><span class="n">mutConfig</span>
+            <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">tt__VideoEncoderConfiguration</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">tt__VideoEncoderConfiguration</span><span class="p">));</span>
+    <span class="n">soap_default_tt__VideoEncoderConfiguration</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">mutConfig</span><span class="p">);</span>
+
+    <span class="k">struct</span> <span class="n">tt__MulticastConfiguration</span> <span class="n">multicastconfig</span><span class="p">;</span>
+    <span class="n">multicastconfig</span><span class="p">.</span><span class="n">AutoStart</span> <span class="o">=</span> <span class="n">xsd__boolean__false_</span><span class="p">;</span>
+    <span class="n">multicastconfig</span><span class="p">.</span><span class="n">Port</span> <span class="o">=</span> <span class="mi">10001</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">tt__IPAddress</span> <span class="n">address</span><span class="p">;</span>
+    <span class="n">address</span><span class="p">.</span><span class="n">Type</span> <span class="o">=</span> <span class="n">tt__IPType__IPv4</span><span class="p">;</span>
+    <span class="n">address</span><span class="p">.</span><span class="n">IPv4Address</span> <span class="o">=</span> <span class="s">"232.0.0.1"</span><span class="p">;</span>
+    <span class="c1">//不能 这样初始化 address.IPv6Address = NULL; soap_error12
+</span>    <span class="n">address</span><span class="p">.</span><span class="n">IPv6Address</span> <span class="o">=</span> <span class="s">""</span><span class="p">;</span>
+    <span class="n">multicastconfig</span><span class="p">.</span><span class="n">Address</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">address</span><span class="p">;</span>
+    <span class="n">multicastconfig</span><span class="p">.</span><span class="n">__size</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">multicastconfig</span><span class="p">.</span><span class="n">TTL</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+
+    <span class="n">mutConfig</span><span class="o">-&gt;</span><span class="n">Name</span> <span class="o">=</span> <span class="n">profiles</span><span class="o">-&gt;</span><span class="n">Profiles</span><span class="o">-&gt;</span><span class="n">VideoEncoderConfiguration</span><span class="o">-&gt;</span><span class="n">Name</span><span class="p">;</span>
+    <span class="n">mutConfig</span><span class="o">-&gt;</span><span class="n">UseCount</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">mutConfig</span><span class="o">-&gt;</span><span class="n">Quality</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+    <span class="n">mutConfig</span><span class="o">-&gt;</span><span class="n">token</span> <span class="o">=</span> <span class="n">profiles</span><span class="o">-&gt;</span><span class="n">Profiles</span><span class="o">-&gt;</span><span class="n">VideoEncoderConfiguration</span><span class="o">-&gt;</span><span class="n">token</span><span class="p">;</span>
+    <span class="n">mutConfig</span><span class="o">-&gt;</span><span class="n">Encoding</span> <span class="o">=</span> <span class="n">tt__VideoEncoding__H264</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">tt__VideoResolution</span> <span class="n">resolution</span><span class="p">;</span>
+    <span class="c1">//HW混淆 产生soap_error2， 不提供此配置
+</span>    <span class="n">resolution</span><span class="p">.</span><span class="n">Height</span> <span class="o">=</span> <span class="mi">720</span><span class="p">;</span>
+    <span class="n">resolution</span><span class="p">.</span><span class="n">Width</span> <span class="o">=</span> <span class="mi">1280</span><span class="p">;</span>
+    <span class="n">mutConfig</span><span class="o">-&gt;</span><span class="n">Resolution</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">resolution</span><span class="p">;</span>
+    <span class="n">mutConfig</span><span class="o">-&gt;</span><span class="n">Multicast</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">multicastconfig</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">tt__VideoRateControl</span> <span class="n">ratectrl</span><span class="p">;</span>
+    <span class="n">ratectrl</span><span class="p">.</span><span class="n">BitrateLimit</span> <span class="o">=</span> <span class="mi">16384</span><span class="p">;</span>
+    <span class="n">ratectrl</span><span class="p">.</span><span class="n">EncodingInterval</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="n">ratectrl</span><span class="p">.</span><span class="n">FrameRateLimit</span> <span class="o">=</span> <span class="mi">12</span><span class="p">;</span>
+    <span class="n">mutConfig</span><span class="o">-&gt;</span><span class="n">RateControl</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">ratectrl</span><span class="p">;</span>
+    <span class="n">mutConfig</span><span class="o">-&gt;</span><span class="n">SessionTimeout</span> <span class="o">=</span> <span class="mi">100</span><span class="p">;</span>
+
+    <span class="n">setConfigReq</span><span class="o">-&gt;</span><span class="n">Configuration</span> <span class="o">=</span> <span class="n">mutConfig</span><span class="p">;</span>
+    <span class="n">setConfigReq</span><span class="o">-&gt;</span><span class="n">ForcePersistence</span> <span class="o">=</span> <span class="n">xsd__boolean__false_</span><span class="p">;</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s][---- Setting Encoder Configuration ----]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">);</span>
+    <span class="n">soap_wsse_add_UsernameTokenDigest</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="s">"user"</span><span class="p">,</span> <span class="n">ONVIF_USER</span><span class="p">,</span> <span class="n">ONVIF_PASSWORD</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">soap_call___trt__SetVideoEncoderConfiguration</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">media_ep</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">setConfigReq</span><span class="p">,</span> <span class="n">setConfigResponse</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s&lt;%s!&gt;]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">,</span> <span class="n">result</span> <span class="o">?</span> <span class="s">"失败"</span><span class="o">:</span><span class="s">"成功"</span><span class="p">);</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="n">SOAP_OK</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s][MulticastAddress:%s][port:%d]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">,</span> <span class="n">address</span><span class="p">.</span><span class="n">IPv4Address</span><span class="p">,</span> <span class="n">multicastconfig</span><span class="p">.</span><span class="n">Port</span><span class="p">);</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">doStartMulticast</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">profiles</span><span class="p">,</span> <span class="n">media_ep</span><span class="p">);</span>
+    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s][Error Number:%d] [Falut Code:%s] [Falut Reason:%s]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">,</span> <span class="n">soap</span><span class="o">-&gt;</span><span class="n">error</span><span class="p">,</span> <span class="o">*</span><span class="n">soap_faultcode</span><span class="p">(</span><span class="n">soap</span><span class="p">),</span> <span class="o">*</span><span class="n">soap_faultstring</span><span class="p">(</span><span class="n">soap</span><span class="p">));</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>其他set/opt 大部分类似上面这对<br />
+<big><big><big>更多详细介绍<br />
+<a href="https://www.onvif.org/specs/srv/media/ONVIF-Media-Service-Spec-v1706.pdf">文档下载</a><br />
+<a href="https://www.onvif.org/ver10/media/wsdl/media.wsdl">MediaBindin</a></big></big></big></p>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/09/17/Onvif_4/" data-toggle="tooltip" data-placement="top" title="ONVIF补全计划-4">
+                        Previous<br>
+                        <span>ONVIF补全计划-4</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/09/19/Onvif_6/" data-toggle="tooltip" data-placement="top" title="ONVIF补全计划-6">
+                        Next<br>
+                        <span>ONVIF补全计划-6</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+        				
+                            
+                				<a href="/tags/#索引" title="索引" rel="7">
+                                    索引
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#ONVIF" title="ONVIF" rel="10">
+                                    ONVIF
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#C/C++" title="C/C++" rel="10">
+                                    C/C++
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#LINUX" title="LINUX" rel="9">
+                                    LINUX
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="">IETF</a></li>
+                    
+                        <li><a href="http://tool.lu">在线工具s</a></li>
+                    
+                        <li><a href="">豆子Qt学习之路</a></li>
+                    
+                        <li><a href="">鸟哥的私房菜</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "halukasama";
+    var disqus_identifier = "/2017/09/18/Onvif_5";
+    var disqus_url = "http://localhost:4000/2017/09/18/Onvif_5/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/halukasama">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ｗル's 2017
+                    <br>
+                    Theme by <a href="https://github.com/halukasama/halukasama.github.io">halukasama</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=halukasama&repo=halukasama.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-105979346-1';
+    var _gaDomain = 'syndrome.wang';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="img/breg.jpg" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

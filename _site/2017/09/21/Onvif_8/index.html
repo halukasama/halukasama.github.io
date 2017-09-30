@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords"  content="Ｗル, Ｗル's, wjl, WJL, @wjl">
+    <meta name="theme-color" content="#000000">
+
+    <title>ONVIF补全计划-8 - Ｗル's brain theatre</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2017/09/21/Onvif_8/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ｗル's</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">关于</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/heisenberg/">海森堡</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/indices/">专题</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">标签</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from
+     * $toggle/$collapse will break global delegation.
+     *
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post_onvif8.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ONVIF" title="ONVIF">ONVIF</a>
+                        
+                        <a class="tag" href="/tags/#C/C++" title="C/C++">C/C++</a>
+                        
+                        <a class="tag" href="/tags/#LINUX" title="LINUX">LINUX</a>
+                        
+                    </div>
+                    <h1>ONVIF补全计划-8</h1>
+                    
+                    
+                    <h2 class="subheading">PTZ</h2>
+                    
+                    <span class="meta">Posted by Wjl on September 21, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<p>我对这句话的理解还存疑</p>
+<blockquote>
+  <p>A mandatory reference to the PTZ node that the PTZ configuration belongs to.</p>
+</blockquote>
+
+<p>目前的理解就是(2017-9)
+应该是server端提供偏底层的支撑复合交互(多种移动模式以及多种坐标系)元数据(metadata)
+目前把它当成另一个<code class="highlighter-rouge">MediaPTZConfiguretion</code>的方式来用…</p>
+
+<blockquote>
+  <p>Abbreviations:<code class="highlighter-rouge">PTZ</code> is Pan/Tilt/Zoom</p>
+</blockquote>
+
+<p>提供了三种移动模式:</p>
+<ul>
+  <li>AbsoluteMove,绝对移动  <br />
+      将PTZ设备移动到绝对位置,绝对坐标系的参数要给出.</li>
+  <li>RelativeMove,相对移动
+      不需要提供绝对坐标,以自己当前位置为中心点,给出相对坐标的移动方式.</li>
+  <li>ContinuousMove,连续移动
+      不需要提供坐标,在一定方向上以一定速度连续移动.</li>
+</ul>
+
+<p>另外PTZ是从Media的Profile获得对应数据(<code class="highlighter-rouge">PTZConfiguration</code>)状态,
+相关配置(<code class="highlighter-rouge">MetadataConfiguration</code>),PTZ仅做控制用,<br />
+由<code class="highlighter-rouge">Media</code>管理postion由<code class="highlighter-rouge">Image</code>管理focus,iris,zoom等</p>
+
+<p><big><big>相对移动</big></big></p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">ContinuousMove</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span><span class="o">*</span> <span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">profiles</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">ptz_ep</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="n">_tptz__ContinuousMove</span> <span class="o">*</span><span class="n">move</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__ContinuousMove</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__ContinuousMove</span><span class="p">));</span>
+    <span class="n">soap_default__tptz__ContinuousMove</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">move</span><span class="p">);</span>
+
+    <span class="k">struct</span> <span class="n">_tptz__ContinuousMoveResponse</span> <span class="o">*</span><span class="n">moveResp</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__ContinuousMoveResponse</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__ContinuousMoveResponse</span><span class="p">));</span>
+    <span class="n">move</span><span class="o">-&gt;</span><span class="n">ProfileToken</span> <span class="o">=</span> <span class="n">profiles</span><span class="o">-&gt;</span><span class="n">Profiles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">token</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">tt__PTZSpeed</span> <span class="o">*</span><span class="n">speed</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">tt__PTZSpeed</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">tt__PTZSpeed</span><span class="p">));</span>
+    <span class="k">struct</span> <span class="n">tt__Vector2D</span> <span class="n">pantilt</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">tt__Vector1D</span> <span class="n">zoom</span><span class="p">;</span>
+    <span class="n">pantilt</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="p">;</span>
+    <span class="n">pantilt</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="p">;</span>
+    <span class="n">pantilt</span><span class="p">.</span><span class="n">space</span> <span class="o">=</span> <span class="n">profiles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Profiles</span><span class="o">-&gt;</span><span class="n">PTZConfiguration</span><span class="o">-&gt;</span><span class="n">DefaultContinuousPanTiltVelocitySpace</span><span class="p">;</span>
+    <span class="n">zoom</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="p">;</span>
+    <span class="n">zoom</span><span class="p">.</span><span class="n">space</span> <span class="o">=</span> <span class="n">profiles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Profiles</span><span class="o">-&gt;</span><span class="n">PTZConfiguration</span><span class="o">-&gt;</span><span class="n">DefaultContinuousZoomVelocitySpace</span><span class="p">;</span>
+
+    <span class="n">speed</span><span class="o">-&gt;</span><span class="n">PanTilt</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">pantilt</span><span class="p">;</span>
+    <span class="n">speed</span><span class="o">-&gt;</span><span class="n">Zoom</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">zoom</span><span class="p">;</span>
+
+    <span class="n">move</span><span class="o">-&gt;</span><span class="n">Velocity</span> <span class="o">=</span> <span class="n">speed</span><span class="p">;</span>
+    <span class="n">soap_wsse_add_UsernameTokenDigest</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="s">"user"</span><span class="p">,</span> <span class="n">ONVIF_USER</span><span class="p">,</span> <span class="n">ONVIF_PASSWORD</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">soap_call___tptz__ContinuousMove</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">ptz_ep</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">move</span><span class="p">,</span> <span class="n">moveResp</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p><big><big>回到预制HOME</big></big></p>
+
+<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">GotoHomePos</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span><span class="o">*</span> <span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">profiles</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">ep</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// get/set/goto 3setps;
+</span>    <span class="k">struct</span> <span class="n">_tptz__GotoHomePosition</span> <span class="o">*</span><span class="n">gohome</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__GotoHomePosition</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__GotoHomePosition</span><span class="p">));</span>
+    <span class="k">struct</span> <span class="n">_tptz__GotoHomePositionResponse</span> <span class="o">*</span><span class="n">gohomeresp</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__GotoHomePositionResponse</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__GotoHomePositionResponse</span><span class="p">));</span>
+
+    <span class="n">gohome</span><span class="o">-&gt;</span><span class="n">ProfileToken</span> <span class="o">=</span> <span class="n">profiles</span><span class="o">-&gt;</span><span class="n">Profiles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">token</span><span class="p">;</span>
+    <span class="n">gohome</span><span class="o">-&gt;</span><span class="n">Speed</span> <span class="o">=</span> <span class="n">profiles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Profiles</span><span class="o">-&gt;</span><span class="n">PTZConfiguration</span><span class="o">-&gt;</span><span class="n">DefaultPTZSpeed</span><span class="p">;</span>
+
+    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">soap_call___tptz__GotoHomePosition</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">ep</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">gohome</span><span class="p">,</span> <span class="n">gohomeresp</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre>
+</div>
+
+<p>连续移动的相关请求回复 <br />
+垂直移动 + (右) <br />
+req</p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;ProfileToken&gt;</span>4_def_profile5<span class="nt">&lt;/ProfileToken&gt;</span>
+<span class="nt">&lt;Velocity&gt;</span>
+<span class="nt">&lt;PanTilt</span> <span class="na">x=</span><span class="s">"0.4"</span> <span class="na">y=</span><span class="s">"0"</span> <span class="na">space=</span><span class="s">"http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace"</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver10/schema"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/Velocity&gt;</span>
+<span class="nt">&lt;/ContinuousMove&gt;</span>
+<span class="nt">&lt;tptz:ContinuousMove&gt;&lt;tptz:ProfileToken&gt;</span>4_def_profile6<span class="nt">&lt;/tptz:ProfileToken&gt;&lt;tptz:Velocity&gt;&lt;tt:PanTilt</span> <span class="na">space=</span><span class="s">"."</span> <span class="na">y=</span><span class="s">"0.200000003"</span> <span class="na">x=</span><span class="s">"0.200000003"</span><span class="nt">&gt;&lt;/tt:PanTilt&gt;&lt;tt:Zoom</span> <span class="na">space=</span><span class="s">"..E..H....8[]..UH....SH....xH..}..H..u..H..U..H..E....."</span> <span class="na">x=</span><span class="s">"0.200000003"</span><span class="nt">&gt;&lt;/tt:Zoom&gt;&lt;/tptz:Velocity&gt;&lt;tptz:Timeout&gt;</span>PT1H10M2.420S<span class="nt">&lt;/tptz:Timeout&gt;&lt;/tptz:ContinuousMove&gt;&lt;/SOAP-ENV:Body&gt;&lt;/SOAP-ENV:Envelope&gt;</span>
+</code></pre>
+</div>
+<p>resp</p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;env:Body&gt;</span>
+<span class="nt">&lt;ContinuousMoveResponsexmlns</span><span class="err">="http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/ContinuousMoveResponse&gt;</span>
+<span class="nt">&lt;/env:Body&gt;</span>
+<span class="nt">&lt;/env:Envelope&gt;</span>
+</code></pre>
+</div>
+
+<p>垂直移动 - (左) <br />
+req</p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;ContinuousMove</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+xmlns="http://www.onvif.org/ver10/schema"/&gt;<span class="nt">&lt;/Velocity&gt;&lt;/ContinuousMove&gt;&lt;/s:Body&gt;&lt;/s:Envelope&gt;</span>
+</code></pre>
+</div>
+<p>resp</p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;env:Body&gt;</span>
+<span class="nt">&lt;ContinuousMoveResponse</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;ProfileToken&gt;</span>4_def_profile6<span class="nt">&lt;/ProfileToken&gt;</span>
+<span class="nt">&lt;Velocity&gt;</span>
+<span class="nt">&lt;PanTilt</span> <span class="na">x=</span><span class="s">"-0.4"</span> <span class="na">y=</span><span class="s">"0"</span> <span class="na">space=</span><span class="s">"http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace"</span> <span class="err">&lt;/ContinuousMoveResponse</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/env:Body&gt;</span>
+</code></pre>
+</div>
+<p>水平移动 + (上) <br />
+req</p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;ContinuousMove</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;&lt;ProfileToken&gt;</span>4_def_profile6<span class="nt">&lt;/ProfileToken&gt;&lt;Velocity&gt;&lt;PanTilt</span> <span class="na">x=</span><span class="s">"0"</span> <span class="na">y=</span><span class="s">"0.2"</span> <span class="na">space=</span><span class="s">"http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace"</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver10/schema"</span><span class="nt">/&gt;&lt;/Velocity&gt;&lt;/ContinuousMove&gt;&lt;/s:Body&gt;&lt;/s:Envelope&gt;</span>
+resp
+<span class="nt">&lt;ContinuousMoveResponse</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/ContinuousMoveResponse&gt;</span>
+<span class="nt">&lt;/env:Body&gt;</span>
+</code></pre>
+</div>
+<p>水平移动 - (下) <br />
+req</p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;ContinuousMove</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;ProfileToken&gt;</span>4_def_profile6<span class="nt">&lt;/ProfileToken&gt;</span>
+<span class="nt">&lt;Velocity&gt;</span>
+<span class="nt">&lt;PanTilt</span> <span class="na">x=</span><span class="s">"-0"</span> <span class="na">y=</span><span class="s">"-0.2"</span> <span class="na">space=</span><span class="s">"http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace"</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver10/schema"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/Velocity&gt;</span>
+<span class="nt">&lt;/ContinuousMove&gt;</span>
+</code></pre>
+</div>
+<p>resp</p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;ContinuousMoveResponse</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/ContinuousMoveResponse&gt;</span>
+</code></pre>
+</div>
+<p>Zoom +  <br />
+req</p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;ContinuousMove</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;ProfileToken&gt;</span>4_def_profile6<span class="nt">&lt;/ProfileToken&gt;</span>
+<span class="nt">&lt;Velocity&gt;</span>
+<span class="nt">&lt;Zoom</span> <span class="na">x=</span><span class="s">"0.3"</span> <span class="na">space=</span><span class="s">"http://www.onvif.org/ver10/tptz/ZoomSpaces/VelocityGenericSpace"</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver10/schema"</span><span class="nt">/&gt;&lt;/Velocity&gt;</span>
+<span class="nt">&lt;/ContinuousMove&gt;</span>
+</code></pre>
+</div>
+<p>resp</p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;ContinuousMoveResponse</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/ContinuousMoveResponse&gt;</span>
+</code></pre>
+</div>
+<p>Zoom -<br />
+req</p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;ContinuousMove</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;ProfileToken&gt;</span>4_def_profile6<span class="nt">&lt;/ProfileToken&gt;</span>
+<span class="nt">&lt;Velocity&gt;</span>
+<span class="nt">&lt;Zoom</span> <span class="na">x=</span><span class="s">"-0.2"</span> <span class="na">space=</span><span class="s">"http://www.onvif.org/ver10/tptz/ZoomSpaces/VelocityGenericSpace"</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver10/schema"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/Velocity&gt;</span>
+<span class="nt">&lt;/ContinuousMove&gt;</span>
+</code></pre>
+</div>
+<p>resp</p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;ContinuousMoveResponse</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/ContinuousMoveResponse&gt;</span>
+</code></pre>
+</div>
+<p><big><big><big><br />
+<a href="https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl">ImageBindin</a><br />
+<del><a href="https://www.onvif.org/specs/srv/ptz/ONVIF-PTZ-Service-Spec-v1706.pdf">ONVIF-PTZ-Service-Spec-v250.pdf</a></del><br />
+<a href="https://www.onvif.org/specs/srv/ptz/ONVIF-PTZ-Service-Spec-v1706.pdf">ONVIF-PTZ-Service-Spec-v1706.pdf</a></big></big></big></p>
+
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/09/20/Onvif_7/" data-toggle="tooltip" data-placement="top" title="ONVIF补全计划-7">
+                        Previous<br>
+                        <span>ONVIF补全计划-7</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/09/22/Onvif_9/" data-toggle="tooltip" data-placement="top" title="ONVIF补全计划-9">
+                        Next<br>
+                        <span>ONVIF补全计划-9</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+        				
+                            
+                				<a href="/tags/#索引" title="索引" rel="7">
+                                    索引
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#ONVIF" title="ONVIF" rel="10">
+                                    ONVIF
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#C/C++" title="C/C++" rel="10">
+                                    C/C++
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#LINUX" title="LINUX" rel="9">
+                                    LINUX
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="">IETF</a></li>
+                    
+                        <li><a href="http://tool.lu">在线工具s</a></li>
+                    
+                        <li><a href="">豆子Qt学习之路</a></li>
+                    
+                        <li><a href="">鸟哥的私房菜</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "halukasama";
+    var disqus_identifier = "/2017/09/21/Onvif_8";
+    var disqus_url = "http://localhost:4000/2017/09/21/Onvif_8/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/halukasama">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ｗル's 2017
+                    <br>
+                    Theme by <a href="https://github.com/halukasama/halukasama.github.io">halukasama</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=halukasama&repo=halukasama.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-105979346-1';
+    var _gaDomain = 'syndrome.wang';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="img/breg.jpg" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

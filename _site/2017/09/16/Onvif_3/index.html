@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords"  content="Ｗル, Ｗル's, wjl, WJL, @wjl">
+    <meta name="theme-color" content="#000000">
+
+    <title>ONVIF补全计划-3 - Ｗル's brain theatre</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2017/09/16/Onvif_3/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ｗル's</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">关于</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/heisenberg/">海森堡</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/indices/">专题</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">标签</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from
+     * $toggle/$collapse will break global delegation.
+     *
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post_onvif3.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ONVIF" title="ONVIF">ONVIF</a>
+                        
+                        <a class="tag" href="/tags/#C/C++" title="C/C++">C/C++</a>
+                        
+                        <a class="tag" href="/tags/#LINUX" title="LINUX">LINUX</a>
+                        
+                    </div>
+                    <h1>ONVIF补全计划-3</h1>
+                    
+                    
+                    <h2 class="subheading">发现设备</h2>
+                    
+                    <span class="meta">Posted by Wjl on September 16, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<blockquote>
+  <p>markdown慢慢顺手了</p>
+</blockquote>
+
+<p>有了框架就可以开始编码了
+从发现设备开始吧</p>
+
+<p><big><big><big>先上代码</big></big></big></p>
+
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="cm">/** 
+ * @brief InitSoapRelated
+ * @param 
+ * @return 
+ *  初始化单元(soap)支持默认交互平台kylin358
+ *  windows的相关服务,必须改变soap的编码方式(bugzilla216-OSD中文乱码问题)
+ */</span>
+<span class="kt">void</span> <span class="n">OnvifBasic</span><span class="o">::</span><span class="n">InitSoapRelated</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="n">m_soap</span> <span class="o">=</span> <span class="n">soap_new2</span><span class="p">(</span><span class="n">SOAP_C_UTFSTRING</span><span class="p">,</span> <span class="n">SOAP_C_UTFSTRING</span><span class="p">);</span>
+    <span class="n">SWIFT_ASSERT</span><span class="p">(</span><span class="n">m_soap</span><span class="p">);</span>
+    <span class="n">soap_set_namespaces</span><span class="p">(</span><span class="n">m_soap</span><span class="p">,</span> <span class="n">namespaces</span><span class="p">);</span>
+    <span class="n">m_soap</span><span class="o">-&gt;</span><span class="n">recv_timeout</span> <span class="o">=</span> <span class="n">DEVICE_LAYER_MINIMAL_TIME_OUT</span><span class="p">;</span>
+    <span class="p">......</span>
+    <span class="n">uuid_t</span> <span class="n">uid</span><span class="p">;</span>
+    <span class="n">uuid_generate</span><span class="p">(</span><span class="n">uid</span><span class="p">);</span>
+    <span class="n">string</span> <span class="n">sUid</span> <span class="o">=</span> <span class="n">unpaserUid</span><span class="p">(</span><span class="n">uid</span><span class="p">);</span>
+    <span class="p">.......</span>
+    <span class="n">m_soap</span><span class="o">-&gt;</span><span class="n">header</span><span class="o">-&gt;</span><span class="n">wsa__MessageID</span> <span class="o">=</span> <span class="n">sUid</span><span class="p">.</span><span class="n">c_str</span><span class="p">();</span>
+    <span class="n">m_soap</span><span class="o">-&gt;</span><span class="n">header</span><span class="o">-&gt;</span><span class="n">wsa__To</span> <span class="o">=</span> <span class="n">SOAP_NAMESPACE_OF_wsdd</span><span class="p">;</span>
+<span class="cm">/** 
+ * @brief InitReqResp
+ * @param 
+ * @return 
+ *  初始化单元(请求回复)
+ */</span>
+<span class="kt">void</span> <span class="n">OnvifBasic</span><span class="o">::</span><span class="n">InitReqResp</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="p">......</span>
+    <span class="n">m_probeReq</span> <span class="o">=</span> <span class="p">(</span><span class="n">ProbeReq</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">m_soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">ProbeReq</span><span class="p">));</span>
+    <span class="n">soap_default_wsdd__ProbeType</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">m_probeReq</span><span class="p">);</span>
+    <span class="n">soap_default_wsdd__ScopesType</span><span class="p">(</span><span class="n">m_soap</span><span class="p">,</span> <span class="n">scope</span><span class="p">);</span>
+    <span class="n">scope</span><span class="o">-&gt;</span><span class="n">__item</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+    
+    <span class="n">m_probeReq</span><span class="o">-&gt;</span><span class="n">Scopes</span> <span class="o">=</span> <span class="n">scope</span><span class="p">;</span>
+    <span class="n">m_probeReq</span><span class="o">-&gt;</span><span class="n">Types</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span> <span class="c1">//"dn:NetworkVideoTransmitter";
+</span>    <span class="n">m_probeResp</span> <span class="o">=</span> <span class="p">(</span><span class="n">ProbeResp</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">m_soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">ProbeResp</span><span class="p">));</span>
+    <span class="p">......</span>
+
+<span class="cm">/** 
+ * @brief RemoteDetectDevice
+ * @param endpoint 节点可以是"soap.udp://{设备地址}:3702, 也可以是"soap.udp://235.255.255.250:3702"soap预留接口
+ * @return SOAP_OK为0 即 0: 成功, 其他soap_status标识: 失败
+ *  发现/连接设备单元,支持端到端和广播模式
+ */</span>
+<span class="kt">bool</span> <span class="n">OnvifBasic</span><span class="o">::</span><span class="n">RemoteDetectDevice</span><span class="p">(</span><span class="k">const</span> <span class="n">string</span> <span class="o">&amp;</span><span class="n">endpoint</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">OnvifSoapResult</span> <span class="n">result</span> <span class="o">=</span> <span class="n">soap_send___wsdd__Probe</span><span class="p">(</span><span class="n">m_soap</span><span class="p">,</span> <span class="n">endpoint</span><span class="p">.</span><span class="n">c_str</span><span class="p">(),</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">m_probeReq</span><span class="p">);</span>
+    <span class="k">while</span><span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="n">SOAP_OK</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">soap_recv___wsdd__ProbeMatches</span><span class="p">(</span><span class="n">m_soap</span><span class="p">,</span> <span class="n">m_probeResp</span><span class="p">);</span>
+        <span class="k">if</span><span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="n">SOAP_OK</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span><span class="p">(</span><span class="n">m_soap</span><span class="o">-&gt;</span><span class="n">error</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+            <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="n">m_probeResp</span><span class="o">-&gt;</span><span class="n">wsdd__ProbeMatches</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+                    <span class="k">for</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">resp</span><span class="o">-&gt;</span><span class="n">wsdd__ProbeMatches</span><span class="o">-&gt;</span><span class="n">__sizeProbeMatch</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+                        <span class="n">m_deviceList</span><span class="o">-&gt;</span><span class="n">push_back</span><span class="p">(</span><span class="n">m_probeResp</span><span class="o">-&gt;</span><span class="n">wsdd__ProbeMatches</span><span class="o">-&gt;</span><span class="n">ProbeMatch</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">XAddrs</span><span class="p">)</span> <span class="c1">//发现设备模块
+</span>                        <span class="k">if</span><span class="p">(</span><span class="n">SerializationDeviceAddr</span><span class="p">(</span><span class="n">m_probeResp</span><span class="o">-&gt;</span><span class="n">wsdd__ProbeMatches</span><span class="o">-&gt;</span><span class="n">ProbeMatch</span><span class="p">[</span><span class="n">i</span><span class="p">].</span><span class="n">XAddrs</span><span class="p">))</span> <span class="p">{</span> 
+                            <span class="n">DEBUG_LOG_WJL</span> <span class="o">&gt;&gt;</span> <span class="n">m_probeResp</span><span class="o">-&gt;</span><span class="n">wsdd__ProbeMatches</span><span class="o">-&gt;</span><span class="n">ProbeMatch</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-&gt;</span><span class="n">XAddrs</span> <span class="o">&gt;&gt;</span> <span class="s">"found"</span><span class="p">;</span>
+                            <span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+                        <span class="p">}</span>
+                    <span class="p">}</span>
+                <span class="p">}</span>
+            <span class="p">}</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span> <span class="o">?</span> <span class="nb">false</span> <span class="o">:</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+
+</code></pre>
+</div>
+<p><code class="highlighter-rouge">tips</code> 上文出现的某些类型都是我typedef过的,比如ProbeReq = wsdd__ProbeType 等等</p>
+
+<p><big><big><big>分析</big></big></big><br />
+<strong>请求消息</strong><br />
+soap函数命名规范,例如:<br />
+函数名</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>标识</th>
+      <th>动作</th>
+      <th>规范</th>
+      <th>名称</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>soap</td>
+      <td>send</td>
+      <td>wsdd</td>
+      <td>Probe</td>
+    </tr>
+    <tr>
+      <td>是一个soap接口</td>
+      <td>执行”发送”</td>
+      <td>按照”http://schemas.xmlsoap.org/ws/2005/04/discovery”规范</td>
+      <td>函数名称</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td>arg1</td>
+      <td>arg2</td>
+      <td>arg3</td>
+      <td>arg4</td>
+    </tr>
+  </tbody>
+  <tbody>
+    <tr>
+      <td>(soap)消息载体</td>
+      <td>(endpoint)接收端地址</td>
+      <td>(NULL)执行动作</td>
+      <td>(m_probeReq)请求消息</td>
+    </tr>
+  </tbody>
+</table>
+
+<p>将含有特定信息的m_probeReq放入m_soap,并发往endpoint,告知其执行ACTION(如果为NULL,接口自动填充)<br />
+源码:</p>
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="n">SOAP_FMAC5</span> <span class="kt">int</span> <span class="n">SOAP_FMAC6</span> <span class="nf">soap_send___wsdd__Probe</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">soap_endpoint</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">soap_action</span><span class="p">,</span> <span class="k">struct</span> <span class="n">wsdd__ProbeType</span> <span class="o">*</span><span class="n">wsdd__Probe</span><span class="p">)</span>
+<span class="p">{</span>	<span class="k">struct</span> <span class="n">__wsdd__Probe</span> <span class="n">soap_tmp___wsdd__Probe</span><span class="p">;</span>
+	<span class="k">if</span> <span class="p">(</span><span class="n">soap_action</span> <span class="o">==</span> <span class="nb">NULL</span><span class="p">)</span>
+		<span class="n">soap_action</span> <span class="o">=</span> <span class="s">"http://docs.oasis-open.org/ws-dd/ns/discovery/2009/01/Probe"</span><span class="p">;</span>
+	<span class="n">soap_begin</span><span class="p">(</span><span class="n">soap</span><span class="p">);</span>
+	<span class="n">soap</span><span class="o">-&gt;</span><span class="n">encodingStyle</span> <span class="o">=</span> <span class="nb">NULL</span><span class="p">;</span>
+	<span class="n">soap_tmp___wsdd__Probe</span><span class="p">.</span><span class="n">wsdd__Probe</span> <span class="o">=</span> <span class="n">wsdd__Probe</span><span class="p">;</span>
+	<span class="n">soap_set_version</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="mi">2</span><span class="p">);</span> <span class="cm">/* SOAP1.2 */</span>
+    <span class="p">......</span>
+</code></pre>
+</div>
+<p>最后如果返回值为SOAP_OK(0)即成功</p>
+
+<p><strong>回复消息</strong>
+发送请求成功后,可以开始接收回复消息了
+当调用<code class="highlighter-rouge">soap_recv___wsdd__ProbeMatches</code>也返回SOAP_OK时,我们传入的回复消息就被赋值了
+其中的<code class="highlighter-rouge">wsdd__ProbeMatches</code>字段代表设备的回复</p>
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">wsdd__ProbeMatchesType</span>
+<span class="p">{</span>
+	<span class="kt">int</span> <span class="n">__sizeProbeMatch</span><span class="p">;</span>	<span class="cm">/* SOAP 1.2 RPC return element (when namespace qualified) */</span>	<span class="cm">/* sequence of elements &lt;ProbeMatch&gt; */</span>
+	<span class="k">struct</span> <span class="n">wsdd__ProbeMatchType</span> <span class="o">*</span><span class="n">ProbeMatch</span><span class="p">;</span>	<span class="cm">/* optional element of type wsdd:ProbeMatchType */</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+<p><code class="highlighter-rouge">__sizeProbeMatch</code>是有多少个设备答复(发广播时一般为多个)
+<code class="highlighter-rouge">wsdd__ProbeMatchType</code>则是每个回复者的具体信息</p>
+<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="cm">/* wsdd:ProbeMatchType */</span>
+<span class="k">struct</span> <span class="n">wsdd__ProbeMatchType</span>
+<span class="p">{</span>
+	<span class="k">struct</span> <span class="n">wsa__EndpointReferenceType</span> <span class="n">wsa__EndpointReference</span><span class="p">;</span>	<span class="cm">/* required element of type wsa:EndpointReference */</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">Types</span><span class="p">;</span>	<span class="cm">/* optional element of type xsd:QName */</span>
+	<span class="k">struct</span> <span class="n">wsdd__ScopesType</span> <span class="o">*</span><span class="n">Scopes</span><span class="p">;</span>	<span class="cm">/* optional element of type wsdd:ScopesType */</span>
+	<span class="kt">char</span> <span class="o">*</span><span class="n">XAddrs</span><span class="p">;</span>	<span class="cm">/* optional element of type wsdd:UriListType */</span>
+	<span class="kt">unsigned</span> <span class="kt">int</span> <span class="n">MetadataVersion</span><span class="p">;</span>	<span class="cm">/* required element of type xsd:unsignedInt */</span>
+<span class="p">};</span>
+</code></pre>
+</div>
+<p>发现设备结束</p>
+
+<p>有了上面的铺垫在看抓包</p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;SOAP-ENV:Envelope</span><span class="err">&lt;!--方便阅读已省略wsdl描述--</span><span class="nt">&gt;</span> &gt;
+ <span class="nt">&lt;SOAP-ENV:Header&gt;</span>
+  <span class="nt">&lt;wsa:MessageID&gt;</span>....-.....<span class="nt">&lt;/wsa:MessageID&gt;</span>
+  <span class="nt">&lt;wsa:To</span> <span class="na">SOAP-ENV:mustUnderstand=</span><span class="s">"true"</span><span class="nt">&gt;</span>urn:schemas-xmlsoap-org:ws:2005:04:discovery<span class="nt">&lt;/wsa:To&gt;</span>
+  <span class="nt">&lt;wsa:Action</span> <span class="na">SOAP-ENV:mustUnderstand=</span><span class="s">"true"</span><span class="nt">&gt;</span>http://schemas.xmlsoap.org/ws/2005/04/discovery/Probe<span class="nt">&lt;/wsa:Action&gt;</span>
+ <span class="nt">&lt;/SOAP-ENV:Header&gt;</span>
+ <span class="nt">&lt;SOAP-ENV:Body&gt;</span>
+  <span class="nt">&lt;wsdd:Probe&gt;</span>
+   <span class="nt">&lt;wsdd:Types&gt;&lt;/wsdd:Types&gt;</span>
+   <span class="nt">&lt;wsdd:Scopes&gt;&lt;/wsdd:Scopes&gt;</span>
+  <span class="nt">&lt;/wsdd:Probe&gt;</span>
+ <span class="nt">&lt;/SOAP-ENV:Body&gt;</span>
+<span class="nt">&lt;/SOAP-ENV:Envelope&gt;</span>
+
+<span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;env:Envelope&gt;</span>
+ <span class="nt">&lt;env:Header&gt;</span>
+  <span class="nt">&lt;wsadis:MessageID&gt;</span>urn:uuid:db3e9d4f-4706-11b4-82c0-bcad28b9ea7f<span class="nt">&lt;/wsadis:MessageID&gt;</span>
+  <span class="nt">&lt;wsadis:RelatesTo&gt;</span>....-.....<span class="nt">&lt;/wsadis:RelatesTo&gt;</span>
+  <span class="nt">&lt;wsadis:To&gt;</span>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous<span class="nt">&lt;/wsadis:To&gt;</span>
+  <span class="nt">&lt;wsadis:Action&gt;</span>http://schemas.xmlsoap.org/ws/2005/04/discovery/ProbeMatches<span class="nt">&lt;/wsadis:Action&gt;</span>
+  <span class="nt">&lt;d:AppSequence</span> <span class="na">InstanceId=</span><span class="s">"1505994378"</span> <span class="na">MessageNumber=</span><span class="s">"213"</span><span class="nt">/&gt;</span>
+ <span class="nt">&lt;/env:Header&gt;</span>
+ <span class="nt">&lt;env:Body&gt;</span>
+  <span class="nt">&lt;d:ProbeMatches&gt;</span>
+   <span class="nt">&lt;d:ProbeMatch&gt;</span>
+    <span class="nt">&lt;wsadis:EndpointReference&gt;</span>
+     <span class="nt">&lt;wsadis:Address&gt;</span>urn:uuid:db3e9d4f-4706-11b4-82c0-bcad28b9ea7f<span class="nt">&lt;/wsadis:Address&gt;</span>
+    <span class="nt">&lt;/wsadis:EndpointReference&gt;</span>
+    <span class="nt">&lt;d:Types&gt;</span>dn:NetworkVideoTransmitter tds:Device<span class="nt">&lt;/d:Types&gt;</span>
+    <span class="nt">&lt;d:Scopes&gt;</span>onvif://www.onvif.org/type/video_encoder onvif://www.onvif.org/Profile/Streaming onvif://www.onvif.org/Profile/G onvif://www.onvif.org/type/audio_encoder onvif://www.onvif.org/type/ptz onvif://www.onvif.org/hardware/SDI-2010DN onvif://www.onvif.org/name/SDI-2010DN onvif://www.onvif.org/location/<span class="nt">&lt;/d:Scopes&gt;</span>
+    <span class="nt">&lt;d:XAddrs&gt;</span>http://192.168.0.236/onvif/device_service http://[fe80::bead:28ff:feb9:ea7f]/onvif/device_service<span class="nt">&lt;/d:XAddrs&gt;</span>
+    <span class="nt">&lt;d:MetadataVersion&gt;</span>10<span class="nt">&lt;/d:MetadataVersion&gt;</span>
+   <span class="nt">&lt;/d:ProbeMatch&gt;</span>
+  <span class="nt">&lt;/d:ProbeMatches&gt;</span>
+ <span class="nt">&lt;/env:Body&gt;</span>
+<span class="nt">&lt;/env:Envelope&gt;</span>
+</code></pre>
+</div>
+<p><code class="highlighter-rouge">是不是觉得回复消息与请求消息中的每个字段都能对应上XML中的标签?</code></p>
+
+<p>更多详细介绍<br />
+<strong><a href="http://schemas.xmlsoap.org/ws/2005/04/discovery/">Web Services Dynamic Discovery (WS-Discovery)</a></strong></p>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/09/15/Onvif_2/" data-toggle="tooltip" data-placement="top" title="ONVIF补全计划-2">
+                        Previous<br>
+                        <span>ONVIF补全计划-2</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/09/17/Onvif_4/" data-toggle="tooltip" data-placement="top" title="ONVIF补全计划-4">
+                        Next<br>
+                        <span>ONVIF补全计划-4</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+        				
+                            
+                				<a href="/tags/#索引" title="索引" rel="7">
+                                    索引
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#ONVIF" title="ONVIF" rel="10">
+                                    ONVIF
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#C/C++" title="C/C++" rel="10">
+                                    C/C++
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#LINUX" title="LINUX" rel="9">
+                                    LINUX
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="">IETF</a></li>
+                    
+                        <li><a href="http://tool.lu">在线工具s</a></li>
+                    
+                        <li><a href="">豆子Qt学习之路</a></li>
+                    
+                        <li><a href="">鸟哥的私房菜</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "halukasama";
+    var disqus_identifier = "/2017/09/16/Onvif_3";
+    var disqus_url = "http://localhost:4000/2017/09/16/Onvif_3/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/halukasama">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ｗル's 2017
+                    <br>
+                    Theme by <a href="https://github.com/halukasama/halukasama.github.io">halukasama</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=halukasama&repo=halukasama.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-105979346-1';
+    var _gaDomain = 'syndrome.wang';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="img/breg.jpg" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

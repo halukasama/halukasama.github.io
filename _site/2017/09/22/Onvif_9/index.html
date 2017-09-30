@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords"  content="Ｗル, Ｗル's, wjl, WJL, @wjl">
+    <meta name="theme-color" content="#000000">
+
+    <title>ONVIF补全计划-9 - Ｗル's brain theatre</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/2017/09/22/Onvif_9/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ｗル's</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">关于</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/heisenberg/">海森堡</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/indices/">专题</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">标签</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from
+     * $toggle/$collapse will break global delegation.
+     *
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Post Header -->
+<style type="text/css">
+    header.intro-header{
+        position: relative;
+        background-image: url('/img/post_onvif9.jpg')
+    }
+
+    
+</style>
+<header class="intro-header" >
+    <div class="header-mask"></div>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <div class="post-heading">
+                    <div class="tags">
+                        
+                        <a class="tag" href="/tags/#ONVIF" title="ONVIF">ONVIF</a>
+                        
+                        <a class="tag" href="/tags/#C/C++" title="C/C++">C/C++</a>
+                        
+                        <a class="tag" href="/tags/#LINUX" title="LINUX">LINUX</a>
+                        
+                    </div>
+                    <h1>ONVIF补全计划-9</h1>
+                    
+                    
+                    <h2 class="subheading">关于流程的设计实现想法</h2>
+                    
+                    <span class="meta">Posted by Wjl on September 22, 2017</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+
+    <!-- Post Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                post-container">
+
+				<blockquote>
+  <p>也许擅长归纳总结的同学,已经发现<code class="highlighter-rouge">media</code>和<code class="highlighter-rouge">image</code>等<br />
+除了提供的服务不同其接口调用的方式和业务实现流程实际上是差不多的.</p>
+</blockquote>
+
+<p>假设的测试场景,是只有一个客户端和一台设备,那么严格按照流程进行交互是没有问题的.<br />
+但是如果有同时多个客户端和多个设备的时候呢,显然这样的程序是低效的,<br />
+实际项目应用场景绝对比这要复杂的多.</p>
+
+<p><strong>复习一下补全计划中<code class="highlighter-rouge">Onvif</code>的某个特点</strong></p>
+
+<p><strong>设备的独立性 :</strong> 每个设备只负责对接收到的请求做出反馈，
+    甚至不需要知晓控制端的存在。</p>
+
+<p>面对多端多设备在请求上可以适当的简化</p>
+<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cm">/*! 简单流程
+ *  无连接概念,通信请求需要鉴权(少数如probe,getxxxs请求除外),
+ *  无明确流程,大多数请求消息失败不影响其他请求(发现设备获取能力配置等请求除外)
+ *  无配置同步问题,修改配置前不需同步(setIPAddress,之后各服务地址变更除外)
+ *  需要使用现有配置的时，设备会根据profile得到原有配置,
+ *  请求消息中只需要告诉设备拿哪一个配置文件即可,相关字段:ProfileToken;
+ * SendProbe (向"发现设备"专有的组播地址中所有设备发送消息)
+ *    |-&gt;probeMatches (支持onvif协议的设备 会给正确的回复)
+ *        |-&gt;select a Matche Device (选中需要通信的设备)
+             | |-&gt;getsubservices(获取task服务地址)
+ *           |   |-&gt;getcapabilities(获取设备能力) 　\
+ * 功能正常&lt;--|      |--&gt;getProfiles(获取配置)       |-&gt;标准流程    
+ *           |         |---&gt;getOption(获取配置选项) /
+ *           |             |--&gt;getConfig(详细配置)/  　　　　  
+ *           |   +—————————+     |         
+ *           |--&gt;| Perform |&lt;----|         
+ *               |  Tasks  |
+ *               +—————————+
+ *        执行任务时根据不同的功能会需要能力，配置，选项，服务地址等不相同，需要什么?
+ */</span>
+</code></pre>
+</div>
+<p>即我们拿到我们需要的参数,存入本地<br />
+不需要每次都去获取,当我们修改已保存参数时,<br />
+成功发送Modify,让该参数的使用者同时变更;
+使用对象成员与配置文件结合</p>
+
+<p>将上图中的(获取子服务地址,获取能力,配置选项)
+写入某系列设备的对应配置文件
+<big><big><strong>xxx_Device_DefaultSettings.xml</strong></big></big></p>
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;ptzService&gt;</span>
+    <span class="nt">&lt;namespace&gt;</span>http://www.onvif.org/ver20/ptz/wsdl<span class="nt">&lt;/namespace&gt;</span>
+    <span class="nt">&lt;addr&gt;</span>/onvif/PTZ<span class="nt">&lt;/addr&gt;</span>
+<span class="nt">&lt;/ptzService&gt;</span>
+<span class="nt">&lt;imgService&gt;</span>
+    <span class="nt">&lt;namespace&gt;</span>http://www.onvif.org/ver20/imaging/wsdl<span class="nt">&lt;/namespace&gt;</span>
+    <span class="nt">&lt;addr&gt;</span>/onvif/Imaging<span class="nt">&lt;/addr&gt;</span>
+<span class="nt">&lt;imgService&gt;</span>
+</code></pre>
+</div>
+
+<p><big><big><strong>xxx_Media_DefaulSettings.xml</strong></big></big></p>
+
+<div class="language-xml highlighter-rouge"><pre class="highlight"><code>    ......
+    <span class="nt">&lt;profileSettingsOption&gt;</span>
+        <span class="nt">&lt;mainStream&gt;</span>
+            <span class="nt">&lt;toke&gt;</span>Profile_1<span class="nt">&lt;/toke&gt;</span>
+            ......
+            <span class="nt">&lt;videoEncoding&gt;</span>
+                <span class="nt">&lt;resolution&gt;</span>
+                    <span class="nt">&lt;width&gt;</span>1920<span class="nt">&lt;width&gt;</span>
+                    <span class="nt">&lt;height&gt;</span>1080<span class="nt">&lt;/height&gt;</span>
+                <span class="nt">&lt;/resolution&gt;</span>
+                ......
+            <span class="nt">&lt;/videoEncoding&gt;</span>
+            ......
+        <span class="nt">&lt;/mainStream&gt;</span>
+        <span class="nt">&lt;subStream&gt;</span>
+            <span class="nt">&lt;toke&gt;</span>Profile_2<span class="nt">&lt;/toke&gt;</span>
+            ......
+        <span class="nt">&lt;/subStream&gt;</span>
+    <span class="nt">&lt;/profileSettingsOption&gt;</span>
+    ......
+</code></pre>
+</div>
+
+<p>比如我们需要设置开启组播并发往232.0.0.2
+我们需要做的是,发送<code class="highlighter-rouge">setencoderconfig</code>请求将组播地址设置为<code class="highlighter-rouge">232.0.0.2</code>
+那之前还要获取<code class="highlighter-rouge">setencoderconfig</code>请求将request中其他标记为<code class="highlighter-rouge">requier</code>的配置正确填写<br />
+当设置成功后,还要<code class="highlighter-rouge">getcapability</code>查看设备是否支持组播模式
+<code class="highlighter-rouge">getProfiles</code>拿到<code class="highlighter-rouge">profiletoken</code>确定发送哪路流
+最后执行<code class="highlighter-rouge">StartMulticastStreaming</code>.(具体流程可以阅读demo中multicast.c)部分</p>
+
+<p>设备的独立性就体现,组播地址正确的前提下,
+直接startMulticastStreaming,是可以成功的…..
+有些东西是不需要一次次的去重复告诉自己的….
+告诉过你一次,记下来就好….</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>int doStartMulticast(struct soap* soap, struct _trt__GetProfilesResponse *profiles, char *media_ep)
+{
+    struct _trt__StartMulticastStreaming *_req
+            = (struct _trt__StartMulticastStreaming*)soap_malloc(soap, sizeof(struct _trt__StartMulticastStreaming));
+    soap_default__trt__StartMulticastStreaming(soap, _req);
+    _req-&gt;ProfileToken = profiles-&gt;Profiles-&gt;token;
+    struct _trt__StartMulticastStreamingResponse *_resp
+            = (struct _trt__StartMulticastStreamingResponse*)soap_malloc(soap, sizeof(struct _trt__StartMulticastStreamingResponse));
+    soap_default__trt__StartMulticastStreamingResponse(soap, _resp);
+
+    printf("[%d][%s][---- Start Multicast Streaming ----]\n", __LINE__, __func__);
+    soap_wsse_add_UsernameTokenDigest(soap,"user", ONVIF_USER, ONVIF_PASSWORD);
+    int result = soap_call___trt__StartMulticastStreaming(soap, media_ep, NULL, _req, _resp);
+    printf("[%d][%s&lt;%s!&gt;]\n", __LINE__, __func__, result ? "失败":"成功");
+
+    if (result != SOAP_OK)
+        printf("[%d][%s][Error Number:%d] [Falut Code:%s] [Falut Reason:%s]\n", __LINE__, __func__, soap-&gt;error, *soap_faultcode(soap), *soap_faultstring(soap));
+    return result;
+}
+</code></pre>
+</div>
+
+<p>所以最后我的实际流程</p>
+<div class="highlighter-rouge"><pre class="highlight"><code> select a Matche Device (选中需要通信的设备,适配该设备的本地配置文件)
+   |-&gt;本地配置文件node(task子服务的地址)
+    |--&gt;子服务对象成员m_profiles 
+       |---&gt;本地配置文件node(检查将要设置的value是否有效)
+          |--&gt;m_lastCondi${task}Resp(主要用于,填充请求必填value,本次又没修改的参数)  　　　　  
+          |   +—————————+              
+          |--&gt;| Perform |         
+              |  Tasks  |
+              +—————————+
+         这样发送一个请求即可
+</code></pre>
+</div>
+
+<h2 id="优点">优点</h2>
+<ul>
+  <li>尽量不占用IPC的onvif信道(简化流程有些复合指令不需要组合发多个请求).</li>
+  <li>OEM自己的”恢复出厂设置”.</li>
+  <li>不浪费堆栈内存资源<code class="highlighter-rouge">有些东西就是服务端写死的(option)</code>.</li>
+</ul>
+
+<h2 id="缺点">缺点</h2>
+<ul>
+  <li>异步操作要时刻关注本地文件状态.</li>
+  <li>上报错误过程繁琐(如果还有上层应用需要错误消息).</li>
+</ul>
+
+
+                <hr style="visibility: hidden;">
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/09/21/Onvif_8/" data-toggle="tooltip" data-placement="top" title="ONVIF补全计划-8">
+                        Previous<br>
+                        <span>ONVIF补全计划-8</span>
+                        </a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/09/23/Onvif_10/" data-toggle="tooltip" data-placement="top" title="ONVIF补全计划-10">
+                        Next<br>
+                        <span>ONVIF补全计划-10</span>
+                        </a>
+                    </li>
+                    
+                </ul>
+
+
+                
+                <!-- disqus 评论框 start -->
+                <div class="comment">
+                    <div id="disqus_thread" class="disqus-thread"></div>
+                </div>
+                <!-- disqus 评论框 end -->
+                
+
+                
+            </div>
+
+    <!-- Side Catalog Container -->
+        
+
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+        				
+                            
+        				
+                            
+                				<a href="/tags/#索引" title="索引" rel="7">
+                                    索引
+                                </a>
+                            
+        				
+                            
+        				
+                            
+                				<a href="/tags/#ONVIF" title="ONVIF" rel="10">
+                                    ONVIF
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#C/C++" title="C/C++" rel="10">
+                                    C/C++
+                                </a>
+                            
+        				
+                            
+                				<a href="/tags/#LINUX" title="LINUX" rel="9">
+                                    LINUX
+                                </a>
+                            
+        				
+        			</div>
+                </section>
+                
+
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="">IETF</a></li>
+                    
+                        <li><a href="http://tool.lu">在线工具s</a></li>
+                    
+                        <li><a href="">豆子Qt学习之路</a></li>
+                    
+                        <li><a href="">鸟哥的私房菜</a></li>
+                    
+                </ul>
+                
+            </div>
+        </div>
+    </div>
+</article>
+
+
+
+
+
+
+<!-- disqus 公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+    /* * * CONFIGURATION VARIABLES * * */
+    var disqus_shortname = "halukasama";
+    var disqus_identifier = "/2017/09/22/Onvif_9";
+    var disqus_url = "http://localhost:4000/2017/09/22/Onvif_9/";
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<!-- disqus 公共JS代码 end -->
+
+
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+<!-- anchor-js, Doc:http://bryanbraun.github.io/anchorjs/ -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/anchor-js/1.1.1/anchor.min.js",function(){
+        anchors.options = {
+          visible: 'always',
+          placement: 'right',
+          icon: '#'
+        };
+        anchors.add().remove('.intro-header h1').remove('.subheading').remove('.sidebar-container h5');
+    })
+</script>
+<style>
+    /* place left on bigger screen */
+    @media all and (min-width: 800px) {
+        .anchorjs-link{
+            position: absolute;
+            left: -0.75em;
+            font-size: 1.1em;
+            margin-top : -0.1em;
+        }
+    }
+</style>
+
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/halukasama">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ｗル's 2017
+                    <br>
+                    Theme by <a href="https://github.com/halukasama/halukasama.github.io">halukasama</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=halukasama&repo=halukasama.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-105979346-1';
+    var _gaDomain = 'syndrome.wang';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="img/breg.jpg" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>

@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="google-site-verification" content="xBT4GhYoi5qRD5tr338pgPM5OWHHIDR6mNg1a3euekI" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="keywords"  content="Ｗル, Ｗル's, wjl, WJL, @wjl">
+    <meta name="theme-color" content="#000000">
+
+    <title>Ｗル's brain theatre</title>
+
+    <!-- Web App Manifest -->
+    <link rel="manifest" href="/pwa/manifest.json">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="/img/favicon.ico">
+
+    <!-- Canonical URL -->
+    <link rel="canonical" href="http://localhost:4000/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/hux-blog.min.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+
+    <!-- Custom Fonts -->
+    <!-- <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css"> -->
+    <!-- Hux change font-awesome CDN to qiniu -->
+    <link href="//cdnjs.cloudflare.com/ajax/libs/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+
+
+    <!-- Hux Delete, sad but pending in China
+    <link href='http://fonts.googleapis.com/css?family=Lora:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/
+    css'>
+    -->
+
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+    <!-- ga & ba script hoook -->
+    <script></script>
+</head>
+
+
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="">
+
+    <!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top">
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="/">Ｗル's</a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/about/">关于</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/heisenberg/">海森堡</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/indices/">专题</a>
+                    </li>
+                    
+                    <li>
+                        <a href="/tags/">标签</a>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+        <!-- /.navbar-collapse -->
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    var __HuxNav__ = {
+        close: function(){
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        },
+        open: function(){
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+
+    // Bind Event
+    $toggle.addEventListener('click', function(e){
+        if ($navbar.className.indexOf('in') > 0) {
+            __HuxNav__.close()
+        }else{
+            __HuxNav__.open()
+        }
+    })
+
+    /**
+     * Since Fastclick is used to delegate 'touchstart' globally
+     * to hack 300ms delay in iOS by performing a fake 'click',
+     * Using 'e.stopPropagation' to stop 'touchstart' event from
+     * $toggle/$collapse will break global delegation.
+     *
+     * Instead, we use a 'e.target' filter to prevent handler
+     * added to document close HuxNav.
+     *
+     * Also, we use 'click' instead of 'touchstart' as compromise
+     */
+    document.addEventListener('click', function(e){
+        if(e.target == $toggle) return;
+        if(e.target.className == 'icon-bar') return;
+        __HuxNav__.close();
+    })
+</script>
+
+
+    <!-- Page Header -->
+<header class="intro-header" style="background-image: url('/img/home_now.jpg')">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4 col-lg-offset-2 col-md-1 col-md-offset-1 ">
+                <!--<div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 ">-->
+                <div class="site-heading">
+                    <h1>目前</h1>
+                    <!--<hr class="small">-->
+                    <span class="subheading">钻研猴式智减法ing..</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- Main Content -->
+<div class="container">
+	<div class="row">
+        
+
+<!-- USE SIDEBAR -->
+    <!-- PostList Container -->
+    		<div class="
+                col-lg-8 col-lg-offset-1
+                col-md-8 col-md-offset-1
+                col-sm-12
+                col-xs-12
+                postlist-container
+            ">
+    			
+<div class="post-preview">
+    <a href="/2017/09/23/Onvif_10/">
+        <h2 class="post-title">
+            ONVIF补全计划-10
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Debug&MyTroubleShooting
+        </h3>
+        
+        <div class="post-content-preview">
+            测试DEMO
+GitHub
+
+阶段总结
+截止到目前,对客户端调用接口的认识逐渐清晰.
+  以后要在编码过程中解决问题和源码的精读中继续提升对SOAP与ONVIF的理解.
+  全文一直在反复强调填充请求和阅读文档,
+  这正是我在学习ONVIF时最常犯的错误.
+  反复强调的目的是提醒自己不要在这继续跌倒.
+  最后,客户端部分算是补完了..
+  有遗漏和错误的地方,还望各位补充指正……
+  ...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 23, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/22/Onvif_9/">
+        <h2 class="post-title">
+            ONVIF补全计划-9
+        </h2>
+        
+        <h3 class="post-subtitle">
+            关于流程的设计实现想法
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  也许擅长归纳总结的同学,已经发现media和image等
+除了提供的服务不同其接口调用的方式和业务实现流程实际上是差不多的.
+
+
+假设的测试场景,是只有一个客户端和一台设备,那么严格按照流程进行交互是没有问题的.
+但是如果有同时多个客户端和多个设备的时候呢,显然这样的程序是低效的,
+实际项目应用场景绝对比这要复杂的多.
+
+复习一下补全计划中Onvif的某个特点
+
+设备的独立性 : 每个...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 22, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/21/Onvif_8/">
+        <h2 class="post-title">
+            ONVIF补全计划-8
+        </h2>
+        
+        <h3 class="post-subtitle">
+            PTZ
+        </h3>
+        
+        <div class="post-content-preview">
+            我对这句话的理解还存疑
+
+  A mandatory reference to the PTZ node that the PTZ configuration belongs to.
+
+
+目前的理解就是(2017-9)
+应该是server端提供偏底层的支撑复合交互(多种移动模式以及多种坐标系)元数据(metadata)
+目前把它当成另一个MediaPTZConfiguretion的方式来用…...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 21, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/20/Onvif_7/">
+        <h2 class="post-title">
+            ONVIF补全计划-7
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Image
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  The imaging service provides configuration and control data for imaging specific properties.
+WSDL is part of the framework and provided in the Imaging WSDL file.
+The service includes the followi...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 20, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/19/Onvif_6/">
+        <h2 class="post-title">
+            ONVIF补全计划-6
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Media(下)-OSD&VideoSource
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  坐标转换过程中,一定要保持精度..
+
+
+我们继续来搞OSD
+
+The OSD  service provides functions to enable a client to control and configure On-Screen Display of a device.   
+The service introduces the OSD configuration with...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 19, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/18/Onvif_5/">
+        <h2 class="post-title">
+            ONVIF补全计划-5
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Media(上)-GetStreamURI和VideoEncode
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  9.18…幻听到防空警报了…
+
+
+Media-Service-Spec媒体服务的功能介绍
+
+These include the selection of Video and Audio inputs as well as PTZ and Analytics modes 
+and the configuration of Video and Audio encoders. 
+
+
+我用的是...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 18, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/17/Onvif_4/">
+        <h2 class="post-title">
+            ONVIF补全计划-4
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Device
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  加油,一半了,抓紧搬完吧..
+
+
+上文我们拿到了设备服务地址: http://192.168.0.236/onvif/device_service
+现在我们可以通过这个URI访问设备了
+Device的namespace 缩写是tds, 根据上文的经验它的调用的接口就是soap__call___tds___xxx
+
+这里我们着重说Device_service的特点
+
+Device `Ma...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 17, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/16/Onvif_3/">
+        <h2 class="post-title">
+            ONVIF补全计划-3
+        </h2>
+        
+        <h3 class="post-subtitle">
+            发现设备
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  markdown慢慢顺手了
+
+
+有了框架就可以开始编码了
+从发现设备开始吧
+
+先上代码
+
+/** 
+ * @brief InitSoapRelated
+ * @param 
+ * @return 
+ *  初始化单元(soap)支持默认交互平台kylin358
+ *  windows的相关服务,必须改变soap的编码方式(bugzilla216-OSD中文乱码问题)
+ */
+void ...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 16, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/15/Onvif_2/">
+        <h2 class="post-title">
+            ONVIF补全计划-2
+        </h2>
+        
+        <h3 class="post-subtitle">
+            gsoap
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  节选一些gsoap的README(包括INSTALL,NOTES),希望以后自己的README也写成这样儿婶儿….
+
+
+README节选
+Thanks for using gSOAP!
+The gSOAP toolkit provides a cross-platform software development toolkit for C
+and C++ server and cli...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 15, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/14/Onvif_1/">
+        <h2 class="post-title">
+            ONVIF补全计划-1
+        </h2>
+        
+        <h3 class="post-subtitle">
+            概述+自己的学习规划
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  “我不想成为富坚老贼…….”
+
+
+概述
+
+
+  概述部分网上可以轻易的搜索到,看不懂不要紧,对这个东西有个模糊的认识就好.
+
+
+
+  ONVIF（Open Network Video Interface Forum）
+是一个网络视频框架协议
+使不同厂商所生产的网络视频产品（包括摄录前端、录像设备等）完全互通。
+  
+    SOAP （Simple Object Access Prot...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 14, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/13/ManualWorkENV/">
+        <h2 class="post-title">
+            Manual
+        </h2>
+        
+        <h3 class="post-subtitle">
+            开发环境搭建
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  “我刚来的时候,连grep都不会用,如何关防火墙都要搜……感谢峰神不杀之恩”
+
+
+开发环境
+
+  平台组开发及维护
+    
+      CV5.0下辖C/S
+      设备及设备接入层s/p
+    
+  
+
+
+Linux
+忘记是第几次重做系统了，基本上每次都要查一些重复的东西，
+所以这次把配置流记下来，防止以后浪费时间。
+所有rpm包由yum管理，知道自己装的是什么，自己工作需要...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 13, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/11/HelloBlog/">
+        <h2 class="post-title">
+            Hello Blog
+        </h2>
+        
+        <h3 class="post-subtitle">
+            
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  “面向搜索引擎”编程的日子
+感谢，公司的前辈，google，
+豆子的Qt学习之路以及鸟哥的私房菜CSDN博客众，StackExchange系列网站的大佬,
+使我长时间受益于从分享经验中获取知识，解决问题．
+“想成为那样的人”这样的念头也在心里渐渐生根发芽．
+
+
+我的记性不算太好
+有些事不记下来，就担心明天忘掉，
+笔记与其说是加深记忆，还不如说是让自己有安全感．
+来到这里，我扔了小本子，...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 11, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/10/IndexTools/">
+        <h2 class="post-title">
+            Tools
+        </h2>
+        
+        <h3 class="post-subtitle">
+            ..
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  this’s ToolsIndex
+
+
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 10, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/10/IndexSystem/">
+        <h2 class="post-title">
+            System
+        </h2>
+        
+        <h3 class="post-subtitle">
+            ..
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  this’s SystemIndex
+
+
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 10, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/10/IndexSources/">
+        <h2 class="post-title">
+            资源集合
+        </h2>
+        
+        <h3 class="post-subtitle">
+            Compulsive hoarding
+        </h3>
+        
+        <div class="post-content-preview">
+            标准库
+C++ Standard Library：是一系列类和函数的集合，使用核心语言编写，也是C++ISO自身标准的一部分。
+Standard Template Library：标准模板库
+C POSIX library ： POSIX系统的C标准库规范
+ISO C++ Standards Committee ：C++标准委员会
+框架
+C++通用框架和库
+Apache C++ Standa...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 10, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/10/IndexPortfolio/">
+        <h2 class="post-title">
+            Portfolio
+        </h2>
+        
+        <h3 class="post-subtitle">
+            ..
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  this’s PortfolioIndex
+
+
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 10, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/10/IndexLanguage/">
+        <h2 class="post-title">
+            Language
+        </h2>
+        
+        <h3 class="post-subtitle">
+            ..
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  this’s LanguageIndex
+
+
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 10, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/10/IndexFrameLibs/">
+        <h2 class="post-title">
+            FrameLibs
+        </h2>
+        
+        <h3 class="post-subtitle">
+            ..
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  this’s FrameIndex
+
+
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 10, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/10/IndexCPP/">
+        <h2 class="post-title">
+            C/C++
+        </h2>
+        
+        <h3 class="post-subtitle">
+            ..
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  this’s CPPIndex
+
+
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 10, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
+    <a href="/2017/09/08/testmarkdown/">
+        <h2 class="post-title">
+            Test Markdown
+        </h2>
+        
+        <h3 class="post-subtitle">
+            
+        </h3>
+        
+        <div class="post-content-preview">
+            
+  “Arter lunch ,Let’s do it. ”
+
+
+README
+该文件用来测试和展示书写README的各种markdown语法。GitHub的markdown语法在标准的markdown语法基础上做了扩充，称之为GitHub Flavored Markdown。简称GFM，GFM在GitHub上有广泛应用，除了README文件外，issues和wiki均支持markdown...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 8, 2017
+    </p>
+</div>
+<hr>
+
+
+<!-- Pager -->
+
+
+    		</div>
+    <!-- Sidebar Container -->
+            <div class="
+                col-lg-3 col-lg-offset-0
+                col-md-3 col-md-offset-0
+                col-sm-12
+                col-xs-12
+                sidebar-container
+            ">
+                <!-- Featured Tags -->
+                
+                <section>
+                    <hr class="hidden-sm hidden-xs">
+                    <h5><a href="/tags/">FEATURED TAGS</a></h5>
+                    <div class="tags">
+                        
+                            
+                        
+                            
+                                <a href="/tags/#索引" title="索引" rel="7">
+                                    索引
+                                </a>
+                            
+                        
+                            
+                        
+                            
+                                <a href="/tags/#ONVIF" title="ONVIF" rel="10">
+                                    ONVIF
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#C/C++" title="C/C++" rel="10">
+                                    C/C++
+                                </a>
+                            
+                        
+                            
+                                <a href="/tags/#LINUX" title="LINUX" rel="9">
+                                    LINUX
+                                </a>
+                            
+                        
+                    </div>
+                </section>
+                
+
+                <!-- Short About -->
+                <section class="visible-md visible-lg">
+                    <hr><h5><a href="/about/">ABOUT ME</a></h5>
+                    <div class="short-about">
+                        
+                            <img src="/img/head.jpg" />
+                        
+                        
+                            <p>年纪轻轻 猫狗双全..</p>
+                        
+                        <!-- SNS Link -->
+                        <ul class="list-inline">
+                            
+                            
+                            
+                            
+                            
+                            <li>
+                                <a target="_blank" href="https://github.com/halukasama">
+                                    <span class="fa-stack fa-lg">
+                                        <i class="fa fa-circle fa-stack-2x"></i>
+                                        <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            
+                            
+                        </ul>
+                    </div>
+                </section>
+                <!-- Friends Blog -->
+                
+                <hr>
+                <h5>FRIENDS</h5>
+                <ul class="list-inline">
+                    
+                        <li><a href="">IETF</a></li>
+                    
+                        <li><a href="http://tool.lu">在线工具s</a></li>
+                    
+                        <li><a href="">豆子Qt学习之路</a></li>
+                    
+                        <li><a href="">鸟哥的私房菜</a></li>
+                    
+                </ul>
+                
+    		</div>
+        
+	</div>
+</div>
+
+
+    <!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1">
+                <ul class="list-inline text-center">
+                    
+                    
+
+                    <!-- add Weibo, Zhihu by Hux, add target = "_blank" to <a> by Hux -->
+                    
+                    
+
+
+                    
+                    
+                    <li>
+                        <a target="_blank" href="https://github.com/halukasama">
+                            <span class="fa-stack fa-lg">
+                                <i class="fa fa-circle fa-stack-2x"></i>
+                                <i class="fa fa-github fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </a>
+                    </li>
+                    
+                    
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Ｗル's 2017
+                    <br>
+                    Theme by <a href="https://github.com/halukasama/halukasama.github.io">halukasama</a> |
+                    <iframe
+                        style="margin-left: 2px; margin-bottom:-5px;"
+                        frameborder="0" scrolling="0" width="100px" height="20px"
+                        src="https://ghbtns.com/github-btn.html?user=halukasama&repo=halukasama.github.io&type=star&count=true" >
+                    </iframe>
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js "></script>
+
+<!-- Bootstrap Core JavaScript -->
+<!-- Currently, only navbar scroll-down effect at desktop still depends on this -->
+<script src="/js/bootstrap.min.js "></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/hux-blog.min.js "></script>
+
+<!-- Service Worker -->
+
+<script src="/js/snackbar.js "></script>
+<script src="/js/sw-registration.js "></script>
+
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!--
+     Because of the native support for backtick-style fenced code blocks
+     right within the Markdown is landed in Github Pages,
+     From V1.6, There is no need for Highlight.js,
+     so Huxblog drops it officially.
+
+     - https://github.com/blog/2100-github-pages-now-faster-and-simpler-with-jekyll-3-0
+     - https://help.github.com/articles/creating-and-highlighting-code-blocks/
+     - https://github.com/jneen/rouge/wiki/list-of-supported-languages-and-lexers
+-->
+<!--
+    <script>
+        async("http://cdn.bootcss.com/highlight.js/8.6/highlight.min.js", function(){
+            hljs.initHighlightingOnLoad();
+        })
+    </script>
+    <link href="http://cdn.bootcss.com/highlight.js/8.6/styles/github.min.css" rel="stylesheet">
+-->
+
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async('/js/jquery.tagcloud.js',function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdnjs.cloudflare.com/ajax/libs/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+
+<!-- Google Analytics -->
+
+<script>
+    // dynamic User by Hux
+    var _gaId = 'UA-105979346-1';
+    var _gaDomain = 'syndrome.wang';
+
+    // Originial
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', _gaId, _gaDomain);
+    ga('send', 'pageview');
+</script>
+
+
+
+<!-- Baidu Tongji -->
+
+
+
+
+<!-- Side Catalog -->
+
+
+
+
+<!-- Image to hack wechat -->
+<!-- <img src="img/breg.jpg" width="0" height="0" /> -->
+<!-- Migrate from head to bottom, no longer block render and still work -->
+
+</body>
+
+</html>
