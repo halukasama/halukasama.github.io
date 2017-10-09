@@ -35,7 +35,7 @@ tags:
     * repo,gpg公钥,添加第三方源(非使用时关闭)等等
 2. 应用程序
     * chrom浏览器[bug1(set_selinux_off)][bug2(root)_config_addroot]
-    * virtualbox 5.10【官网】+ USB等其他扩展【5.10】(此问题只在sl中出现,centos7没有问题)
+    * virtualbox 5.10【官网】+ USB等其他扩展【5.10】(此问题只在升级内核后出现)
     ```
       问题： kernel deiver not installed (rc=-1908)
 平台： centos7
