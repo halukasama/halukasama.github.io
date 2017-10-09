@@ -7,6 +7,7 @@ author:     "Wjl"
 header-img: "img/post_helloblog.jpg"
 catalog: true
 tags:
+  - Test
 ---
 
 > "面向搜索引擎"编程的日子  

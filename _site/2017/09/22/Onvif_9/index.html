@@ -89,10 +89,6 @@
                     </li>
                     
                     <li>
-                        <a href="/indices/">专题</a>
-                    </li>
-                    
-                    <li>
                         <a href="/tags/">标签</a>
                     </li>
                     
@@ -176,10 +172,6 @@
                         
                         <a class="tag" href="/tags/#ONVIF" title="ONVIF">ONVIF</a>
                         
-                        <a class="tag" href="/tags/#C/C++" title="C/C++">C/C++</a>
-                        
-                        <a class="tag" href="/tags/#LINUX" title="LINUX">LINUX</a>
-                        
                     </div>
                     <h1>ONVIF补全计划-9</h1>
                     
@@ -219,7 +211,7 @@
     甚至不需要知晓控制端的存在。</p>
 
 <p>面对多端多设备在请求上可以适当的简化</p>
-<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="cm">/*! 简单流程
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="cm">/*! 简单流程
  *  无连接概念,通信请求需要鉴权(少数如probe,getxxxs请求除外),
  *  无明确流程,大多数请求消息失败不影响其他请求(发现设备获取能力配置等请求除外)
  *  无配置同步问题,修改配置前不需同步(setIPAddress,之后各服务地址变更除外)
@@ -239,8 +231,7 @@
  *               +—————————+
  *        执行任务时根据不同的功能会需要能力，配置，选项，服务地址等不相同，需要什么?
  */</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>即我们拿到我们需要的参数,存入本地<br />
 不需要每次都去获取,当我们修改已保存参数时,<br />
 成功发送Modify,让该参数的使用者同时变更;
@@ -249,7 +240,7 @@
 <p>将上图中的(获取子服务地址,获取能力,配置选项)
 写入某系列设备的对应配置文件
 <big><big><strong>xxx_Device_DefaultSettings.xml</strong></big></big></p>
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;ptzService&gt;</span>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ptzService&gt;</span>
     <span class="nt">&lt;namespace&gt;</span>http://www.onvif.org/ver20/ptz/wsdl<span class="nt">&lt;/namespace&gt;</span>
     <span class="nt">&lt;addr&gt;</span>/onvif/PTZ<span class="nt">&lt;/addr&gt;</span>
 <span class="nt">&lt;/ptzService&gt;</span>
@@ -257,12 +248,11 @@
     <span class="nt">&lt;namespace&gt;</span>http://www.onvif.org/ver20/imaging/wsdl<span class="nt">&lt;/namespace&gt;</span>
     <span class="nt">&lt;addr&gt;</span>/onvif/Imaging<span class="nt">&lt;/addr&gt;</span>
 <span class="nt">&lt;imgService&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><big><big><strong>xxx_Media_DefaulSettings.xml</strong></big></big></p>
 
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code>    ......
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    ......
     <span class="nt">&lt;profileSettingsOption&gt;</span>
         <span class="nt">&lt;mainStream&gt;</span>
             <span class="nt">&lt;toke&gt;</span>Profile_1<span class="nt">&lt;/toke&gt;</span>
@@ -282,8 +272,7 @@
         <span class="nt">&lt;/subStream&gt;</span>
     <span class="nt">&lt;/profileSettingsOption&gt;</span>
     ......
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>比如我们需要设置开启组播并发往232.0.0.2
 我们需要做的是,发送<code class="highlighter-rouge">setencoderconfig</code>请求将组播地址设置为<code class="highlighter-rouge">232.0.0.2</code>
@@ -297,7 +286,7 @@
 有些东西是不需要一次次的去重复告诉自己的….
 告诉过你一次,记下来就好….</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>int doStartMulticast(struct soap* soap, struct _trt__GetProfilesResponse *profiles, char *media_ep)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int doStartMulticast(struct soap* soap, struct _trt__GetProfilesResponse *profiles, char *media_ep)
 {
     struct _trt__StartMulticastStreaming *_req
             = (struct _trt__StartMulticastStreaming*)soap_malloc(soap, sizeof(struct _trt__StartMulticastStreaming));
@@ -316,13 +305,12 @@
         printf("[%d][%s][Error Number:%d] [Falut Code:%s] [Falut Reason:%s]\n", __LINE__, __func__, soap-&gt;error, *soap_faultcode(soap), *soap_faultstring(soap));
     return result;
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>所以最后我的实际流程</p>
-<div class="highlighter-rouge"><pre class="highlight"><code> select a Matche Device (选中需要通信的设备,适配该设备的本地配置文件)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> select a Matche Device (选中需要通信的设备,适配该设备的本地配置文件)
    |-&gt;本地配置文件node(task子服务的地址)
-    |--&gt;子服务对象成员m_profiles 
+    |--&gt;子服务对象成员m_profiles
        |---&gt;本地配置文件node(检查将要设置的value是否有效)
           |--&gt;m_lastCondi${task}Resp(主要用于,填充请求必填value,本次又没修改的参数)  　　　　  
           |   +—————————+              
@@ -330,8 +318,7 @@
               |  Tasks  |
               +—————————+
          这样发送一个请求即可
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="优点">优点</h2>
 <ul>
@@ -397,11 +384,17 @@
                     <div class="tags">
         				
                             
+                				<a href="/tags/#Test" title="Test" rel="2">
+                                    Test
+                                </a>
+                            
         				
                             
-                				<a href="/tags/#索引" title="索引" rel="7">
-                                    索引
+                				<a href="/tags/#转载" title="转载" rel="2">
+                                    转载
                                 </a>
+                            
+        				
                             
         				
                             
@@ -409,18 +402,6 @@
                             
                 				<a href="/tags/#ONVIF" title="ONVIF" rel="10">
                                     ONVIF
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#C/C++" title="C/C++" rel="10">
-                                    C/C++
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#LINUX" title="LINUX" rel="9">
-                                    LINUX
                                 </a>
                             
         				

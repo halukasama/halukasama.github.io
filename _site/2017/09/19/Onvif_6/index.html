@@ -89,10 +89,6 @@
                     </li>
                     
                     <li>
-                        <a href="/indices/">专题</a>
-                    </li>
-                    
-                    <li>
                         <a href="/tags/">标签</a>
                     </li>
                     
@@ -176,10 +172,6 @@
                         
                         <a class="tag" href="/tags/#ONVIF" title="ONVIF">ONVIF</a>
                         
-                        <a class="tag" href="/tags/#C/C++" title="C/C++">C/C++</a>
-                        
-                        <a class="tag" href="/tags/#LINUX" title="LINUX">LINUX</a>
-                        
                     </div>
                     <h1>ONVIF补全计划-6</h1>
                     
@@ -210,12 +202,11 @@
 
 <p><big><big><big>我们继续来搞OSD</big></big></big></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>The OSD  service provides functions to enable a client to control and configure On-Screen Display of a device.   
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>The OSD  service provides functions to enable a client to control and configure On-Screen Display of a device.   
 The service introduces the OSD configuration with multiple types (e.g., image, text, date,  and time).    
 Also functions to retrieve and configure the configurations are provided.   
-All OSD configurations are related to a VideoSourceConfiguration which will display the content of OSD. 
-</code></pre>
-</div>
+All OSD configurations are related to a VideoSourceConfiguration which will display the content of OSD.
+</code></pre></div></div>
 
 <p>两点比较需要明确:</p>
 <ol>
@@ -225,18 +216,17 @@ All OSD configurations are related to a VideoSourceConfiguration which will disp
 操作某一层OSD,需要<code class="highlighter-rouge">OSDToken</code>;
 所以OSD相关参数要求的token,就不全是<code class="highlighter-rouge">ProfileToken</code>也会有<code class="highlighter-rouge">SourceToken</code>和<code class="highlighter-rouge">OSDToken</code>.(MediaBindin)<br />
 当你需要修改特定配置时<code class="highlighter-rouge">(这里是应该获取的token)</code>
-    <div class="language-xml highlighter-rouge"><pre class="highlight"><code> `-- Device
+    <div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code> `-- Device
      `-- Media(MediaProfile_1)
          `-- VideoSource(VideoSource_1)
-           |   `-- OSDPlanText(OSD_1) 
+           |   `-- OSDPlanText(OSD_1)
            |       `--fontSize
            |       `--fontcolor
            |   `-- OSDDateTime(OSD_2)
            |       `-- datefmt
            |       `-- timefmt           
            |   `-- ...(OSD_X)                   
-</code></pre>
-    </div>
+</code></pre></div>    </div>
     <p><big><strong>我要修改<code class="highlighter-rouge">主码流</code>的<code class="highlighter-rouge">显示的日期格式</code>时需要拿到的<code class="highlighter-rouge">token</code><br />
   就是:<code class="highlighter-rouge">VideoSource_1</code>&amp;<code class="highlighter-rouge">OSD_2</code>;</strong></big></p>
   </li>
@@ -253,11 +243,10 @@ All OSD configurations are related to a VideoSourceConfiguration which will disp
             <ul>
               <li>确保摄像机支持,操作系统支持等等,大小,颜色等等<br />
  类型如:
-                <div class="language-c highlighter-rouge"><pre class="highlight"><code>  <span class="k">struct</span> <span class="n">tt__OSDColor</span> <span class="n">fontcolor</span><span class="p">;</span>
+                <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="k">struct</span> <span class="n">tt__OSDColor</span> <span class="n">fontcolor</span><span class="p">;</span>
   <span class="k">struct</span> <span class="n">tt__OSDColor</span> <span class="n">backgroundcolor</span><span class="p">;</span>
   <span class="kt">int</span><span class="o">*</span> <span class="n">fontSize</span><span class="p">;</span>
-</code></pre>
-                </div>
+</code></pre></div>                </div>
               </li>
             </ul>
           </li>
@@ -267,13 +256,11 @@ All OSD configurations are related to a VideoSourceConfiguration which will disp
  如果是非soap部分可以用iconv或boost::locale</li>
               <li>与摄像机通信部分<br />
   大多采用的是调用
-                <div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">soap_set_mode</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">SOAP_C_UTFSTRING</span><span class="p">);</span>
-</code></pre>
-                </div>
+                <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">soap_set_mode</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">SOAP_C_UTFSTRING</span><span class="p">);</span>
+</code></pre></div>                </div>
                 <p>而我直接初始化SOAP时用第二种方式申请内存</p>
-                <div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="n">m_soap</span> <span class="o">=</span> <span class="n">soap_new2</span><span class="p">(</span><span class="n">SOAP_C_UTFSTRING</span><span class="p">,</span> <span class="n">SOAP_C_UTFSTRING</span><span class="p">);</span>
-</code></pre>
-                </div>
+                <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">m_soap</span> <span class="o">=</span> <span class="n">soap_new2</span><span class="p">(</span><span class="n">SOAP_C_UTFSTRING</span><span class="p">,</span> <span class="n">SOAP_C_UTFSTRING</span><span class="p">);</span>
+</code></pre></div>                </div>
                 <p>用来确保inputMode和outputMode均为SOAP_C_UTFSTRING</p>
               </li>
             </ul>
@@ -289,10 +276,9 @@ All OSD configurations are related to a VideoSourceConfiguration which will disp
             </ul>
           </li>
           <li>可以修改格式如:
-            <div class="language-c highlighter-rouge"><pre class="highlight"><code>  <span class="n">datefmt</span> <span class="o">=</span> <span class="s">"MM/dd/yyyy"</span><span class="p">;</span>
+            <div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  <span class="n">datefmt</span> <span class="o">=</span> <span class="s">"MM/dd/yyyy"</span><span class="p">;</span>
   <span class="n">timefmt</span> <span class="o">=</span> <span class="s">"HH:mm:ss"</span><span class="p">;</span>
-</code></pre>
-            </div>
+</code></pre></div>            </div>
           </li>
         </ul>
       </li>
@@ -319,7 +305,7 @@ All OSD configurations are related to a VideoSourceConfiguration which will disp
 <p><big><big><big><big><strong>DEMO</strong></big></big></big></big></p>
 
 <p><big><big>获取OSDS</big></big></p>
-<div class="highlighter-rouge"><pre class="highlight"><code>void getOsds(struct soap* soap , char* ep, struct _trt__GetProfilesResponse *trt__GetProfilesResponse, struct _trt__GetOSDs *trt__GetOSDs, struct _trt__GetOSDsResponse *trt__GetOSDsResponse)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void getOsds(struct soap* soap , char* ep, struct _trt__GetProfilesResponse *trt__GetProfilesResponse, struct _trt__GetOSDs *trt__GetOSDs, struct _trt__GetOSDsResponse *trt__GetOSDsResponse)
 {
     trt__GetOSDs-&gt;ConfigurationToken = trt__GetProfilesResponse-&gt;Profiles-&gt;VideoSourceConfiguration-&gt;token;
     printf("[%d][---- start get osdconfig ----]\n", __LINE__);
@@ -328,11 +314,10 @@ All OSD configurations are related to a VideoSourceConfiguration which will disp
     printf("errorNo: %d\n",result);
     return;
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><big><big><big>创建时间日期OSD</big></big></big></p>
-<div class="highlighter-rouge"><pre class="highlight"><code>void CreateDataTimeOsd(struct soap*soap, char*ep, struct _trt__CreateOSD *req, struct _trt__CreateOSDResponse *resp, struct _trt__GetOSDsResponse *osdcfg)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void CreateDataTimeOsd(struct soap*soap, char*ep, struct _trt__CreateOSD *req, struct _trt__CreateOSDResponse *resp, struct _trt__GetOSDsResponse *osdcfg)
 {
     struct tt__OSDConfiguration osd;
     char* token = "";//"OsdToken_101";
@@ -412,20 +397,18 @@ All OSD configurations are related to a VideoSourceConfiguration which will disp
     printf("float_format ????  %   \n", soap-&gt;float_format);
     ....
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 <p><big><big><big>删除时间日期OSD</big></big></big></p>
-<div class="highlighter-rouge"><pre class="highlight"><code>void deleteDatetimeOsd(struct soap* soap, char* ep, struct _trt__DeleteOSD *req, struct _trt__DeleteOSDResponse *resp)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void deleteDatetimeOsd(struct soap* soap, char* ep, struct _trt__DeleteOSD *req, struct _trt__DeleteOSDResponse *resp)
 {
     char *token = "OsdToken_101";
     req-&gt;OSDToken = token;
     soap_wsse_add_UsernameTokenDigest(soap, "user", ONVIF_USER, ONVIF_PASSWORD);
     soap_call___trt__DeleteOSD(soap, ep, NULL, req, resp);
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 <p><big><big><big>修改字幕</big></big></big></p>
-<div class="highlighter-rouge"><pre class="highlight"><code>void SetOsd(struct soap*soap, char*ep, struct _trt__SetOSD *req, struct _trt__SetOSDResponse *resp, struct _trt__GetOSDsResponse *osdcfg)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>void SetOsd(struct soap*soap, char*ep, struct _trt__SetOSD *req, struct _trt__SetOSDResponse *resp, struct _trt__GetOSDsResponse *osdcfg)
 {
     struct tt__OSDConfiguration osd;
     char *text = "支持中文abc";
@@ -448,8 +431,7 @@ All OSD configurations are related to a VideoSourceConfiguration which will disp
     ....
     ....
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><big><big><big>阅读<a href="https://www.onvif.org/ver10/media/wsdl/media.wsdl">MediaBindin</a><br />
 接口<code class="highlighter-rouge">Description</code><br />
@@ -508,11 +490,17 @@ All OSD configurations are related to a VideoSourceConfiguration which will disp
                     <div class="tags">
         				
                             
+                				<a href="/tags/#Test" title="Test" rel="2">
+                                    Test
+                                </a>
+                            
         				
                             
-                				<a href="/tags/#索引" title="索引" rel="7">
-                                    索引
+                				<a href="/tags/#转载" title="转载" rel="2">
+                                    转载
                                 </a>
+                            
+        				
                             
         				
                             
@@ -520,18 +508,6 @@ All OSD configurations are related to a VideoSourceConfiguration which will disp
                             
                 				<a href="/tags/#ONVIF" title="ONVIF" rel="10">
                                     ONVIF
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#C/C++" title="C/C++" rel="10">
-                                    C/C++
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#LINUX" title="LINUX" rel="9">
-                                    LINUX
                                 </a>
                             
         				

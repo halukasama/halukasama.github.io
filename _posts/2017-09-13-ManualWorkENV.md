@@ -7,7 +7,7 @@ author:     "Wjl"
 header-img: "img/post_bqmanual.jpg"
 catalog: true
 tags:
-    - DOC
+    - 文档
 ---
 
 > "我刚来的时候,连grep都不会用,如何关防火墙都要搜......感谢峰神不杀之恩"

@@ -89,10 +89,6 @@
                     </li>
                     
                     <li>
-                        <a href="/indices/">专题</a>
-                    </li>
-                    
-                    <li>
                         <a href="/tags/">标签</a>
                     </li>
                     
@@ -176,10 +172,6 @@
                         
                         <a class="tag" href="/tags/#ONVIF" title="ONVIF">ONVIF</a>
                         
-                        <a class="tag" href="/tags/#C/C++" title="C/C++">C/C++</a>
-                        
-                        <a class="tag" href="/tags/#LINUX" title="LINUX">LINUX</a>
-                        
                     </div>
                     <h1>ONVIF补全计划-7</h1>
                     
@@ -230,7 +222,7 @@ The service includes the following operations:<br />
 </ul>
 
 <p>获取图像配置</p>
-<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">getImageSetting</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span><span class="o">*</span> <span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetVideoSourcesResponse</span> <span class="o">*</span><span class="n">getVideosourcesResp</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">profiles</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">image_ep</span><span class="p">)</span>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">getImageSetting</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span><span class="o">*</span> <span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetVideoSourcesResponse</span> <span class="o">*</span><span class="n">getVideosourcesResp</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">profiles</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">image_ep</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="k">struct</span> <span class="n">_timg__GetImagingSettings</span> <span class="o">*</span><span class="n">getImageReq</span>
             <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">_timg__GetImagingSettings</span> <span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">_timg__GetImagingSettings</span><span class="p">));</span>
@@ -251,12 +243,11 @@ The service includes the following operations:<br />
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>设置图像配置</p>
 
-<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">setImageSetting</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span><span class="o">*</span> <span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetVideoSourcesResponse</span> <span class="o">*</span><span class="n">getVideosourcesResp</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">profiles</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">image_ep</span><span class="p">)</span>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">setImageSetting</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span><span class="o">*</span> <span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetVideoSourcesResponse</span> <span class="o">*</span><span class="n">getVideosourcesResp</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">profiles</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">image_ep</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="k">struct</span> <span class="n">_timg__SetImagingSettings</span> <span class="o">*</span><span class="n">setImageReq</span>
             <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">_timg__SetImagingSettings</span> <span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">_timg__SetImagingSettings</span><span class="p">));</span>
@@ -280,11 +271,10 @@ The service includes the following operations:<br />
 
     <span class="n">soap_wsse_add_UsernameTokenDigest</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span><span class="s">"user"</span><span class="p">,</span> <span class="n">ONVIF_USER</span><span class="p">,</span> <span class="n">ONVIF_PASSWORD</span><span class="p">);</span>
     <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">soap_call___timg__SetImagingSettings</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">image_ep</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">setImageReq</span><span class="p">,</span> <span class="n">setImageResp</span><span class="p">);</span>
-    
+
     <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><code class="highlighter-rouge">image</code>服务的<code class="highlighter-rouge">Extension</code>字段较多,意味着各厂商服务端的实现不能是高度一致的<br />
 所以从这里开始,你要对你的设备更加的熟悉了,<br />
@@ -294,7 +284,6 @@ The service includes the following operations:<br />
 <a href="https://www.onvif.org/ver20/imaging/wsdl/imaging.wsdl">ImageBindin</a><br />
 <a href="https://www.onvif.org/specs/srv/img/ONVIF-Imaging-Service-Spec-v1706.pdf">文档</a><br />
 </big></big></big></p>
-
 
 
                 <hr style="visibility: hidden;">
@@ -347,11 +336,17 @@ The service includes the following operations:<br />
                     <div class="tags">
         				
                             
+                				<a href="/tags/#Test" title="Test" rel="2">
+                                    Test
+                                </a>
+                            
         				
                             
-                				<a href="/tags/#索引" title="索引" rel="7">
-                                    索引
+                				<a href="/tags/#转载" title="转载" rel="2">
+                                    转载
                                 </a>
+                            
+        				
                             
         				
                             
@@ -359,18 +354,6 @@ The service includes the following operations:<br />
                             
                 				<a href="/tags/#ONVIF" title="ONVIF" rel="10">
                                     ONVIF
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#C/C++" title="C/C++" rel="10">
-                                    C/C++
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#LINUX" title="LINUX" rel="9">
-                                    LINUX
                                 </a>
                             
         				

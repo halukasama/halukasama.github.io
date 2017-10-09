@@ -89,10 +89,6 @@
                     </li>
                     
                     <li>
-                        <a href="/indices/">专题</a>
-                    </li>
-                    
-                    <li>
                         <a href="/tags/">标签</a>
                     </li>
                     
@@ -176,10 +172,6 @@
                         
                         <a class="tag" href="/tags/#ONVIF" title="ONVIF">ONVIF</a>
                         
-                        <a class="tag" href="/tags/#C/C++" title="C/C++">C/C++</a>
-                        
-                        <a class="tag" href="/tags/#LINUX" title="LINUX">LINUX</a>
-                        
                     </div>
                     <h1>ONVIF补全计划-5</h1>
                     
@@ -210,10 +202,9 @@
 
 <p><big><big><big><big><strong>Media-Service-Spec媒体服务的功能介绍</strong></big></big></big></big></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>These include the selection of Video and Audio inputs as well as PTZ and Analytics modes 
-and the configuration of Video and Audio encoders. 
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>These include the selection of Video and Audio inputs as well as PTZ and Analytics modes
+and the configuration of Video and Audio encoders.
+</code></pre></div></div>
 <p><big><big><strong><code class="highlighter-rouge">我用的是MediaVer10 调用的是trt字段的接口</code></strong></big></big> <br />
 Analytics单元我没用到,简单读了一下,并没有什么心得体会;<br />
 因为PTZ功能还包含了另一个wsdl文件,我们后面说.</p>
@@ -235,7 +226,7 @@ Analytics单元我没用到,简单读了一下,并没有什么心得体会;<br /
 <p>获取/设置,都需要通过<code class="highlighter-rouge">ProfileToken</code>字段才知道你要读/写的<code class="highlighter-rouge">MediaProfile</code>.</p>
 
 <p>获取Profiles代码</p>
-<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">UserGetProfiles</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span><span class="k">struct</span> <span class="n">_trt__GetProfiles</span> <span class="o">*</span><span class="n">trt__GetProfiles</span><span class="p">,</span>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">UserGetProfiles</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span><span class="k">struct</span> <span class="n">_trt__GetProfiles</span> <span class="o">*</span><span class="n">trt__GetProfiles</span><span class="p">,</span>
                      <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">trt__GetProfilesResponse</span> <span class="p">,</span><span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">endpoint</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="n">soap_wsse_add_UsernameTokenDigest</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span><span class="s">"user"</span><span class="p">,</span> <span class="n">ONVIF_USER</span><span class="p">,</span> <span class="n">ONVIF_PASSWORD</span><span class="p">);</span>
@@ -245,15 +236,14 @@ Analytics单元我没用到,简单读了一下,并没有什么心得体会;<br /
         <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s][Error Number:%d] [Falut Code:%s] [Falut Reason:%s]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">,</span> <span class="n">soap</span><span class="o">-&gt;</span><span class="n">error</span><span class="p">,</span> <span class="o">*</span><span class="n">soap_faultcode</span><span class="p">(</span><span class="n">soap</span><span class="p">),</span> <span class="o">*</span><span class="n">soap_faultstring</span><span class="p">(</span><span class="n">soap</span><span class="p">));</span>
     <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>参数如何填充,看源码..看文档..大多这种很<code class="highlighter-rouge">泛</code>的请求,开辟内存就好
 这里的endpoint 就是上文中获取的MediaService服务地址:<code class="highlighter-rouge">http://192.168.0.236/onvif/Media</code>
 如果返回成功,我们可以看到</p>
 
 <p><big><big><big><strong>请求</strong></big></big></big></p>
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code>POST /onvif/Media HTTP/1.1
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /onvif/Media HTTP/1.1
 Host: 192.168.0.236
 User-Agent: gSOAP/2.8
 Content-Type: application/soap+xml; charset=utf-8; action="http://www.onvif.org/ver10/media/wsdl/GetProfiles"
@@ -277,10 +267,9 @@ SOAPAction: "http://www.onvif.org/ver10/media/wsdl/GetProfiles"
   <span class="nt">&lt;trt:GetProfiles&gt;&lt;/trt:GetProfiles&gt;</span>
  <span class="nt">&lt;/SOAP-ENV:Body&gt;</span>
 <span class="nt">&lt;/SOAP-ENV:Envelope&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <p><big><big><big><strong>回复</strong></big></big></big></p>
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code>HTTP/1.1 200 OK
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP/1.1 200 OK
 Date: Mon, 25 Sep 2017 14:25:56 GMT
 Server: App-webs/
 Connection: close
@@ -501,15 +490,14 @@ Content-Type: application/soap+xml; charset=utf-8
 ......
 ......
 ......
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>我这台IPC有主码流(mainstream),子码流(subStream),第三码流(thirdStream),测试流(testStream)<br />
 它们对应的配置文件(Profile_1,Profile_2…..)<br />
 设备参数都在他们对应的profile里,客户端是根据<code class="highlighter-rouge">ProfileToken</code>来决定获取/设置谁的参数<br />
 换言之,如果你想将主码流的分辨率调整为1080P,那么请求中<code class="highlighter-rouge">ProfileToken</code>必须为<code class="highlighter-rouge">Profile_1</code>(它存储在你的回复消息中)<br />
 熟悉之后你可以创建多个profile来满足特定功能模块<br />
 本例:</p>
-<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span>
 <span class="p">{</span>
 	<span class="kt">int</span> <span class="n">__sizeProfiles</span><span class="p">;</span>	<span class="cm">/* SOAP 1.2 RPC return element (when namespace qualified) */</span>	<span class="cm">/* sequence of elements &lt;Profiles&gt; */</span>
 	<span class="k">struct</span> <span class="n">tt__Profile</span> <span class="o">*</span><span class="n">Profiles</span><span class="p">;</span>	<span class="cm">/* optional element of type tt:Profile */</span>
@@ -526,12 +514,11 @@ Content-Type: application/soap+xml; charset=utf-8
 	<span class="k">struct</span> <span class="n">tt__PTZConfiguration</span> <span class="o">*</span><span class="n">PTZConfiguration</span><span class="p">;</span>	<span class="cm">/* optional element of type tt:PTZConfiguration */</span>
 	<span class="k">struct</span> <span class="n">tt__MetadataConfiguration</span> <span class="o">*</span><span class="n">MetadataConfiguration</span><span class="p">;</span>	<span class="cm">/* optional element of type tt:MetadataConfiguration */</span>
 	<span class="k">struct</span> <span class="n">tt__ProfileExtension</span> <span class="o">*</span><span class="n">Extension</span><span class="p">;</span>	<span class="cm">/* optional element of type tt:ProfileExtension */</span>
-<span class="n">here</span>    <span class="kt">char</span> <span class="o">*</span><span class="n">token</span><span class="p">;</span>	<span class="cm">/* required attribute of type tt:ReferenceToken */</span> 
+<span class="n">here</span>    <span class="kt">char</span> <span class="o">*</span><span class="n">token</span><span class="p">;</span>	<span class="cm">/* required attribute of type tt:ReferenceToken */</span>
 	<span class="k">enum</span> <span class="n">xsd__boolean</span> <span class="o">*</span><span class="n">fixed</span><span class="p">;</span>	<span class="cm">/* optional attribute of type xsd:boolean */</span>
 	<span class="kt">char</span> <span class="o">*</span><span class="n">__anyAttribute</span><span class="p">;</span>	<span class="cm">/* optional attribute of type xsd:anyType */</span>
 <span class="p">};</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>获取特定的Profile
 只需要soap_call___trt__GetProfile(没有s)
@@ -548,7 +535,7 @@ Content-Type: application/soap+xml; charset=utf-8
   <p>获取用于播放的URI</p>
 </blockquote>
 
-<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">UserGetUri</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span><span class="k">struct</span> <span class="n">_trt__GetStreamUri</span> <span class="o">*</span><span class="n">trt__GetStreamUri</span><span class="p">,</span><span class="k">struct</span> <span class="n">_trt__GetStreamUriResponse</span> <span class="o">*</span><span class="n">trt__GetStreamUriResponse</span><span class="p">,</span>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">UserGetUri</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span><span class="k">struct</span> <span class="n">_trt__GetStreamUri</span> <span class="o">*</span><span class="n">trt__GetStreamUri</span><span class="p">,</span><span class="k">struct</span> <span class="n">_trt__GetStreamUriResponse</span> <span class="o">*</span><span class="n">trt__GetStreamUriResponse</span><span class="p">,</span>
                 <span class="kt">char</span><span class="o">*</span> <span class="n">token</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">endpoint</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="kt">int</span> <span class="n">result</span><span class="o">=</span><span class="mi">0</span> <span class="p">;</span>
@@ -578,11 +565,10 @@ Content-Type: application/soap+xml; charset=utf-8
     <span class="k">return</span><span class="p">;</span>
 <span class="p">}</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>回复节选:</p>
 
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code><span class="nt">&lt;env:Body&gt;</span>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;env:Body&gt;</span>
  <span class="nt">&lt;trt:GetStreamUriResponse&gt;</span>
   <span class="nt">&lt;trt:MediaUri&gt;</span>
    <span class="nt">&lt;tt:Uri&gt;</span>rtsp://192.168.0.236:554/Streaming/Channels/101?transportmode=unicast<span class="ni">&amp;amp;</span>profile=Profile_1<span class="nt">&lt;/tt:Uri&gt;</span>
@@ -592,8 +578,7 @@ Content-Type: application/soap+xml; charset=utf-8
   <span class="nt">&lt;/trt:MediaUri&gt;</span>
  <span class="nt">&lt;/trt:GetStreamUriResponse&gt;</span>
 <span class="nt">&lt;/env:Body&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>回复成功后
 用vlc打开得到的URI看看效果吧.</p>
 
@@ -601,7 +586,7 @@ Content-Type: application/soap+xml; charset=utf-8
 每一次设置请求前,应该获取一次<code class="highlighter-rouge">Options</code>
 目的是确认一下你的参数是不是超出设备能力.类似<code class="highlighter-rouge">capability</code>
 一个是有什么功能,另一个是支持该功能的选项(范围)</p>
-<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">GetOpetions</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span><span class="o">*</span> <span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">profiles</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">media_ep</span><span class="p">)</span>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">GetOpetions</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span><span class="o">*</span> <span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">profiles</span><span class="p">,</span> <span class="kt">char</span> <span class="o">*</span><span class="n">media_ep</span><span class="p">)</span>
 <span class="p">{</span>
 
     <span class="k">struct</span> <span class="n">_trt__GetVideoEncoderConfigurationOptions</span> <span class="o">*</span><span class="n">getConfigReq</span>
@@ -632,10 +617,9 @@ Content-Type: application/soap+xml; charset=utf-8
     <span class="p">}</span>
     <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>当确定设备支持我想要设置的参数时..就可以设置参数了</p>
-<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">SetConfig</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span><span class="o">*</span> <span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">profiles</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">media_ep</span><span class="p">)</span>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">SetConfig</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span><span class="o">*</span> <span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">profiles</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">media_ep</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="k">struct</span> <span class="n">_trt__SetVideoEncoderConfiguration</span> <span class="o">*</span><span class="n">setConfigReq</span>
             <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">_trt__SetVideoEncoderConfiguration</span> <span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">_trt__SetVideoEncoderConfiguration</span><span class="p">));</span>
@@ -693,8 +677,7 @@ Content-Type: application/soap+xml; charset=utf-8
 
     <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>其他set/opt 大部分类似上面这对<br />
 <big><big><big>更多详细介绍<br />
@@ -752,11 +735,17 @@ Content-Type: application/soap+xml; charset=utf-8
                     <div class="tags">
         				
                             
+                				<a href="/tags/#Test" title="Test" rel="2">
+                                    Test
+                                </a>
+                            
         				
                             
-                				<a href="/tags/#索引" title="索引" rel="7">
-                                    索引
+                				<a href="/tags/#转载" title="转载" rel="2">
+                                    转载
                                 </a>
+                            
+        				
                             
         				
                             
@@ -764,18 +753,6 @@ Content-Type: application/soap+xml; charset=utf-8
                             
                 				<a href="/tags/#ONVIF" title="ONVIF" rel="10">
                                     ONVIF
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#C/C++" title="C/C++" rel="10">
-                                    C/C++
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#LINUX" title="LINUX" rel="9">
-                                    LINUX
                                 </a>
                             
         				

@@ -89,10 +89,6 @@
                     </li>
                     
                     <li>
-                        <a href="/indices/">专题</a>
-                    </li>
-                    
-                    <li>
                         <a href="/tags/">标签</a>
                     </li>
                     
@@ -176,10 +172,6 @@
                         
                         <a class="tag" href="/tags/#ONVIF" title="ONVIF">ONVIF</a>
                         
-                        <a class="tag" href="/tags/#C/C++" title="C/C++">C/C++</a>
-                        
-                        <a class="tag" href="/tags/#LINUX" title="LINUX">LINUX</a>
-                        
                     </div>
                     <h1>ONVIF补全计划-2</h1>
                     
@@ -209,7 +201,7 @@
 </blockquote>
 
 <p>README节选</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>Thanks for using gSOAP!
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Thanks for using gSOAP!
 The gSOAP toolkit provides a cross-platform software development toolkit for C
 and C++ server and client Web service applications, and simplifies the overall
 use of XML in any type of application. The toolkit supports SOAP 1.1/1.2 RPC
@@ -218,32 +210,29 @@ encoding and document/literal styles, WSDL 1.1, MTOM/MIME/DIME attachments
 also supports WS-Addressing and WS-Security, with several other WS-* available
 or under development. See the official open-source gSOAP website
 http://gsoap2.sourceforge.net for project status and latest news.
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="安装-gsoap">安装 gsoap</h2>
 
 <h3 id="yum">yum</h3>
 <p>centos7.2的el7带2.8.16版本<br />
 执行</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>sudo yum install gsoap
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>sudo yum install gsoap
+</code></pre></div></div>
 
 <h3 id="编译源码">编译源码</h3>
 <p><a href="https://sourceforge.net/projects/gsoap2/files/gSOAP/">源码链接</a></p>
 
 <p><strong>素质编译三连…</strong></p>
-<div class="highlighter-rouge"><pre class="highlight"><code>./configure
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>./configure
 make
 make install
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>configure -h 查看帮助选项,比如install相关如prefix,<br />
 features相关比如-enable-debug之类,建议配置之前仔细查阅一下</p>
 
 <p>INSTALL节选(如果不想用autoconf,也写有手动make的方法)</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>Using Autoconf/Automake
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Using Autoconf/Automake
 -----------------------
 Requirements to configure and build the package with autoconf/automake:
 1. Automake tools (make and GNU m4) to configure and build
@@ -254,8 +243,7 @@ Requirements to configure and build the package with autoconf/automake:
 5. Zlib (for optional compression) http://www.zlib.net
 6. Pthreads or win32 threads (optional)
 See Installation Instructions below.
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="数据绑定wsdl2h">数据绑定(wsdl2h)</h2>
 
@@ -264,7 +252,7 @@ See Installation Instructions below.
   <li>控制台执行</li>
 </ul>
 
-<div class="language-bash highlighter-rouge"><pre class="highlight"><code>wsdl2h -o onvif.h -c -s -t /<span class="o">{</span>安装路径<span class="o">}</span>/share/gsoap/WS/typemap.dat
+<div class="language-bash highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wsdl2h <span class="nt">-o</span> onvif.h <span class="nt">-c</span> <span class="nt">-s</span> <span class="nt">-t</span> /<span class="o">{</span>安装路径<span class="o">}</span>/share/gsoap/WS/typemap.dat
 https://www.onvif.org/onvif/ver10/network/wsdl/remotediscovery.wsdl
 https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl
 https://www.onvif.org/ver10/events/wsdl/event.wsdl
@@ -289,8 +277,7 @@ https://www.onvif.org/ver10/replay.wsdl
 https://www.onvif.org/ver10/schedule/wsdl/schedule.wsdl
 https://www.onvif.org/ver10/thermal/wsdl/thermal.wsdl
 https://www.onvif.org/ver10/analyticsdevice.wsdl
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>其中-o 输出文件到, -c 生成代码为C语言,默认C++ ,-s 关stl ,-t 使用类型映射文件
 详细帮助 -h</p>
@@ -308,7 +295,7 @@ https://www.onvif.org/ver10/analyticsdevice.wsdl
 
 <p>这次尝试只绑定部分wsdl(假设所有wsdl文件都在./目录下)
 控制台执行</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>wsdl2h -o onvif.h -c -s -t /{安装路径}/share/gsoap/WS/typemap.dat
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wsdl2h -o onvif.h -c -s -t /{安装路径}/share/gsoap/WS/typemap.dat
 remotediscovery.wsdl
 devicemgmt.wsdl
 event.wsdl
@@ -317,8 +304,7 @@ imaging.wsdl
 media.wsdl
 media2.wsdl
 ptz.wsdl
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p><code class="highlighter-rouge">Tips</code>随着onvif标准的发展,规范的更新,onvif除了提供的新规范版本
 也依旧保留老规范保证兼容性.<code class="highlighter-rouge">media.wsdl</code>和<code class="highlighter-rouge">media2.wsdl</code>就是这样的产物
@@ -326,19 +312,17 @@ ptz.wsdl
 或者使用device test tool box 确定你的IPC究竟支持哪种规范(大部分两种都支持),如果都支持,你可以随意使用,上文提到过的管理方便就体现在这里,根据接口的命名就可以知道你使用的是哪种规范<br />
 获取流地址为例:
 media.wsdl = trt</p>
-<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="n">SOAP_FMAC5</span> <span class="kt">int</span> <span class="n">SOAP_FMAC6</span> <span class="n">soap_call___trt__GetStreamUri</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">soap_endpoint</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">soap_action</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetStreamUri</span> <span class="o">*</span><span class="n">trt__GetStreamUri</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetStreamUriResponse</span> <span class="o">*</span><span class="n">trt__GetStreamUriResponse</span><span class="p">)</span>
-</code></pre>
-</div>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">SOAP_FMAC5</span> <span class="kt">int</span> <span class="n">SOAP_FMAC6</span> <span class="n">soap_call___trt__GetStreamUri</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">soap_endpoint</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">soap_action</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetStreamUri</span> <span class="o">*</span><span class="n">trt__GetStreamUri</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetStreamUriResponse</span> <span class="o">*</span><span class="n">trt__GetStreamUriResponse</span><span class="p">)</span>
+</code></pre></div></div>
 <p>media2.wsdl = ns8</p>
-<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="n">SOAP_FMAC5</span> <span class="kt">int</span> <span class="n">SOAP_FMAC6</span> <span class="n">soap_call___ns8__GetStreamUri</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">soap_endpoint</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">soap_action</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_ns8__GetStreamUri</span> <span class="o">*</span><span class="n">ns8__GetStreamUri</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_ns8__GetStreamUriResponse</span> <span class="o">*</span><span class="n">ns8__GetStreamUriResponse</span><span class="p">)</span>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">SOAP_FMAC5</span> <span class="kt">int</span> <span class="n">SOAP_FMAC6</span> <span class="n">soap_call___ns8__GetStreamUri</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">soap_endpoint</span><span class="p">,</span> <span class="k">const</span> <span class="kt">char</span> <span class="o">*</span><span class="n">soap_action</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_ns8__GetStreamUri</span> <span class="o">*</span><span class="n">ns8__GetStreamUri</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_ns8__GetStreamUriResponse</span> <span class="o">*</span><span class="n">ns8__GetStreamUriResponse</span><span class="p">)</span>
 
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>如果你喜欢,可以使用trt系列的接口去设置编码参数;
 然后使用ns8的接口去设置OSD;</p>
 
 <p>依据是soapcpp2 生成的namespace文件:</p>
-<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="n">SOAP_NMAC</span> <span class="k">struct</span> <span class="n">Namespace</span> <span class="n">namespaces</span><span class="p">[]</span> <span class="o">=</span>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">SOAP_NMAC</span> <span class="k">struct</span> <span class="n">Namespace</span> <span class="n">namespaces</span><span class="p">[]</span> <span class="o">=</span>
 <span class="p">{</span>
     <span class="p">{</span><span class="s">"SOAP-ENV"</span><span class="p">,</span> <span class="s">"http://www.w3.org/2003/05/soap-envelope"</span><span class="p">,</span> <span class="s">"http://schemas.xmlsoap.org/soap/envelope/"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
 	<span class="p">{</span><span class="s">"SOAP-ENC"</span><span class="p">,</span> <span class="s">"http://www.w3.org/2003/05/soap-encoding"</span><span class="p">,</span> <span class="s">"http://schemas.xmlsoap.org/soap/encoding/"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
@@ -388,8 +372,7 @@ media.wsdl = trt</p>
 	<span class="p">{</span><span class="s">"tse"</span><span class="p">,</span> <span class="s">"http://www.onvif.org/ver10/search/wsdl"</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">},</span>
     <span class="p">{</span><span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">}</span>
 <span class="p">};</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>话题有点扯远了,毕竟现在我们连框架代码都没有呢…
 回到正题吧</p>
@@ -401,9 +384,8 @@ media.wsdl = trt</p>
 和stdgsoap.h,stdgsoap.cpp或stdgsoap.c(取决于你生产的是c还是c++)
 并复制到当前目录文件下<br />
 执行命令：</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>soapcpp2 -2 -C -c -L -I./ -I./import `onvif.h` 
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>soapcpp2 -2 -C -c -L -I./ -I./import `onvif.h`
+</code></pre></div></div>
 <p>-L 不生成 soapClientLib.c和soapServerLib.c文件<br />
 -2 生成ONVIF1.2标准  <br />
 -C 生成客户端代码<br />
@@ -414,24 +396,21 @@ media.wsdl = trt</p>
 
 <p>如类似这样的问题大家上网上搜一下把,很多解决办法我就不一一列举了</p>
 
-<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="n">wsa5</span><span class="p">.</span><span class="n">h</span><span class="p">(</span><span class="mi">288</span><span class="p">)</span><span class="o">:</span> <span class="o">**</span><span class="n">ERROR</span><span class="o">**:</span> <span class="n">service</span> <span class="n">operation</span> <span class="n">name</span> <span class="n">clash</span><span class="o">:</span> <span class="k">struct</span><span class="o">/</span><span class="k">class</span> <span class="err">'</span><span class="nc">SOAP_ENV__Fault</span><span class="err">'</span> <span class="n">already</span> <span class="n">declared</span> <span class="n">at</span> <span class="n">wsa</span><span class="p">.</span><span class="n">h</span><span class="o">:</span><span class="mi">273</span>
-</code></pre>
-</div>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">wsa5</span><span class="p">.</span><span class="n">h</span><span class="p">(</span><span class="mi">288</span><span class="p">)</span><span class="o">:</span> <span class="o">**</span><span class="n">ERROR</span><span class="o">**:</span> <span class="n">service</span> <span class="n">operation</span> <span class="n">name</span> <span class="n">clash</span><span class="o">:</span> <span class="k">struct</span><span class="o">/</span><span class="k">class</span> <span class="err">'</span><span class="nc">SOAP_ENV__Fault</span><span class="err">'</span> <span class="n">already</span> <span class="n">declared</span> <span class="n">at</span> <span class="n">wsa</span><span class="p">.</span><span class="n">h</span><span class="o">:</span><span class="mi">273</span>
+</code></pre></div></div>
 
 <p>import/was5.h +277的SOAP_ENV__Fault函数改名如下</p>
 
-<div class="language-diff highlighter-rouge"><pre class="highlight"><code><span class="gd">- int SOAP_ENV__Fault
+<div class="language-diff highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gd">- int SOAP_ENV__Fault
 </span><span class="gi">+ int SOAP_ENV__Fault_Unused
-</span></code></pre>
-</div>
+</span></code></pre></div></div>
 
-<div class="language-c++ highlighter-rouge"><pre class="highlight"><code><span class="kt">int</span> <span class="n">SOAP_ENV__Fault_Unused</span>
+<div class="language-c++ highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="n">SOAP_ENV__Fault_Unused</span>
 <span class="p">(</span>       <span class="n">_QName</span> <span class="n">faultcode</span><span class="p">,</span><span class="c1">// SOAP 1.1
 </span>        <span class="kt">char</span> <span class="o">*</span><span class="n">faultstring</span><span class="p">,</span><span class="c1">// SOAP 1.1
 </span>        <span class="p">......</span>
 <span class="p">)</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>到这里就写业务逻辑了,但是考虑后期每次rebuild那几个几十万行的代码,脑袋都嗡嗡的.
 不想浪费生命的还是把上述框架编译成库,后面链接用把&gt;.&lt;</p>
@@ -440,7 +419,7 @@ media.wsdl = trt</p>
 
 <pre><code class="language-Bash">CFLAGS =-DWITH_OPENSSL -DWITH_NONAMESPACES -DWITH_DOM -I./ -I./import -g -fPIC
 # -DDEBUG -g -O2
-# -I{prefix}/{gsoap-version}/gsoap 
+# -I{prefix}/{gsoap-version}/gsoap
 CC:=$(CROSS)gcc
 
 NVC_LIB = libsoap.so
@@ -459,15 +438,14 @@ all:$(NVC_LIB)
 
 #build libraray
 $(NVC_LIB):$(NVC_LIB_OBJS)
-        @echo Creating $(NVC_LIB) library... 
-        @gcc -fPIC -shared -o $(NVC_LIB) $(NVC_LIB_OBJS) 
+        @echo Creating $(NVC_LIB) library...
+        @gcc -fPIC -shared -o $(NVC_LIB) $(NVC_LIB_OBJS)
 clean:
         rm -f *.o *.a *.log plugin/*.o $(NVC_LIB)
 </code></pre>
 <p>makefile写完后,执行</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>make
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>make
+</code></pre></div></div>
 <p>结束后,使用当前文件夹中的libsoap.so开始onvif之旅吧!</p>
 
 <h2 id="疑问">疑问</h2>
@@ -545,11 +523,17 @@ c和c++在struct的内存分布上是有区别的,
                     <div class="tags">
         				
                             
+                				<a href="/tags/#Test" title="Test" rel="2">
+                                    Test
+                                </a>
+                            
         				
                             
-                				<a href="/tags/#索引" title="索引" rel="7">
-                                    索引
+                				<a href="/tags/#转载" title="转载" rel="2">
+                                    转载
                                 </a>
+                            
+        				
                             
         				
                             
@@ -557,18 +541,6 @@ c和c++在struct的内存分布上是有区别的,
                             
                 				<a href="/tags/#ONVIF" title="ONVIF" rel="10">
                                     ONVIF
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#C/C++" title="C/C++" rel="10">
-                                    C/C++
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#LINUX" title="LINUX" rel="9">
-                                    LINUX
                                 </a>
                             
         				

@@ -89,10 +89,6 @@
                     </li>
                     
                     <li>
-                        <a href="/indices/">专题</a>
-                    </li>
-                    
-                    <li>
                         <a href="/tags/">标签</a>
                     </li>
                     
@@ -174,7 +170,7 @@
                 <div class="post-heading">
                     <div class="tags">
                         
-                        <a class="tag" href="/tags/#DOC" title="DOC">DOC</a>
+                        <a class="tag" href="/tags/#文档" title="文档">文档</a>
                         
                     </div>
                     <h1>Manual</h1>
@@ -257,8 +253,8 @@
   <li>应用程序
     <ul>
       <li>chrom浏览器[bug1(set_selinux_off)][bug2(root)_config_addroot]</li>
-      <li>virtualbox 5.10【官网】+ USB等其他扩展【5.10】(此问题只在sl中出现,centos7没有问题)
-        <div class="highlighter-rouge"><pre class="highlight"><code>问题： kernel deiver not installed (rc=-1908)
+      <li>virtualbox 5.10【官网】+ USB等其他扩展【5.10】(此问题只在升级内核后出现)
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>问题： kernel deiver not installed (rc=-1908)
 平台： centos7
 内核版本：  3.10.0-123.el7.x86_64
 gcc			【yum】
@@ -282,8 +278,7 @@ glibc-devel    【yum】
 或添加上面的环境变量到/etc/profile再source一下   
 执行 vboxdrv.sh setup  (默认安装/usr/lib/vitualbox)
 测试正常使用。
-</code></pre>
-        </div>
+</code></pre></div>        </div>
       </li>
       <li>VLC 	[yum(nux+epel+sl)]</li>
     </ul>
@@ -334,11 +329,10 @@ glibc-devel    【yum】
 <p>通常在安装依赖时需要同时安装 <code class="highlighter-rouge">x86_64</code> 与 <code class="highlighter-rouge">i686</code> 的版本.</p>
 
 <h4 id="rhelcentosslneokylin">RHEL/CentOS/SL/NeoKylin</h4>
-<div class="highlighter-rouge"><pre class="highlight"><code>yum install -y \
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install -y \
     libuuid libuuid-devel \
     libuuid.i686 libuuid-devel.i686
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="ubuntu">Ubuntu</h4>
 <hr />
@@ -357,7 +351,7 @@ glibc-devel    【yum】
 
 <p>多个项目间可能存在相互引用的内容, 而部分项目中又直接使用相对路径进行引用, 所以建议统一使用如下的源码组织结构:</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>$HOME
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$HOME
 `-- work
     `-- cv5
         `-- docs
@@ -379,8 +373,7 @@ glibc-devel    【yum】
             `-- share
             `-- CentralServer
             `-- ...
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>项目说明:</p>
 <ul>
@@ -401,10 +394,9 @@ glibc-devel    【yum】
 <p>部分项目会使用到环境变量 <code class="highlighter-rouge">CV5_GIT_ROOT</code>, 对应本源码组织结构即为: <code class="highlighter-rouge">CV5_GIT_ROOT=${HOME}/work/cv5</code></p>
 
 <p>执行如下命令创建基本工作目录(假设环境变量已正确设置):</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>export CV5_GIT_ROOT=${HOME}/work/cv5
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export CV5_GIT_ROOT=${HOME}/work/cv5
 mkdir -p ${CV5_GIT_ROOT}
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="克隆项目源码">克隆项目源码</h4>
 
@@ -412,9 +404,8 @@ mkdir -p ${CV5_GIT_ROOT}
 <strong>请找管理员要协作项目权限</strong><br />
 <strong>使用ssh_keygen受信</strong></p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>git clone git@hostname:file/project.git
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>git clone git@hostname:file/project.git
+</code></pre></div></div>
 
 <h3 id="编译项目">编译项目</h3>
 
@@ -424,10 +415,9 @@ mkdir -p ${CV5_GIT_ROOT}
 假设已正确克隆该项目到 <code class="highlighter-rouge">${CV5_GIT_ROOT}/tools</code> 下;</p>
 
 <p>安装编译脚本:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>cd ${CV5_GIT_ROOT}/tools/scripts
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ${CV5_GIT_ROOT}/tools/scripts
 ./setup.sh
-</code></pre>
-</div>
+</code></pre></div></div>
 <p><code class="highlighter-rouge">setup.sh</code> 脚本默认会把相关编译脚本, 安装到 ${HOME}/bin 下,
 也可以通过设置 <code class="highlighter-rouge">SHK_HOME</code> 环境变量以指定脚本安装目录, 具体过程可以直接打开脚本文件 <code class="highlighter-rouge">setup.sh</code> 查看;</p>
 
@@ -477,30 +467,27 @@ mkdir -p ${CV5_GIT_ROOT}
 
 <p>在上面的<a href="#example">安装项目的例子</a>中, 如果执行了不带 <code class="highlighter-rouge">platform</code> 参数的命令, 将会发现, 在安装 <code class="highlighter-rouge">x64_64</code> 对应的版本时失败了, 输出类似(注意最后一行):</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Downloading file ftp://192.168.0.250/release/3rdparty/linux_i686/tinyxpath_1_3_1-linux_i686-release.tar.gz	[OK]
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Downloading file ftp://192.168.0.250/release/3rdparty/linux_i686/tinyxpath_1_3_1-linux_i686-release.tar.gz	[OK]
 ['tar', 'xf', '/tmp/tinyxpath_1_3_1-linux_i686-release.tar.gz', '-C', '/home/wxf/bqvision/clearvision/linux_i686/release', '--strip-components=1']
 Downloading file ftp://192.168.0.250/release/3rdparty/linux_arm_imx6/tinyxpath_1_3_1-linux_arm_imx6-release.tar.gz	[OK]
 ['tar', 'xf', '/tmp/tinyxpath_1_3_1-linux_arm_imx6-release.tar.gz', '-C', '/home/wxf/bqvision/clearvision/linux_arm_imx6/release', '--strip-components=1']
 Downloading file ftp://192.168.0.250/release/3rdparty/linux_x86_64/tinyxpath_1_3_1-linux_x86_64-release.tar.gz	[Failed]
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>原因是下载 <a href="">tinyxpath_1_3_1</a> <code class="highlighter-rouge">x86_64</code> 版本的包时失败了.
 实际上我们并没有发布该项目的 <code class="highlighter-rouge">x86_64</code> 版本, 因为没有用到.
 但是我们在此不妨就以编译该项目的 <code class="highlighter-rouge">x86_64</code> 版本为例来熟悉编译流程.</p>
 
 <p>克隆项目源码:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>cd ${WORKING_DIR}
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ${WORKING_DIR}
 git clone xx
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>进到项目目录可以发现, 该项目是使用 <a href="https://cmake.org/">cmake</a> 进行管理编译的(因为存在 <code class="highlighter-rouge">CMakeLists.txt</code> 文件),
 故使用 <code class="highlighter-rouge">shk_cmake_build.sh</code> 脚本进行编译, 命令如下:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>cd ${CV5_GIT_ROOT}/pubsoft/tinyxpath_1_3_1
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>cd ${CV5_GIT_ROOT}/pubsoft/tinyxpath_1_3_1
 shk_cmake_build.sh -s . -d -i -p linux_x86_64
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>其中:</p>
 <ul>
   <li><code class="highlighter-rouge">-s</code> 指定项目 <code class="highlighter-rouge">CMakeLists.txt</code> 文件所在路径, 本例为 <code class="highlighter-rouge">.</code> 即当前目录;</li>
@@ -519,7 +506,7 @@ shk_cmake_build.sh -s . -d -i -p linux_x86_64
 <p><a href="https://docs.google.com/document/d/1SzohayqvQAE5gLGorRNUMRDeB6RM19LojrZtU_fgboE/edit?usp=sharing">centos7 cv5编译问题汇总</a></p>
 <h4 id="相关环境变量设置参考">相关环境变量设置参考</h4>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>export CV5_GIT_ROOT=${HOME}/work/cv5
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>export CV5_GIT_ROOT=${HOME}/work/cv5
 export CV5_SDK_ROOT=${HOME}/bqvision/clearvision
 
 # 本地发布目录
@@ -532,8 +519,7 @@ SHK_PATH=${SHK_HOME}/bin
 
 export PATH=$PATH:$SHK_PATH
 export SHK_QMAKE_PATH=/usr/bin/qmake-qt5
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <hr />
 
@@ -623,37 +609,32 @@ export SHK_QMAKE_PATH=/usr/bin/qmake-qt5
 <h3 id="faq">FAQ</h3>
 <ul>
   <li><strong>Q1: 添加新设备显示不在线</strong>
-    <div class="highlighter-rouge"><pre class="highlight"><code>    A: 排除设备自身问题之后, 查看DeviceGateWay是否正常运行;
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    A: 排除设备自身问题之后, 查看DeviceGateWay是否正常运行;
+</code></pre></div>    </div>
   </li>
   <li><strong>Q2: 修改插件代码后,重新编译DeviceLayer, 程序运行最终结果无变化</strong>
-    <div class="highlighter-rouge"><pre class="highlight"><code>    A: 重启DeviceGateWay确保重新加载修改后的插件.
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    A: 重启DeviceGateWay确保重新加载修改后的插件.
+</code></pre></div>    </div>
   </li>
   <li><strong>Q3: 登陆 ManagementCenter 中没有对应的设备接入服务</strong>
-    <div class="highlighter-rouge"><pre class="highlight"><code>    A: reg_values.xml配置的服务器和登陆的服务器是否是同一个服务器
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    A: reg_values.xml配置的服务器和登陆的服务器是否是同一个服务器
        比如配置中填写的是192.168.6.20,而实际登陆的是192.168.50.250
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li><strong>Q4: 在运行DeviceGateWay的终端下,没有打印任何调试信息</strong>
-    <div class="highlighter-rouge"><pre class="highlight"><code>    A: 首先,确保设备的接入服务选项是我们自己的服务;
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>    A: 首先,确保设备的接入服务选项是我们自己的服务;
 
         其次,利用pgrep Device 查看是否有且仅有一个服务进程,多进程会导致失效;
 
         最后,在ManagementCenter中查看登陆的服务器,是否是DeviceGateWay的服务器(同Q3);  
 
         注:查看运行时的配置参数是否为"--mode=app" 而不是"-mode=app"或者其他输入错误导致的问题;
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li><strong>Q5: 确认修改了reg_values.xml,但服务还是无法正常上线</strong>
-    <div class="highlighter-rouge"><pre class="highlight"><code>  A:  所有服务的配置文件都叫"reg_values.xml"  
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  A:  所有服务的配置文件都叫"reg_values.xml"  
     执行pwd查看是否配错服务,如正确配置服务,继续检查配置完成后是否未运行服务
-</code></pre>
-    </div>
+</code></pre></div>    </div>
     <p><a href="https://docs.google.com/document/d/1-Hzo8tbqplTtsvvXOsj73q0ET669VfIXaQMUjrnRk3A/edit?usp=sharing">DeviceGateWay说明早期版本</a></p>
   </li>
 </ul>
@@ -673,86 +654,73 @@ VIP：192.168.126</p>
 <h3 id="系统环境配置">系统环境配置</h3>
 <ol>
   <li>关闭SELinux和防火墙:
-    <div class="highlighter-rouge"><pre class="highlight"><code>systemctl disable firewalld
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl disable firewalld
+</code></pre></div>    </div>
     <p>将/etc/sysconfig/selinux 中设置 “SELINUX=disabled”
 不想reboot可以</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>systemctl stop firealld
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl stop firealld
 setenforce 0
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>host<br />
 分别配置两个节点的hostname
-    <div class="highlighter-rouge"><pre class="highlight"><code>vim /etc/hostname
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>vim /etc/hostname
 node1 (192.168.0.124)
 node2 (192.168.0.125)
-</code></pre>
-    </div>
+</code></pre></div>    </div>
     <p>两个节点配置完成后重启动网络</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>systemctl restart network
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl restart network
+</code></pre></div>    </div>
     <p>查看是否配置成功
 修改/etc/hosts 添加hostname</p>
   </li>
   <li>时间同步
-    <div class="highlighter-rouge"><pre class="highlight"><code>yum install ntp
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>yum install ntp
 ntpdate 192.168.4.192(公司自己的ntp服务器)
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
   <li>ssh互信
-    <div class="highlighter-rouge"><pre class="highlight"><code>ssh-keygen -t rsa -P ''
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>ssh-keygen -t rsa -P ''
 ssh-coyp-id -i /root/.ssh/id_rsa.pub root@{nodename}
-</code></pre>
-    </div>
+</code></pre></div>    </div>
     <p>第二次配置没添加公钥也配置成功了。。。</p>
   </li>
   <li>pcs
-    <div class="highlighter-rouge"><pre class="highlight"><code>systemctl start pcsd.service
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>systemctl start pcsd.service
 systemctl enable pcsd.service
-</code></pre>
-    </div>
+</code></pre></div>    </div>
     <h3 id="配置pacemaker管理">配置pacemaker管理</h3>
   </li>
   <li>创建集群<密码最好一致>
-</密码最好一致>    <div class="highlighter-rouge"><pre class="highlight"><code>passwd hacluster #修改密码
-</code></pre>
-    </div>
+</密码最好一致>    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>passwd hacluster #修改密码
+</code></pre></div>    </div>
   </li>
   <li>集群中所有节点互相认证
-    <div class="highlighter-rouge"><pre class="highlight"><code>pcs cluster auth {node_names}
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pcs cluster auth {node_names}
+</code></pre></div>    </div>
     <p>输入用户名和密码</p>
   </li>
   <li>启动集群
-    <div class="highlighter-rouge"><pre class="highlight"><code>pcs cluster setup --start --name {cluster_name} {node_names}
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pcs cluster setup --start --name {cluster_name} {node_names}
+</code></pre></div>    </div>
     <p>提示 :</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>node1:Succeeded
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>node1:Succeeded
 node1:Starting Cluster...
 node2:Succeeded
 node2:Starting Cluster...
-</code></pre>
-    </div>
+</code></pre></div>    </div>
     <p>证明成功
 可添加自启动：</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>pcs cluster enable --all
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pcs cluster enable --all
+</code></pre></div>    </div>
     <p>常用命令行：</p>
-    <div class="highlighter-rouge"><pre class="highlight"><code>pcs config 配置
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>pcs config 配置
 pcs status 状态
 pcs cluster start –all 启动
 pcs resource show 资源
 pcs resource debug-start resource 调试
 pcs cluster standby {nodename} 设置主备
-</code></pre>
-    </div>
+</code></pre></div>    </div>
   </li>
 </ol>
 
@@ -769,7 +737,7 @@ pcs cluster standby {nodename} 设置主备
 <h3 id="管理服务中心新建设备所需参数及说明">管理服务中心新建设备所需参数及说明</h3>
 
 <h4 id="设备类型devicedefh">设备类型(DeviceDef.h)</h4>
-<div class="highlighter-rouge"><pre class="highlight"><code>enum CV_DEVICE_TYPE
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>enum CV_DEVICE_TYPE
 {
     CV_DEVICE_TYPE_UNKNOWN       = 0,    /**&lt; 未知类型 */
     CV_DEVICE_TYPE_VIDEO_ENCODER =      CV_MAKE_DEVICE_TYPE(CV_DEVICE_CATE_CODEC, 1),   /**&lt; 视频编码器 */
@@ -779,8 +747,7 @@ pcs cluster standby {nodename} 设置主备
     CV_DEVICE_TYPE_NETWORK_CAMERA = CV_MAKE_DEVICE_TYPE(CV_DEVICE_CATE_CODEC, 10),   /**&lt; 网络摄像机 */
 }
 
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h4 id="视频编码cv_device_type_video_encoder">视频编码(CV_DEVICE_TYPE_VIDEO_ENCODER)</h4>
 <ol>
@@ -906,7 +873,7 @@ pcs cluster standby {nodename} 设置主备
 <p>新建示例:<br />
 <strong>上表中粗体字段代表必填参数,其他字段可选填</strong></p>
 
-<div class="language-cpp highlighter-rouge"><pre class="highlight"><code><span class="n">UDOCA</span><span class="o">::</span><span class="n">CreateObjectRequest</span> <span class="n">req</span> <span class="o">=</span> <span class="n">UDOCA</span><span class="o">::</span><span class="n">CreateObjectRequest</span><span class="o">::</span><span class="n">create</span><span class="p">();</span>
+<div class="language-cpp highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">UDOCA</span><span class="o">::</span><span class="n">CreateObjectRequest</span> <span class="n">req</span> <span class="o">=</span> <span class="n">UDOCA</span><span class="o">::</span><span class="n">CreateObjectRequest</span><span class="o">::</span><span class="n">create</span><span class="p">();</span>
 <span class="n">req</span><span class="p">.</span><span class="n">setClassName</span><span class="p">(</span><span class="s">"CodecDevice"</span><span class="p">);</span>
 
 <span class="n">UDOCA</span><span class="o">::</span><span class="n">Object</span> <span class="n">obj</span> <span class="o">=</span> <span class="n">UDOCA</span><span class="o">::</span><span class="n">Object</span><span class="o">::</span><span class="n">create</span><span class="p">();</span>
@@ -958,8 +925,7 @@ pcs cluster standby {nodename} 设置主备
 <span class="n">obj</span><span class="p">.</span><span class="n">setProperty</span><span class="p">(</span><span class="s">"OutputStreamTransProtocol"</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
 <span class="n">obj</span><span class="p">.</span><span class="n">setProperty</span><span class="p">(</span><span class="s">"NTPServer"</span><span class="p">,</span> <span class="s">""</span><span class="p">);</span>
 <span class="n">obj</span><span class="p">.</span><span class="n">setProperty</span><span class="p">(</span><span class="s">"TimeSyncMode"</span><span class="p">,</span> <span class="mi">0</span><span class="p">);</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <hr />
 <ul>
@@ -1007,7 +973,7 @@ pcs cluster standby {nodename} 设置主备
 </ul>
 
 <p>请求示例:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>UDOCA::QueryObjectsRequest req = UDOCA::QueryObjectsRequest::create();
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>UDOCA::QueryObjectsRequest req = UDOCA::QueryObjectsRequest::create();
 req.setClassName("VIEW_Camera");
 
 // 默认情况下获取设备的所有属性
@@ -1029,11 +995,10 @@ req.setCondition(UDOCA::EqualExpr::create("ID", "5D50ADB8-AC30-46A7-8238-6DD60E4
 
 // 排序可选
 req.addOrderBy("Name", true);
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>响应示例,</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>// UDOCA::QueryObjectsResponse resp;
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>// UDOCA::QueryObjectsResponse resp;
 // 需要检查返回是否成功, resp.isFailure(), 假设成功
 // 返回 UDOCA::List
 UDOCA::List cameraList = resp.getReturn().toList();
@@ -1048,8 +1013,7 @@ while (it.hasNext()) {
 	}
 }
 
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>该例仅作参考, 请根据实际情况进行修正, 函数名可能有误</p>
 
 <hr />
@@ -1060,7 +1024,7 @@ while (it.hasNext()) {
 </ul>
 
 <p>«设备接入»</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>注意事项
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>注意事项
 1. 定义设备家族(接入插件) (DeviceFamilies.xml)
 	定义设备家族名称
 	定义设备家族设备连接的参数和其默认值
@@ -1103,8 +1067,7 @@ while (it.hasNext()) {
 
 6. 支持音频对讲所需的编码算法
 	如果音频对讲需要支持新的音频编码算法，则需要修改设备接入服务(DeviceGateway)，在音频对讲的实现流程中，是客户端将PCM数据发送到设备接入，然后根据对讲设备的类型，使用相应的音频编码算法进行编码。目前已支持G711A/Mu、G726、MP2、AAC (参见servers/share/StreamRelay/AudioEncoder.cpp)
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <h2 id="windows">Windows</h2>
 
@@ -1164,20 +1127,18 @@ while (it.hasNext()) {
   <li>配置git
     <ul>
       <li>git全局配置
-        <div class="highlighter-rouge"><pre class="highlight"><code>  git config --global user.name "your name"  
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  git config --global user.name "your name"  
   git config --global user.email "your email"
-</code></pre>
-        </div>
+</code></pre></div>        </div>
       </li>
       <li>配置域名对应key<br />
   在.ssh 目录下新建config文件
-        <div class="highlighter-rouge"><pre class="highlight"><code>  host wjl.bqvision.com
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>  host wjl.bqvision.com
    user [name]
    hostname 192.168.0.123
    port 40747
    identityfile [ssh-key]
-</code></pre>
-        </div>
+</code></pre></div>        </div>
       </li>
     </ul>
   </li>
@@ -1192,9 +1153,8 @@ while (it.hasNext()) {
     <ul>
       <li>进入”/home”目录下的.ssh文件夹，没有则创建；</li>
       <li>生成key
-        <div class="highlighter-rouge"><pre class="highlight"><code> ssh-keygen -t rsa -C "your account"  
-</code></pre>
-        </div>
+        <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> ssh-keygen -t rsa -C "your account"  
+</code></pre></div>        </div>
       </li>
       <li>连续3次回车,创建默认key，默认密码为空。<br />
  例: 创建默认名称，没有密码的key</li>
@@ -1202,7 +1162,7 @@ while (it.hasNext()) {
   </li>
 </ol>
 
-<div class="highlighter-rouge"><pre class="highlight"><code> $ ssh-keygen.exe -t rsa -C "you account"
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code> $ ssh-keygen.exe -t rsa -C "you account"
  Generating public/private rsa key pair.
  Enter file in which to save the key (/home/usr/.ssh/id_rsa):
  Enter passphrase (empty for no passphrase):
@@ -1224,8 +1184,7 @@ while (it.hasNext()) {
  |     . + o o ..  |
  |      o.o .   .. |
  +----[SHA256]-----+
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <ol>
   <li>向gitlab添加公钥
@@ -1246,17 +1205,15 @@ while (it.hasNext()) {
   <li>检测是否添加成功：<br />
 例：用户向gitlab服务器192.168.0.122:8080添加公钥后测试是否成功<br />
 执行：
-    <div class="highlighter-rouge"><pre class="highlight"><code>$ ssh -T git@wjl.bqvision.com
-</code></pre>
-    </div>
+    <div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ ssh -T git@wjl.bqvision.com
+</code></pre></div>    </div>
   </li>
 </ul>
 
 <p>如成功则打印如下：</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Welcome to GitLab, user!
-</code></pre>
-</div>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Welcome to GitLab, user!
+</code></pre></div></div>
 
 <h2 id="协议">协议</h2>
 <blockquote>
@@ -1353,11 +1310,17 @@ while (it.hasNext()) {
                     <div class="tags">
         				
                             
+                				<a href="/tags/#Test" title="Test" rel="2">
+                                    Test
+                                </a>
+                            
         				
                             
-                				<a href="/tags/#索引" title="索引" rel="7">
-                                    索引
+                				<a href="/tags/#转载" title="转载" rel="2">
+                                    转载
                                 </a>
+                            
+        				
                             
         				
                             
@@ -1365,18 +1328,6 @@ while (it.hasNext()) {
                             
                 				<a href="/tags/#ONVIF" title="ONVIF" rel="10">
                                     ONVIF
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#C/C++" title="C/C++" rel="10">
-                                    C/C++
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#LINUX" title="LINUX" rel="9">
-                                    LINUX
                                 </a>
                             
         				

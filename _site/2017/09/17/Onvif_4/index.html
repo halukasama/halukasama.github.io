@@ -89,10 +89,6 @@
                     </li>
                     
                     <li>
-                        <a href="/indices/">专题</a>
-                    </li>
-                    
-                    <li>
                         <a href="/tags/">标签</a>
                     </li>
                     
@@ -176,10 +172,6 @@
                         
                         <a class="tag" href="/tags/#ONVIF" title="ONVIF">ONVIF</a>
                         
-                        <a class="tag" href="/tags/#C/C++" title="C/C++">C/C++</a>
-                        
-                        <a class="tag" href="/tags/#LINUX" title="LINUX">LINUX</a>
-                        
                     </div>
                     <h1>ONVIF补全计划-4</h1>
                     
@@ -214,22 +206,21 @@ Device的namespace 缩写是tds, 根据上文的经验它的调用的接口就�
 
 <p>这里我们着重说Device_service的特点</p>
 
-<div class="highlighter-rouge"><pre class="highlight"><code>Device `Management Functions` are handled through the device service.
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device `Management Functions` are handled through the device service.
 The device service is the `Entry Point` to `All Other Services` provided by a device.
 WSDL for the device service is provided in in the Device Management WSDL file.
-The device management interfaces consist of these subcategories: 
+The device management interfaces consist of these subcategories:
 • Capabilities
 • Network
 • System
-• Security 
-</code></pre>
-</div>
+• Security
+</code></pre></div></div>
 
 <p>是<code class="highlighter-rouge">设备管理</code>服务,也是<code class="highlighter-rouge">和其他所有服务的入口点</code>
 这里我们拿出GetCapabilities分析:<br />
 获取设备的能力,即设备能做什么.</p>
 
-<div class="language-c highlighter-rouge"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">UserGetCapabilities</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">__wsdd__ProbeMatches</span> <span class="o">*</span><span class="n">probeResp</span><span class="p">,</span>
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">UserGetCapabilities</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">__wsdd__ProbeMatches</span> <span class="o">*</span><span class="n">probeResp</span><span class="p">,</span>
                          <span class="k">struct</span> <span class="n">_tds__GetCapabilities</span> <span class="o">*</span><span class="n">capabilitiesReq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_tds__GetCapabilitiesResponse</span> <span class="o">*</span><span class="n">capabilitiesResp</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
@@ -253,8 +244,7 @@ The device management interfaces consist of these subcategories:
 
     <span class="k">return</span><span class="p">;</span>
 <span class="p">}</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 
 <p>鉴权:<br />
 soap_wsse_add_UsernameTokenDigest(soap,”user”, ONVIF_USER, ONVIF_PASSWORD);<br />
@@ -264,7 +254,7 @@ tt__xxx绝大多数时代表数据结构,对应xml中的”tt:”标签</p>
 <p><code class="highlighter-rouge">tips</code>为了避免产生混淆,后面也不会在引用我的项目源码,尽量给出早期C写的demo,如有纰漏请指出;</p>
 
 <p>请求:</p>
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code>POST /onvif/device_service HTTP/1.1
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /onvif/device_service HTTP/1.1
 Host: 192.168.0.236
 User-Agent: gSOAP/2.8
 Content-Type: application/soap+xml; charset=utf-8; action="http://www.onvif.org/ver10/device/wsdl/GetCapabilities"
@@ -295,11 +285,10 @@ SOAPAction: "http://www.onvif.org/ver10/device/wsdl/GetCapabilities"
   <span class="nt">&lt;/tds:GetCapabilities&gt;</span>
  <span class="nt">&lt;/SOAP-ENV:Body&gt;</span>
 <span class="nt">&lt;/SOAP-ENV:Envelope&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>回复:
 节选一段来解析:</p>
-<div class="language-xml highlighter-rouge"><pre class="highlight"><code>HTTP/1.1 200 OK
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP/1.1 200 OK
 Date: Thu, 17 Sep 2017 17:35:13 GMT
 Server: App-webs/
 Connection: close
@@ -313,8 +302,7 @@ Content-Type: application/soap+xml; charset=utf-8
 <span class="nt">&lt;tt:RTP_TCP&gt;</span>true<span class="nt">&lt;/tt:RTP_TCP&gt;</span>
 <span class="nt">&lt;tt:RTP_RTSP_TCP&gt;</span>true<span class="nt">&lt;/tt:RTP_RTSP_TCP&gt;</span>
 <span class="nt">&lt;/tt:StreamingCapabilities&gt;</span>
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>表示媒体服务地址为<code class="highlighter-rouge">http://192.168.0.236/onvif/Media</code><br />
 支持的流格式分别为’RTP组播’,’RTP’,’RTSP’
 入口功能体现在,获取其他服务的地址及能力给出了MediaService的地址下篇会用到<br />
@@ -323,7 +311,7 @@ Content-Type: application/soap+xml; charset=utf-8
 <p>我们也可以在device_service中修改系统时间(System),设备ip(Network)
 setxxx的请求相对复杂,要填充的参数很多,有些可以不填写,
 但是标注为requier的字段必须要填写,修改设备IP为例:</p>
-<div class="highlighter-rouge"><pre class="highlight"><code>int UserSetNetworkIPAddress(char *endpoint, struct soap *soap, struct _tds__SetNetworkInterfaces req, struct _tds__SetNetworkInterfacesResponse resp)
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int UserSetNetworkIPAddress(char *endpoint, struct soap *soap, struct _tds__SetNetworkInterfaces req, struct _tds__SetNetworkInterfacesResponse resp)
 {
     if (endpoint == NULL || strlen(endpoint) == 0) {
         printf("[%d][%s][EndPoint is Null!]\n", __LINE__, __func__);
@@ -375,8 +363,7 @@ setxxx的请求相对复杂,要填充的参数很多,有些可以不填写,
 
     return result;
 }
-</code></pre>
-</div>
+</code></pre></div></div>
 <p>其他get和set接口,可以查阅WSDL文件<br />
 文档中对每一个字段都有详细的描述<br />
 <a href="https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl">WSDL文档</a></p>
@@ -432,11 +419,17 @@ setxxx的请求相对复杂,要填充的参数很多,有些可以不填写,
                     <div class="tags">
         				
                             
+                				<a href="/tags/#Test" title="Test" rel="2">
+                                    Test
+                                </a>
+                            
         				
                             
-                				<a href="/tags/#索引" title="索引" rel="7">
-                                    索引
+                				<a href="/tags/#转载" title="转载" rel="2">
+                                    转载
                                 </a>
+                            
+        				
                             
         				
                             
@@ -444,18 +437,6 @@ setxxx的请求相对复杂,要填充的参数很多,有些可以不填写,
                             
                 				<a href="/tags/#ONVIF" title="ONVIF" rel="10">
                                     ONVIF
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#C/C++" title="C/C++" rel="10">
-                                    C/C++
-                                </a>
-                            
-        				
-                            
-                				<a href="/tags/#LINUX" title="LINUX" rel="9">
-                                    LINUX
                                 </a>
                             
         				
