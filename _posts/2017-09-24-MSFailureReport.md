@@ -4,7 +4,7 @@ title:      "兴趣并不是最好的老师，责任才是，不甘、屈辱是�
 subtitle:   "MediaStudio项目总结"
 date:       2017-09-24 12:00:00
 author:     "Wjl"
-header-img: "img/post_sources.png"
+header-img: "img/post_msfr.png"
 catalog: true
 tags:
     - 项目总结

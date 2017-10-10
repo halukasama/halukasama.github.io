@@ -10,7 +10,7 @@
     <meta name="keywords"  content="Ｗル, Ｗル's, wjl, WJL, @wjl">
     <meta name="theme-color" content="#000000">
 
-    <title>Ｗル's brain theatre</title>
+    <title>Ｗル's brain theatre | 脑洞</title>
 
     <!-- Web App Manifest -->
     <link rel="manifest" href="/pwa/manifest.json">
@@ -185,6 +185,34 @@
             ">
     			
 <div class="post-preview">
+    <a href="/2017/09/24/MSFailureReport/">
+        <h2 class="post-title">
+            兴趣并不是最好的老师，责任才是，不甘、屈辱是导员和班主任
+        </h2>
+        
+        <h3 class="post-subtitle">
+            MediaStudio项目总结
+        </h3>
+        
+        <div class="post-content-preview">
+            windows平台有非编客户端，加上当时有用户提过想要简单编辑录像，和环出需求，于是大佬们研究决定立项。
+在得知是QtCreator项目的二次开发，加上某些模块还有MFC的具体实现，上下一片乐观。
+在没分配到具体任务时先看QtCreator源码，弄清core/iplugin的模式。
+框架搭好后clone下来从解析配置文件开始，一个模块一个模块干。
+详细工作过程
+
+
+
+不知不觉3个月之中，大佬...
+        </div>
+    </a>
+    <p class="post-meta">
+        Posted by Wjl on September 24, 2017
+    </p>
+</div>
+<hr>
+
+<div class="post-preview">
     <a href="/2017/09/23/Onvif_10/">
         <h2 class="post-title">
             ONVIF补全计划-10
@@ -296,370 +324,17 @@ The service includes the followi...
 </div>
 <hr>
 
-<div class="post-preview">
-    <a href="/2017/09/19/Onvif_6/">
-        <h2 class="post-title">
-            ONVIF补全计划-6
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Media(下)-OSD&VideoSource
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  坐标转换过程中,一定要保持精度..
-
-
-我们继续来搞OSD
-
-The OSD  service provides functions to enable a client to control and configure On-Screen Display of a device.   
-The service introduces the OSD configuration with...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Wjl on September 19, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/09/18/Onvif_5/">
-        <h2 class="post-title">
-            ONVIF补全计划-5
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Media(上)-GetStreamURI和VideoEncode
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  9.18…幻听到防空警报了…
-
-
-Media-Service-Spec媒体服务的功能介绍
-
-These include the selection of Video and Audio inputs as well as PTZ and Analytics modes
-and the configuration of Video and Audio encoders.
-
-我用的是Med...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Wjl on September 18, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/09/17/Onvif_4/">
-        <h2 class="post-title">
-            ONVIF补全计划-4
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Device
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  加油,一半了,抓紧搬完吧..
-
-
-上文我们拿到了设备服务地址: http://192.168.0.236/onvif/device_service
-现在我们可以通过这个URI访问设备了
-Device的namespace 缩写是tds, 根据上文的经验它的调用的接口就是soap__call___tds___xxx
-
-这里我们着重说Device_service的特点
-
-Device `Ma...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Wjl on September 17, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/09/16/Onvif_3/">
-        <h2 class="post-title">
-            ONVIF补全计划-3
-        </h2>
-        
-        <h3 class="post-subtitle">
-            发现设备
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  markdown慢慢顺手了
-
-
-有了框架就可以开始编码了
-从发现设备开始吧
-
-先上代码
-
-/**
- * @brief InitSoapRelated
- * @param
- * @return
- *  初始化单元(soap)支持默认交互平台kylin358
- *  windows的相关服务,必须改变soap的编码方式(bugzilla216-OSD中文乱码问题)
- */
-void Onv...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Wjl on September 16, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/09/15/Onvif_2/">
-        <h2 class="post-title">
-            ONVIF补全计划-2
-        </h2>
-        
-        <h3 class="post-subtitle">
-            gsoap
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  节选一些gsoap的README(包括INSTALL,NOTES),希望以后自己的README也写成这样儿婶儿….
-
-
-README节选
-Thanks for using gSOAP!
-The gSOAP toolkit provides a cross-platform software development toolkit for C
-and C++ server and cli...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Wjl on September 15, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/09/14/Onvif_1/">
-        <h2 class="post-title">
-            ONVIF补全计划-1
-        </h2>
-        
-        <h3 class="post-subtitle">
-            概述+自己的学习规划
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  “我不想成为富坚老贼…….”
-
-
-概述
-
-
-  概述部分网上可以轻易的搜索到,看不懂不要紧,对这个东西有个模糊的认识就好.
-
-
-
-  ONVIF（Open Network Video Interface Forum）
-是一个网络视频框架协议
-使不同厂商所生产的网络视频产品（包括摄录前端、录像设备等）完全互通。
-  
-    SOAP （Simple Object Access Prot...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Wjl on September 14, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/09/13/ManualWorkENV/">
-        <h2 class="post-title">
-            Manual
-        </h2>
-        
-        <h3 class="post-subtitle">
-            开发环境搭建
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  “我刚来的时候,连grep都不会用,如何关防火墙都要搜……感谢峰神不杀之恩”
-
-
-开发环境
-
-  平台组开发及维护
-    
-      CV5.0下辖C/S
-      设备及设备接入层s/p
-    
-  
-
-
-Linux
-忘记是第几次重做系统了，基本上每次都要查一些重复的东西，
-所以这次把配置流记下来，防止以后浪费时间。
-所有rpm包由yum管理，知道自己装的是什么，自己工作需要...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Wjl on September 13, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/09/11/HelloBlog/">
-        <h2 class="post-title">
-            Hello Blog
-        </h2>
-        
-        <h3 class="post-subtitle">
-            
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  “面向搜索引擎”编程的日子
-感谢，公司的前辈，google，
-豆子的Qt学习之路以及鸟哥的私房菜CSDN博客众，StackExchange系列网站的大佬,
-使我长时间受益于从分享经验中获取知识，解决问题．
-“想成为那样的人”这样的念头也在心里渐渐生根发芽．
-
-
-我的记性不算太好
-有些事不记下来，就担心明天忘掉，
-笔记与其说是加深记忆，还不如说是让自己有安全感．
-来到这里，我扔了小本子，...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Wjl on September 11, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/09/10/IndexSources/">
-        <h2 class="post-title">
-            资源集合
-        </h2>
-        
-        <h3 class="post-subtitle">
-            Compulsive hoarding
-        </h3>
-        
-        <div class="post-content-preview">
-            A list of open source C++ libraries
-
-标准库
-
-  
-    C++ Standard Library：是一系列类和函数的集合，使用核心语言编写，也是C++ISO自身标准的一部分。
-  
-  
-    Standard Template Library：标准模板库
-  
-  
-    C POSIX library ： POSIX系统的C标准库规范
-  
-...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Wjl on September 10, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/09/10/IndexReprint/">
-        <h2 class="post-title">
-            转载整理
-        </h2>
-        
-        <h3 class="post-subtitle">
-            ..
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  大部分复制粘贴，有时间在去推敲措辞语法blah blah blah..
-
-
-tools
-
-  valgrind
-  doxgen
-
-
-linux
-
-  Linux群组与目录权限
-  find,grep,xargs
-
-
-Coding
-
-  rtsp
-
-
-正则
-
-  RegEx
-  组播地址正则
-  RegEx对照图
-
-
-规范
-
-  codingstyle
-  c++/doxygen注释
-...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Wjl on September 10, 2017
-    </p>
-</div>
-<hr>
-
-<div class="post-preview">
-    <a href="/2017/09/08/testmarkdown/">
-        <h2 class="post-title">
-            Test Markdown
-        </h2>
-        
-        <h3 class="post-subtitle">
-            
-        </h3>
-        
-        <div class="post-content-preview">
-            
-  “Arter lunch ,Let’s do it. ”
-
-
-README
-该文件用来测试和展示书写README的各种markdown语法。GitHub的markdown语法在标准的markdown语法基础上做了扩充，称之为GitHub Flavored Markdown。简称GFM，GFM在GitHub上有广泛应用，除了README文件外，issues和wiki均支持markdown...
-        </div>
-    </a>
-    <p class="post-meta">
-        Posted by Wjl on September 8, 2017
-    </p>
-</div>
-<hr>
-
 
 <!-- Pager -->
+
+<ul class="pager">
+    
+    
+    <li class="next">
+        <a href="/page2">Older Posts &rarr;</a>
+    </li>
+    
+</ul>
 
 
     		</div>
@@ -698,6 +373,8 @@ README
                                 <a href="/tags/#ONVIF" title="ONVIF" rel="10">
                                     ONVIF
                                 </a>
+                            
+                        
                             
                         
                     </div>
