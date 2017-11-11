@@ -1,0 +1,68 @@
+<h2 id="测试demo">测试DEMO</h2>
+<p><a href="https://github.com/halukasama/TestONVIFDemo">GitHub</a></p>
+
+<h2 id="阶段总结">阶段总结</h2>
+<p>截止到目前,对客户端调用接口的认识逐渐清晰.<br />
+  以后要在编码过程中解决问题和源码的精读中继续提升对SOAP与ONVIF的理解.<br />
+  全文一直在反复强调<code class="highlighter-rouge">填充请求</code>和<code class="highlighter-rouge">阅读文档</code>,<br />
+  这正是我在学习ONVIF时最常犯的错误.<br />
+  反复强调的目的是提醒自己不要在这继续跌倒.<br />
+  最后,客户端部分算是补完了..
+  有遗漏和错误的地方,还望各位补充指正……
+                                    2017-09-23</p>
+<h2 id="debug">Debug</h2>
+<ul>
+  <li><code class="highlighter-rouge">wireshark</code>+ <code class="highlighter-rouge">ONVIF Device Test Tool(windows)</code> + <code class="highlighter-rouge">ONVIF Device Manager(windows)</code>能满足</li>
+</ul>
+
+<blockquote>
+  <p>也可以打开onvif调试开关,以便让onvif打印一些可用的调试信息.<br />
+在Makefile中加入调试宏定义如: CC = gcc -DDEBUG</p>
+</blockquote>
+
+<ul>
+  <li>打开调试宏后,默认在程序执行的文件夹产生三个文件:<br />
+<code class="highlighter-rouge">RECV.log</code>接收数据,每接收一条.会在RECV.log中记录;<br />
+<code class="highlighter-rouge">SENT.log</code>发送数据,每发送一套.会在SENT.log中生成记录;<br />
+<code class="highlighter-rouge">TEST.log</code>记录onvif实时的状态.</li>
+</ul>
+
+<h2 id="mytroubleshooting">MyTroubleShooting</h2>
+
+<ul>
+  <li>
+    <p>自己生成soap协议代码框架,加载ws-discovery插件时生成失败.<br />
+原因:生成onvif.h时 没有加载remotediscovery.wsdl （以为devicemgmt.wsdl有此功能）</p>
+  </li>
+  <li>
+    <p>发现问题鉴权失败错误401
+是因为在每次soap通信时完成时，自动销毁header.所以下次通信必须要重新鉴权。
+获取失败的几种场景soap error</p>
+  </li>
+  <li>
+    <p>启用ssl,未加载wsse. 或者加载wsse,未在发起通信之前进行鉴权：
+调用：<code class="highlighter-rouge">soap_wsse_add_UsernameTokenDigest(soap, NULL, username,
+password);</code>//返回为0,表示正确返回.<br />
+soap段错误原因,未接到回复时访问</p>
+  </li>
+  <li>
+    <p>自己编码通信失败,网上检索到一套实现用例,修改编译后成功.<br />
+正在学习此用例,利用例子进行反查.
+结果：req结构体中有部分bool值必须填写为<code class="highlighter-rouge">xxx__boolean__ture/flase</code><br />
+不可以写成 0/1 或者 true/false;</p>
+  </li>
+  <li>
+    <p>解决海康设备特有配置文件导致的无法获取设备能力:
+soap-&gt;error = 4 ( “An XML element didn’t correspond to anything expected”).
+多余无效的参数导致,无法修改服务端代码,只能对应修改客户端接口;<br />
+HIK设备特有错误:<br />
+<a href="http://blog.csdn.net/u011430225/article/details/52104240">相关链接</a>,没花时间弄明白它,根据blog修改接口,最终正常使用.</p>
+  </li>
+  <li><del><code class="highlighter-rouge">GetCapabilities</code>的过程错误时,多次调试后得出结论,是<code class="highlighter-rouge">tt__CapabilityCategory</code>的设置问题,有的设备不具备所有功能,而请求所有或请求没有的功能就可能造成这样的问题.<br />
+  推荐写<code class="highlighter-rouge">tt__CapabilityCategory__Media</code>这是大多数设置有的能力,并且最经常使用.</del></li>
+  <li><code class="highlighter-rouge">GetProfile</code>错误:
+  事实上数据在抓包过程中也能全然抓到,多次调试后,发现结构体须要的<code class="highlighter-rouge">Name</code>以及<code class="highlighter-rouge">tokenkeyword</code>被赋值.其它的没有,说明本点返回与<code class="highlighter-rouge">server</code>的支持性有非常大关系.</li>
+  <li>设置网络参数失败,抓包获取错误信息对照<code class="highlighter-rouge">onvif core</code>文档中的消息定义,提示为”不合法的参数“.
+将要填充的network结构体中option属性(可选)字段逐个注释,依旧有此问题,
+是requier(必填)数据导致<code class="highlighter-rouge">tag:networkinterfacetoken</code> 代表clientpost到service对应的网络令牌(网口)标识,问题解决.(<code class="highlighter-rouge">eth0</code>)</li>
+</ul>

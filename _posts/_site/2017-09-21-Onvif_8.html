@@ -1,0 +1,153 @@
+<p>我对这句话的理解还存疑</p>
+<blockquote>
+  <p>A mandatory reference to the PTZ node that the PTZ configuration belongs to.</p>
+</blockquote>
+
+<p>目前的理解就是(2017-9)
+应该是server端提供偏底层的支撑复合交互(多种移动模式以及多种坐标系)元数据(metadata)
+目前把它当成另一个<code class="highlighter-rouge">MediaPTZConfiguretion</code>的方式来用…</p>
+
+<blockquote>
+  <p>Abbreviations:<code class="highlighter-rouge">PTZ</code> is Pan/Tilt/Zoom</p>
+</blockquote>
+
+<p>提供了三种移动模式:</p>
+<ul>
+  <li>AbsoluteMove,绝对移动  <br />
+      将PTZ设备移动到绝对位置,绝对坐标系的参数要给出.</li>
+  <li>RelativeMove,相对移动
+      不需要提供绝对坐标,以自己当前位置为中心点,给出相对坐标的移动方式.</li>
+  <li>ContinuousMove,连续移动
+      不需要提供坐标,在一定方向上以一定速度连续移动.</li>
+</ul>
+
+<p>另外PTZ是从Media的Profile获得对应数据(<code class="highlighter-rouge">PTZConfiguration</code>)状态,
+相关配置(<code class="highlighter-rouge">MetadataConfiguration</code>),PTZ仅做控制用,<br />
+由<code class="highlighter-rouge">Media</code>管理postion由<code class="highlighter-rouge">Image</code>管理focus,iris,zoom等</p>
+
+<p><big><big>相对移动</big></big></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">ContinuousMove</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span><span class="o">*</span> <span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">profiles</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">ptz_ep</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">struct</span> <span class="n">_tptz__ContinuousMove</span> <span class="o">*</span><span class="n">move</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__ContinuousMove</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__ContinuousMove</span><span class="p">));</span>
+    <span class="n">soap_default__tptz__ContinuousMove</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">move</span><span class="p">);</span>
+
+    <span class="k">struct</span> <span class="n">_tptz__ContinuousMoveResponse</span> <span class="o">*</span><span class="n">moveResp</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__ContinuousMoveResponse</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__ContinuousMoveResponse</span><span class="p">));</span>
+    <span class="n">move</span><span class="o">-&gt;</span><span class="n">ProfileToken</span> <span class="o">=</span> <span class="n">profiles</span><span class="o">-&gt;</span><span class="n">Profiles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">token</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">tt__PTZSpeed</span> <span class="o">*</span><span class="n">speed</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">tt__PTZSpeed</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">tt__PTZSpeed</span><span class="p">));</span>
+    <span class="k">struct</span> <span class="n">tt__Vector2D</span> <span class="n">pantilt</span><span class="p">;</span>
+    <span class="k">struct</span> <span class="n">tt__Vector1D</span> <span class="n">zoom</span><span class="p">;</span>
+    <span class="n">pantilt</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="p">;</span>
+    <span class="n">pantilt</span><span class="p">.</span><span class="n">y</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="p">;</span>
+    <span class="n">pantilt</span><span class="p">.</span><span class="n">space</span> <span class="o">=</span> <span class="n">profiles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Profiles</span><span class="o">-&gt;</span><span class="n">PTZConfiguration</span><span class="o">-&gt;</span><span class="n">DefaultContinuousPanTiltVelocitySpace</span><span class="p">;</span>
+    <span class="n">zoom</span><span class="p">.</span><span class="n">x</span> <span class="o">=</span> <span class="mi">0</span><span class="p">.</span><span class="mi">2</span><span class="p">;</span>
+    <span class="n">zoom</span><span class="p">.</span><span class="n">space</span> <span class="o">=</span> <span class="n">profiles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Profiles</span><span class="o">-&gt;</span><span class="n">PTZConfiguration</span><span class="o">-&gt;</span><span class="n">DefaultContinuousZoomVelocitySpace</span><span class="p">;</span>
+
+    <span class="n">speed</span><span class="o">-&gt;</span><span class="n">PanTilt</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">pantilt</span><span class="p">;</span>
+    <span class="n">speed</span><span class="o">-&gt;</span><span class="n">Zoom</span> <span class="o">=</span> <span class="o">&amp;</span><span class="n">zoom</span><span class="p">;</span>
+
+    <span class="n">move</span><span class="o">-&gt;</span><span class="n">Velocity</span> <span class="o">=</span> <span class="n">speed</span><span class="p">;</span>
+    <span class="n">soap_wsse_add_UsernameTokenDigest</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="s">"user"</span><span class="p">,</span> <span class="n">ONVIF_USER</span><span class="p">,</span> <span class="n">ONVIF_PASSWORD</span><span class="p">);</span>
+    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">soap_call___tptz__ContinuousMove</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">ptz_ep</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">move</span><span class="p">,</span> <span class="n">moveResp</span><span class="p">);</span>
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p><big><big>回到预制HOME</big></big></p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">int</span> <span class="nf">GotoHomePos</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span><span class="o">*</span> <span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_trt__GetProfilesResponse</span> <span class="o">*</span><span class="n">profiles</span><span class="p">,</span> <span class="kt">char</span><span class="o">*</span> <span class="n">ep</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="c1">// get/set/goto 3setps;
+</span>    <span class="k">struct</span> <span class="n">_tptz__GotoHomePosition</span> <span class="o">*</span><span class="n">gohome</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__GotoHomePosition</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__GotoHomePosition</span><span class="p">));</span>
+    <span class="k">struct</span> <span class="n">_tptz__GotoHomePositionResponse</span> <span class="o">*</span><span class="n">gohomeresp</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__GotoHomePositionResponse</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">_tptz__GotoHomePositionResponse</span><span class="p">));</span>
+
+    <span class="n">gohome</span><span class="o">-&gt;</span><span class="n">ProfileToken</span> <span class="o">=</span> <span class="n">profiles</span><span class="o">-&gt;</span><span class="n">Profiles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">token</span><span class="p">;</span>
+    <span class="n">gohome</span><span class="o">-&gt;</span><span class="n">Speed</span> <span class="o">=</span> <span class="n">profiles</span><span class="p">[</span><span class="mi">0</span><span class="p">].</span><span class="n">Profiles</span><span class="o">-&gt;</span><span class="n">PTZConfiguration</span><span class="o">-&gt;</span><span class="n">DefaultPTZSpeed</span><span class="p">;</span>
+
+    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="n">soap_call___tptz__GotoHomePosition</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">ep</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">gohome</span><span class="p">,</span> <span class="n">gohomeresp</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="n">result</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>连续移动的相关请求回复 <br />
+垂直移动 + (右) <br />
+req</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ProfileToken&gt;</span>4_def_profile5<span class="nt">&lt;/ProfileToken&gt;</span>
+<span class="nt">&lt;Velocity&gt;</span>
+<span class="nt">&lt;PanTilt</span> <span class="na">x=</span><span class="s">"0.4"</span> <span class="na">y=</span><span class="s">"0"</span> <span class="na">space=</span><span class="s">"http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace"</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver10/schema"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/Velocity&gt;</span>
+<span class="nt">&lt;/ContinuousMove&gt;</span>
+<span class="nt">&lt;tptz:ContinuousMove&gt;&lt;tptz:ProfileToken&gt;</span>4_def_profile6<span class="nt">&lt;/tptz:ProfileToken&gt;&lt;tptz:Velocity&gt;&lt;tt:PanTilt</span> <span class="na">space=</span><span class="s">"."</span> <span class="na">y=</span><span class="s">"0.200000003"</span> <span class="na">x=</span><span class="s">"0.200000003"</span><span class="nt">&gt;&lt;/tt:PanTilt&gt;&lt;tt:Zoom</span> <span class="na">space=</span><span class="s">"..E..H....8[]..UH....SH....xH..}..H..u..H..U..H..E....."</span> <span class="na">x=</span><span class="s">"0.200000003"</span><span class="nt">&gt;&lt;/tt:Zoom&gt;&lt;/tptz:Velocity&gt;&lt;tptz:Timeout&gt;</span>PT1H10M2.420S<span class="nt">&lt;/tptz:Timeout&gt;&lt;/tptz:ContinuousMove&gt;&lt;/SOAP-ENV:Body&gt;&lt;/SOAP-ENV:Envelope&gt;</span>
+</code></pre></div></div>
+<p>resp</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;env:Body&gt;</span>
+<span class="nt">&lt;ContinuousMoveResponsexmlns</span><span class="err">="http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/ContinuousMoveResponse&gt;</span>
+<span class="nt">&lt;/env:Body&gt;</span>
+<span class="nt">&lt;/env:Envelope&gt;</span>
+</code></pre></div></div>
+
+<p>垂直移动 - (左) <br />
+req</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ContinuousMove</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+xmlns="http://www.onvif.org/ver10/schema"/&gt;<span class="nt">&lt;/Velocity&gt;&lt;/ContinuousMove&gt;&lt;/s:Body&gt;&lt;/s:Envelope&gt;</span>
+</code></pre></div></div>
+<p>resp</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;env:Body&gt;</span>
+<span class="nt">&lt;ContinuousMoveResponse</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;ProfileToken&gt;</span>4_def_profile6<span class="nt">&lt;/ProfileToken&gt;</span>
+<span class="nt">&lt;Velocity&gt;</span>
+<span class="nt">&lt;PanTilt</span> <span class="na">x=</span><span class="s">"-0.4"</span> <span class="na">y=</span><span class="s">"0"</span> <span class="na">space=</span><span class="s">"http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace"</span> <span class="err">&lt;/ContinuousMoveResponse</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/env:Body&gt;</span>
+</code></pre></div></div>
+<p>水平移动 + (上) <br />
+req</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ContinuousMove</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;&lt;ProfileToken&gt;</span>4_def_profile6<span class="nt">&lt;/ProfileToken&gt;&lt;Velocity&gt;&lt;PanTilt</span> <span class="na">x=</span><span class="s">"0"</span> <span class="na">y=</span><span class="s">"0.2"</span> <span class="na">space=</span><span class="s">"http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace"</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver10/schema"</span><span class="nt">/&gt;&lt;/Velocity&gt;&lt;/ContinuousMove&gt;&lt;/s:Body&gt;&lt;/s:Envelope&gt;</span>
+resp
+<span class="nt">&lt;ContinuousMoveResponse</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/ContinuousMoveResponse&gt;</span>
+<span class="nt">&lt;/env:Body&gt;</span>
+</code></pre></div></div>
+<p>水平移动 - (下) <br />
+req</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ContinuousMove</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;ProfileToken&gt;</span>4_def_profile6<span class="nt">&lt;/ProfileToken&gt;</span>
+<span class="nt">&lt;Velocity&gt;</span>
+<span class="nt">&lt;PanTilt</span> <span class="na">x=</span><span class="s">"-0"</span> <span class="na">y=</span><span class="s">"-0.2"</span> <span class="na">space=</span><span class="s">"http://www.onvif.org/ver10/tptz/PanTiltSpaces/VelocityGenericSpace"</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver10/schema"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/Velocity&gt;</span>
+<span class="nt">&lt;/ContinuousMove&gt;</span>
+</code></pre></div></div>
+<p>resp</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ContinuousMoveResponse</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/ContinuousMoveResponse&gt;</span>
+</code></pre></div></div>
+<p>Zoom +  <br />
+req</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ContinuousMove</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;ProfileToken&gt;</span>4_def_profile6<span class="nt">&lt;/ProfileToken&gt;</span>
+<span class="nt">&lt;Velocity&gt;</span>
+<span class="nt">&lt;Zoom</span> <span class="na">x=</span><span class="s">"0.3"</span> <span class="na">space=</span><span class="s">"http://www.onvif.org/ver10/tptz/ZoomSpaces/VelocityGenericSpace"</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver10/schema"</span><span class="nt">/&gt;&lt;/Velocity&gt;</span>
+<span class="nt">&lt;/ContinuousMove&gt;</span>
+</code></pre></div></div>
+<p>resp</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ContinuousMoveResponse</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/ContinuousMoveResponse&gt;</span>
+</code></pre></div></div>
+<p>Zoom -<br />
+req</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ContinuousMove</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;ProfileToken&gt;</span>4_def_profile6<span class="nt">&lt;/ProfileToken&gt;</span>
+<span class="nt">&lt;Velocity&gt;</span>
+<span class="nt">&lt;Zoom</span> <span class="na">x=</span><span class="s">"-0.2"</span> <span class="na">space=</span><span class="s">"http://www.onvif.org/ver10/tptz/ZoomSpaces/VelocityGenericSpace"</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver10/schema"</span><span class="nt">/&gt;</span>
+<span class="nt">&lt;/Velocity&gt;</span>
+<span class="nt">&lt;/ContinuousMove&gt;</span>
+</code></pre></div></div>
+<p>resp</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="nt">&lt;ContinuousMoveResponse</span> <span class="na">xmlns=</span><span class="s">"http://www.onvif.org/ver20/ptz/wsdl"</span><span class="nt">&gt;</span>
+<span class="nt">&lt;/ContinuousMoveResponse&gt;</span>
+</code></pre></div></div>
+<p><big><big><big><br />
+<a href="https://www.onvif.org/ver20/ptz/wsdl/ptz.wsdl">ImageBindin</a><br />
+<del><a href="https://www.onvif.org/specs/srv/ptz/ONVIF-PTZ-Service-Spec-v1706.pdf">ONVIF-PTZ-Service-Spec-v250.pdf</a></del><br />
+<a href="https://www.onvif.org/specs/srv/ptz/ONVIF-PTZ-Service-Spec-v1706.pdf">ONVIF-PTZ-Service-Spec-v1706.pdf</a></big></big></big></p>

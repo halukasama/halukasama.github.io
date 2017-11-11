@@ -1,0 +1,171 @@
+<blockquote>
+  <p>加油,一半了,抓紧搬完吧..</p>
+</blockquote>
+
+<p>上文我们拿到了设备服务地址: http://192.168.0.236/onvif/device_service
+现在我们可以通过这个URI访问设备了<br />
+Device的namespace 缩写是tds, 根据上文的经验它的调用的接口就是<code class="highlighter-rouge">soap__call___tds___xxx</code></p>
+
+<p>这里我们着重说Device_service的特点</p>
+
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>Device `Management Functions` are handled through the device service.
+The device service is the `Entry Point` to `All Other Services` provided by a device.
+WSDL for the device service is provided in in the Device Management WSDL file.
+The device management interfaces consist of these subcategories:
+• Capabilities
+• Network
+• System
+• Security
+</code></pre></div></div>
+
+<p>是<code class="highlighter-rouge">设备管理</code>服务,也是<code class="highlighter-rouge">和其他所有服务的入口点</code>
+这里我们拿出GetCapabilities分析:<br />
+获取设备的能力,即设备能做什么.</p>
+
+<div class="language-c highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kt">void</span> <span class="nf">UserGetCapabilities</span><span class="p">(</span><span class="k">struct</span> <span class="n">soap</span> <span class="o">*</span><span class="n">soap</span><span class="p">,</span> <span class="k">struct</span> <span class="n">__wsdd__ProbeMatches</span> <span class="o">*</span><span class="n">probeResp</span><span class="p">,</span>
+                         <span class="k">struct</span> <span class="n">_tds__GetCapabilities</span> <span class="o">*</span><span class="n">capabilitiesReq</span><span class="p">,</span> <span class="k">struct</span> <span class="n">_tds__GetCapabilitiesResponse</span> <span class="o">*</span><span class="n">capabilitiesResp</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="kt">int</span> <span class="n">result</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+    <span class="n">capabilitiesReq</span><span class="o">-&gt;</span><span class="n">Category</span> <span class="o">=</span> <span class="p">(</span><span class="k">enum</span> <span class="n">tt__CapabilityCategory</span> <span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">));</span>
+    <span class="n">capabilitiesReq</span><span class="o">-&gt;</span><span class="n">__sizeCategory</span> <span class="o">=</span> <span class="mi">1</span><span class="p">;</span>
+    <span class="o">*</span><span class="p">(</span><span class="n">capabilitiesReq</span><span class="o">-&gt;</span><span class="n">Category</span><span class="p">)</span> <span class="o">=</span> <span class="n">tt__CapabilityCategory__All</span><span class="p">;</span>
+    <span class="n">capabilitiesResp</span><span class="o">-&gt;</span><span class="n">Capabilities</span> <span class="o">=</span> <span class="p">(</span><span class="k">struct</span> <span class="n">tt__Capabilities</span><span class="o">*</span><span class="p">)</span><span class="n">soap_malloc</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span><span class="k">sizeof</span><span class="p">(</span><span class="k">struct</span> <span class="n">tt__Capabilities</span><span class="p">))</span> <span class="p">;</span>
+
+    <span class="n">soap_wsse_add_UsernameTokenDigest</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span><span class="s">"user"</span><span class="p">,</span> <span class="n">ONVIF_USER</span><span class="p">,</span> <span class="n">ONVIF_PASSWORD</span><span class="p">);</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">soap_call___tds__GetCapabilities</span><span class="p">(</span><span class="n">soap</span><span class="p">,</span> <span class="n">resp</span><span class="o">-&gt;</span><span class="n">wsdd__ProbeMatches</span><span class="o">-&gt;</span><span class="n">ProbeMatch</span><span class="o">-&gt;</span><span class="n">XAddrs</span><span class="p">,</span> <span class="nb">NULL</span><span class="p">,</span> <span class="n">capabilitiesReq</span><span class="p">,</span> <span class="n">capabilitiesResp</span><span class="p">);</span>
+    <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s&lt;%s!&gt;]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">,</span> <span class="p">(</span><span class="n">result</span> <span class="o">==</span> <span class="n">SOAP_OK</span><span class="p">)</span> <span class="o">?</span> <span class="s">"成功"</span><span class="o">:</span><span class="s">"失败"</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">result</span> <span class="o">!=</span> <span class="n">SOAP_OK</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s][Error Number:%d] [Falut Code:%s] [Falut Reason:%s]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">,</span> <span class="n">soap</span><span class="o">-&gt;</span><span class="n">error</span><span class="p">,</span> <span class="o">*</span><span class="n">soap_faultcode</span><span class="p">(</span><span class="n">soap</span><span class="p">),</span> <span class="o">*</span><span class="n">soap_faultstring</span><span class="p">(</span><span class="n">soap</span><span class="p">));</span>
+        <span class="k">return</span><span class="p">;</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span><span class="p">(</span><span class="n">capabilitiesResp</span><span class="o">-&gt;</span><span class="n">Capabilities</span> <span class="o">!=</span> <span class="nb">NULL</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">printf</span><span class="p">(</span><span class="s">"[%d][%s][MediaServerAddress:%s]</span><span class="se">\n</span><span class="s">"</span><span class="p">,</span> <span class="n">__LINE__</span><span class="p">,</span> <span class="n">__func__</span><span class="p">,</span> <span class="n">capabilitiesResp</span><span class="o">-&gt;</span><span class="n">Capabilities</span><span class="o">-&gt;</span><span class="n">Media</span><span class="o">-&gt;</span><span class="n">XAddr</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="k">return</span><span class="p">;</span>
+<span class="p">}</span>
+</code></pre></div></div>
+
+<p>鉴权:<br />
+soap_wsse_add_UsernameTokenDigest(soap,”user”, ONVIF_USER, ONVIF_PASSWORD);<br />
+参数分别为:soap, 登录角色(role), 设备登录用户名, 登录用密码<br />
+tt__xxx绝大多数时代表数据结构,对应xml中的”tt:”标签</p>
+
+<p><code class="highlighter-rouge">tips</code>为了避免产生混淆,后面也不会在引用我的项目源码,尽量给出早期C写的demo,如有纰漏请指出;</p>
+
+<p>请求:</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>POST /onvif/device_service HTTP/1.1
+Host: 192.168.0.236
+User-Agent: gSOAP/2.8
+Content-Type: application/soap+xml; charset=utf-8; action="http://www.onvif.org/ver10/device/wsdl/GetCapabilities"
+Content-Length: 3569
+Connection: close
+SOAPAction: "http://www.onvif.org/ver10/device/wsdl/GetCapabilities"
+
+<span class="cp">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span>
+<span class="nt">&lt;SOAP-ENV:Envelope</span> <span class="na">xmlns:SOAP-ENV=</span> <span class="s">&lt;--!</span> <span class="err">忽略namespaces--</span><span class="nt">&gt;</span> &gt;
+ <span class="nt">&lt;SOAP-ENV:Header&gt;</span>
+  <span class="nt">&lt;wsa:MessageID&gt;</span>urn:uuid:db3e9d4f-4706-11b4-82c0-bcad28b9ea7f<span class="nt">&lt;/wsa:MessageID&gt;</span>
+  <span class="nt">&lt;wsa:RelatesTo&gt;</span>....-.....<span class="nt">&lt;/wsa:RelatesTo&gt;</span>
+  <span class="nt">&lt;wsa:To</span> <span class="na">SOAP-ENV:mustUnderstand=</span><span class="s">"true"</span><span class="nt">&gt;</span>http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous<span class="nt">&lt;/wsa:To&gt;</span>
+  <span class="nt">&lt;wsa:Action</span> <span class="na">SOAP-ENV:mustUnderstand=</span><span class="s">"true"</span><span class="nt">&gt;</span>http://schemas.xmlsoap.org/ws/2005/04/discovery/ProbeMatches<span class="nt">&lt;/wsa:Action&gt;</span>
+  <span class="nt">&lt;wsdd:AppSequence</span> <span class="na">MessageNumber=</span><span class="s">"214"</span> <span class="na">InstanceId=</span><span class="s">"1506015313"</span><span class="nt">&gt;&lt;/wsdd:AppSequence&gt;</span>
+  <span class="nt">&lt;wsse:Security</span> <span class="na">SOAP-ENV:mustUnderstand=</span><span class="s">"true"</span><span class="nt">&gt;</span>
+   <span class="nt">&lt;wsse:UsernameToken</span> <span class="na">wsu:Id=</span><span class="s">"user"</span><span class="nt">&gt;</span>
+    <span class="nt">&lt;wsse:Username&gt;</span>admin<span class="nt">&lt;/wsse:Username&gt;</span>
+     <span class="nt">&lt;wsse:PasswordType</span><span class="err">="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-username-token-profile-1.0#PasswordDigest"</span><span class="nt">&gt;</span>S8IcDd81BB5F9CitIXI07hupzkM=<span class="nt">&lt;/wsse:Password&gt;</span>
+     <span class="nt">&lt;wsse:Nonce&gt;</span>4ofDWY2PtcAi/EkPzWjMwE6u6wg=<span class="nt">&lt;/wsse:Nonce&gt;</span>
+     <span class="nt">&lt;wsu:Created&gt;</span>2017-09-17T09:35:30Z<span class="nt">&lt;/wsu:Created&gt;</span>
+    <span class="nt">&lt;/wsse:UsernameToken&gt;</span>
+   <span class="nt">&lt;/wsse:Security&gt;</span>
+  <span class="nt">&lt;/SOAP-ENV:Header&gt;</span>
+ <span class="nt">&lt;SOAP-ENV:Body&gt;</span>
+  <span class="nt">&lt;tds:GetCapabilities&gt;</span>
+   <span class="nt">&lt;tds:Category&gt;</span>All<span class="nt">&lt;/tds:Category&gt;</span>
+  <span class="nt">&lt;/tds:GetCapabilities&gt;</span>
+ <span class="nt">&lt;/SOAP-ENV:Body&gt;</span>
+<span class="nt">&lt;/SOAP-ENV:Envelope&gt;</span>
+</code></pre></div></div>
+<p>回复:
+节选一段来解析:</p>
+<div class="language-xml highlighter-rouge"><div class="highlight"><pre class="highlight"><code>HTTP/1.1 200 OK
+Date: Thu, 17 Sep 2017 17:35:13 GMT
+Server: App-webs/
+Connection: close
+Content-Length: 6851
+Content-Type: application/soap+xml; charset=utf-8
+......
+......
+......
+<span class="nt">&lt;tt:Media&gt;&lt;tt:XAddr&gt;</span>http://192.168.0.236/onvif/Media<span class="nt">&lt;/tt:XAddr&gt;</span>
+<span class="nt">&lt;tt:StreamingCapabilities&gt;&lt;tt:RTPMulticast&gt;</span>true<span class="nt">&lt;/tt:RTPMulticast&gt;</span>
+<span class="nt">&lt;tt:RTP_TCP&gt;</span>true<span class="nt">&lt;/tt:RTP_TCP&gt;</span>
+<span class="nt">&lt;tt:RTP_RTSP_TCP&gt;</span>true<span class="nt">&lt;/tt:RTP_RTSP_TCP&gt;</span>
+<span class="nt">&lt;/tt:StreamingCapabilities&gt;</span>
+</code></pre></div></div>
+<p>表示媒体服务地址为<code class="highlighter-rouge">http://192.168.0.236/onvif/Media</code><br />
+支持的流格式分别为’RTP组播’,’RTP’,’RTSP’
+入口功能体现在,获取其他服务的地址及能力给出了MediaService的地址下篇会用到<br />
+其他获取方式<code class="highlighter-rouge">soap_call___tds__GetServices</code></p>
+
+<p>我们也可以在device_service中修改系统时间(System),设备ip(Network)
+setxxx的请求相对复杂,要填充的参数很多,有些可以不填写,
+但是标注为requier的字段必须要填写,修改设备IP为例:</p>
+<div class="highlighter-rouge"><div class="highlight"><pre class="highlight"><code>int UserSetNetworkIPAddress(char *endpoint, struct soap *soap, struct _tds__SetNetworkInterfaces req, struct _tds__SetNetworkInterfacesResponse resp)
+{
+    if (endpoint == NULL || strlen(endpoint) == 0) {
+        printf("[%d][%s][EndPoint is Null!]\n", __LINE__, __func__);
+        return SOAP_ERR;
+    }
+
+    //Fill Request
+    resp.RebootNeeded = xsd__boolean__true_;
+
+    char interface[30] = "eth0";//"NetworkInterfaceToken_1";
+    req.InterfaceToken = interface;
+    struct tt__NetworkInterfaceSetConfiguration network;
+
+    soap_wsse_add_UsernameTokenDigest(soap,"user", ONVIF_USER, ONVIF_PASSWORD);
+    soap_default_tt__NetworkInterfaceSetConfiguration(soap, &amp;network);
+
+    enum xsd__boolean netEnable = xsd__boolean__true_;
+    enum xsd__boolean ipv4Enable = xsd__boolean__true_;
+    enum xsd__boolean DHCP = xsd__boolean__false_;
+
+    network.Enabled = &amp;netEnable;
+
+    struct tt__IPv4NetworkInterfaceSetConfiguration tt_ipv4;
+    soap_default_tt__IPv4NetworkInterfaceSetConfiguration(soap, &amp;tt_ipv4);
+
+    struct tt__PrefixedIPv4Address tt_preAddr;
+    soap_default_tt__PrefixedIPv4Address(soap, &amp;tt_preAddr);
+
+    tt_preAddr.Address = ONVIF_DIST_NET_WORK_NEW ;//modify ipaddr
+    tt_preAddr.PrefixLength = 24;
+    tt_ipv4.Manual = &amp;tt_preAddr;
+
+    tt_ipv4.__sizeManual = 1;
+    tt_ipv4.DHCP = &amp;DHCP;
+    tt_ipv4.Enabled = &amp;ipv4Enable;
+    network.IPv4 = &amp;tt_ipv4;
+
+    int mtuLen = 1499;
+    network.MTU = &amp;mtuLen;
+
+    req.NetworkInterface = &amp;network;
+    soap_wsse_add_UsernameTokenDigest(soap,"user", ONVIF_USER, ONVIF_PASSWORD);
+    printf("[%d][%s][---- Setting Device IPAddress:%s ----]\n", __LINE__, __func__, network.IPv4-&gt;Manual-&gt;Address);
+    int result = soap_call___tds__SetNetworkInterfaces(soap, endpoint, NULL, &amp;req, &amp;resp);
+    printf("[%d][%s&lt;%s!&gt;]\n", __LINE__, __func__, (result == SOAP_OK) ? "成功":"失败");
+
+    if (result != SOAP_OK)
+        printf("[%d][%s][Error Number:%d] [Falut Code:%s] [Falut Reason:%s]\n", __LINE__, __func__, soap-&gt;error, *soap_faultcode(soap), *soap_faultstring(soap));
+
+    return result;
+}
+</code></pre></div></div>
+<p>其他get和set接口,可以查阅WSDL文件<br />
+文档中对每一个字段都有详细的描述<br />
+<a href="https://www.onvif.org/ver10/device/wsdl/devicemgmt.wsdl">WSDL文档</a></p>
