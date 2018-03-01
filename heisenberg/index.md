@@ -32,4 +32,4 @@ header-img: "img/berg1.jpg"
 妄想也许明早开门就会喵声入耳,连三日砖掩单元防盗门,不见踪影.  
 　　只是夜跑时偶尔看到地上有恍惚的白色光影还是会一颤.
 
-![7](https://github.com/halukasama/imghosting/blob/master/berg/2017/9/7.jpg?raw=true)
+![7](https://github.com/halukasama/imghosting/blob/master/berg/2017/9/7.jpg?raw=true){:class="img-responsive"} 
