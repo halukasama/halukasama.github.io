@@ -1,7 +1,7 @@
 ---
 layout:     post
-title:      "兴趣并不是最好的老师，责任才是，不甘、屈辱是导员和班主任"
-subtitle:   "MediaStudio项目总结"
+title:      "兴趣并不是最好的老师，不甘、屈辱才是"
+subtitle:   "很早之前的写的中二项目失败总计>.<"
 date:       2017-09-24 12:00:00
 author:     "Wjl"
 header-img: "img/post_msfr.png"
