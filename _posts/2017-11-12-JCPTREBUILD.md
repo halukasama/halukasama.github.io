@@ -2,7 +2,7 @@
 layout:     post
 title:      "NSIS脚本教程整理"
 subtitle:   "NSIS script"
-date:       2017-09-25 12:00:00
+date:       2017-11-12 12:00:00
 author:     "Wjl"
 header-img: "img/post_jcptrebuild.jpg"
 catalog: true
