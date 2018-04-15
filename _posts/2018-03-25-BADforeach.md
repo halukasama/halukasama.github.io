@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      "'糟糕'的Qtforeach"
+title:      "Qtforeach关键字的脑洞"
 subtitle:   "bad Qt foreach"
-date:       2017-09-25 12:00:00
+date:       2018-03-25 12:00:00
 author:     "Wjl"
 header-img: "img/post_msfr.png"
 catalog: true
